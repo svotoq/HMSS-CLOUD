@@ -1,0 +1,166 @@
+<core:FragmentDefinition
+        xmlns="sap.m"
+        xmlns:core="sap.ui.core"
+        xmlns:f="sap.f"
+        xmlns:form="sap.ui.layout.form"
+        xmlns:u="sap.ui.unified">
+    <Dialog
+            id="idCreateRoomDialog"
+            title="{i18n>CreateRoom.Title}"
+            busyIndicatorDelay="0"
+            verticalScrolling="false"
+            contentWidth="85%"
+            contentHeight="80%"
+            binding="{this>/CreateRoomDialog}"
+            beforeOpen="onBeforeOpenCreateRoomDialog"
+            afterOpen="onAfterOpenCreateRoomDialog"
+            afterClose="onAfterCloseCreateRoomDialog">
+        <f:DynamicPage
+                stickySubheaderProvider="idCreateRoomWizard"
+                toggleHeaderOnTitleClick="false"
+                class="sapUiNoContentPadding"
+                showFooter="true">
+            <f:content>
+                <Wizard
+                        id="idCreateRoomWizard"
+                        class="sapUiResponsivePadding--header sapUiResponsivePadding--content"
+                        showNextButton="false"
+                        renderMode="Page">
+                    <WizardStep
+                            id="idRoomInfoStep"
+                            title="{i18n>CreateRoom.RoomInfoStepTitle}"
+                            validated="true">
+                        <form:Form id="idCreateRoomForm"
+                                editable="true">
+                            <form:layout>
+                                <form:ColumnLayout id="idFormColumnLayout"
+                                                columnsXL="3"
+                                                columnsL="3"
+                                                columnsM="2"/>
+                            </form:layout>
+                            <form:FormContainer id="idRoomProfileFormContainer">
+                                <form:FormElement id="idFormRoomNumberFormElement">
+                                    <form:label>
+                                        <Label id="idFormRoomNumberLabel"
+                                               text="{i18n>Room.RoomNumber}"
+                                               required="{= !${/#Rooms/RoomNumber/@Nullable} }"
+                                               labelFor="idFormRoomNumberField"/>
+                                    </form:label>
+                                    <form:fields>
+                                        <Input id="idFormRoomNumberField"
+                                               value="{this>Room/RoomNumber}"
+                                               liveChange="onLiveChangeRoomNumber"
+                                               maxLength="{= parseInt(${/#Rooms/RoomNumber/@maxLength}) }"/>
+                                    </form:fields>
+                                </form:FormElement>
+                                <form:FormElement id="idFormCapacityFormElement">
+                                    <form:label>
+                                        <Label id="idFormCapacityLabel"
+                                               text="{i18n>Room.Capacity}"
+                                               labelFor="idFormCapacityField"/>
+                                    </form:label>
+                                    <form:fields>
+                                        <Input id="idFormCapacityField"
+                                               value="{this>Room/Capacity}"
+                                               maxLength="{= parseInt(${/#Rooms/Capacity/@maxLength}) }"/>
+                                    </form:fields>
+                                </form:FormElement>
+                                <form:FormElement id="idFormBedsFormElement">
+                                    <form:label>
+                                        <Label id="idFormBedsLabel"
+                                               text="{i18n>Room.Beds}"
+                                               labelFor="idFormBedsField"/>
+                                    </form:label>
+                                    <form:fields>
+                                        <Input id="idFormBedsField"
+                                               value="{this>Room/Beds}"
+                                               maxLength="{= parseInt(${/#Rooms/Beds/@maxLength}) }"/>
+                                    </form:fields>
+                                </form:FormElement>
+                                <form:FormElement id="idFormTablesFormElement">
+                                    <form:label>
+                                        <Label id="idFormTablesLabel"
+                                               text="{i18n>Room.Tables}"
+                                               labelFor="idFormTablesField"/>
+                                    </form:label>
+                                    <form:fields>
+                                        <Input id="idFormTablesField"
+                                               value="{this>Room/Tables}"
+                                               maxLength="{= parseInt(${/#Rooms/Tables/@maxLength}) }"/>
+                                    </form:fields>
+                                </form:FormElement>
+                            </form:FormContainer>
+                        </form:Form>
+                    </WizardStep>
+                    <WizardStep
+                            id="idAddStudentsStep"
+                            validated="true"
+                            title="{i18n>CreateRoom.AddStudentsStep}"
+                            activate="onActivateStudentsLiveDates">
+                      <core:Fragment
+                            fragmentName="bstu.hmss.managerooms.list.fragments.StudentsStep"
+                            type="XML"/>
+                    </WizardStep>
+                    <WizardStep id="idSetStudentsLiveDates"
+                                validated="true"
+                                title="{i18n>CreateRoom.SetLiveDatesTitle}">
+                         <core:Fragment
+                            fragmentName="bstu.hmss.managerooms.list.fragments.LiveDates"
+                            type="XML"/>
+                    </WizardStep>
+                    <WizardStep
+                            id="idCreateRoomReviewStep"
+                            validated="true"
+                            title="{i18n>CreateRoom.ReviewStep}">
+                         <core:Fragment
+                            fragmentName="bstu.hmss.managerooms.list.fragments.RoomPreview"
+                            type="XML"/>
+                    </WizardStep>
+                </Wizard>
+            </f:content>
+            <f:footer>
+                <OverflowToolbar>
+                    <Button
+                            id="idCreateRoomMessagePopover"
+                            icon="sap-icon://message-popup"
+                            type="Emphasized"
+                            press="onPressShowCreateRoomMessagePopover"
+                            text="{= ${message>/}.length}"
+                            visible="{= !!${message>/}.length}"/>
+                    <ToolbarSpacer/>
+                    <Button
+                            text="{i18n>CreateRoom.CreateWithoutStudentsButton}"
+                            type="Emphasized"
+                            visible="{this>CreateWithoudStudentsVisible}"
+                            enabled="{this>CreateWithoudStudentsEnabled}"
+                            press="onPressCreateWithoutStudents"/>
+                    <Button
+                            text="{i18n>Button.Previous}"
+                            visible="{this>WizardBackVisible}"
+                            press="onPressCreateRoomBack"/>
+                    <Button
+                            text="{i18n>Button.NextStep}"
+                            type="Emphasized"
+                            enabled="{this>WizardNextEnabled}"
+                            visible="{this>WizardNextVisible}"
+                            press="onPressCreateRoomNextStep"/>
+                    <Button
+                            text="{i18n>Button.Review}"
+                            type="Emphasized"
+                            visible="{this>WizardReviewVisible}"
+                            enabled="{this>WizardReviewEnabled}"
+                            press="onPressCreateRoomNextStep"/>
+                    <Button
+                            text="{i18n>Button.Finish}"
+                            type="Emphasized"
+                            visible="{this>WizardFinishVisible}"
+                            press="onPressWizardSubmit"/>
+                    <Button
+                            text="{i18n>Button.Cancel}"
+                            type="Transparent"
+                            press="onPressCancelRoomDialog"/>
+                </OverflowToolbar>
+            </f:footer>
+        </f:DynamicPage>
+    </Dialog>
+</core:FragmentDefinition>

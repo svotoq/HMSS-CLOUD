@@ -1,0 +1,111 @@
+<mvc:View
+        controllerName="bstu.hmss.managerooms.list.RoomList"
+        xmlns="sap.m"
+        xmlns:f="sap.f"
+        xmlns:mvc="sap.ui.core.mvc"
+        xmlns:core="sap.ui.core"
+        xmlns:smartVariantManagement="sap.ui.comp.smartvariants"
+        xmlns:smartFilterBar="sap.ui.comp.smartfilterbar"
+        xmlns:smartTable="sap.ui.comp.smarttable"
+        xmlns:table="sap.ui.table">
+    <f:DynamicPage
+            id="page"
+            preserveHeaderStateOnScroll="false"
+            showFooter="{= ${message>/}.length > 0 }"
+            fitContent="true">
+        <f:title>
+            <f:DynamicPageTitle id="DynamicPageTitle">
+                <f:heading>
+                    <smartVariantManagement:SmartVariantManagement
+                            id="idRoomListPageVariant"
+                            persistencyKey="bstu.hmss.managerooms.RoomList"
+                            showExecuteOnSelection="true"/>
+                </f:heading>
+                 <f:snappedContent>
+                    <Text
+                            id="idFilterText"
+                            wrapping="false"/>
+                </f:snappedContent>
+            </f:DynamicPageTitle>
+        </f:title>
+        <f:header>
+            <f:DynamicPageHeader id="DynamicPageHeader" pinnable="false">
+                <f:content>
+                    <smartFilterBar:SmartFilterBar
+                            id="idRoomListFilterBar"
+                            entitySet="Rooms"
+                            showClearOnFB="true"
+                            showClearButton="true"
+                            search="onSearch"
+                            enableBasicSearch="false"
+                            initialise="onInitSmartFilterBar"
+                            persistencyKey="bstu.hmss.managerooms.filterbar"
+                            smartVariant="idRoomListPageVariant"
+                            useToolbar="false"
+                            assignedFiltersChanged="onAssignedFiltersChanged">
+                    </smartFilterBar:SmartFilterBar>
+                </f:content>
+            </f:DynamicPageHeader>
+        </f:header>
+        <f:content>
+            <smartTable:SmartTable
+                    id="idRoomListSmartTable"
+                    entitySet="Rooms"
+                    smartFilterId="idRoomListFilterBar"
+                    useExportToExcel="true"
+                    useVariantManagement="true"
+                    useTablePersonalisation="true"
+                    placeToolbarInTable="true"
+                    persistencyKey="bstu.hmss.managerooms.roomlisttable"
+                    initialise="onInitSmartFilterBar"
+                    header="{i18n>roomsListHeader}"
+                    showRowCount="true"
+                    smartVariant="idRoomListPageVariant"
+                    enableAutoBinding="false"
+                    beforeRebindTable="onBeforeRebindTable">
+                <smartTable:customToolbar>
+                    <OverflowToolbar
+                            id="idSmartTableToolbar"
+                            design="Transparent">
+                        <ToolbarSpacer id="idSmartTableToolbarSpacer"/>
+                        <Button
+                                id="idCreateRoomButton"
+                                text="{i18n>createRoom}"
+                                type="Transparent"
+                                press="onCreateRoomPress"/>
+                    </OverflowToolbar>
+                </smartTable:customToolbar>
+                <table:Table
+                        id="idRoomListTable"
+                        selectionMode="Single"
+                        visibleRowCountMode="Auto"
+                        enableColumnFreeze="true"
+                        rowActionCount="1"
+                        rowSelectionChange="onRowSelectionChangeRoom">
+                    <table:rowActionTemplate>
+                        <table:RowAction id="idRowAction">
+                            <table:items>
+                                <table:RowActionItem
+                                        id="idRoomDetailAction"
+                                        type="Navigation"
+                                        press="onRoomDetailPress">
+                                </table:RowActionItem>
+                            </table:items>
+                        </table:RowAction>
+                    </table:rowActionTemplate>
+                </table:Table>
+            </smartTable:SmartTable>
+        </f:content>
+        <f:footer>
+            <OverflowToolbar id="OverflowToolbar">
+                <Button
+                        id="idMessagePopoverButton"
+                        icon="sap-icon://alert"
+                        text="{= ${message>/}.length }"
+                        type="Emphasized"
+                        visible="{= !!${message>/}.length }"
+                        press="onMessagesButtonPress"/>
+            </OverflowToolbar>
+        </f:footer>
+    </f:DynamicPage>
+</mvc:View>

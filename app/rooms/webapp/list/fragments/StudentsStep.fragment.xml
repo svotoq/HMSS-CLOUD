@@ -1,0 +1,308 @@
+<core:FragmentDefinition
+        xmlns="sap.m"
+        xmlns:core="sap.ui.core"
+        xmlns:smartFilterBar="sap.ui.comp.smartfilterbar"
+        xmlns:smartTable="sap.ui.comp.smarttable"
+        xmlns:table="sap.ui.table">
+    <VBox id="idHBoxStudentsStep">
+        <smartFilterBar:SmartFilterBar
+                id="idStudentListFilterBar"
+                entitySet="Students"
+                useToolbar="false"
+                enableBasicSearch="false"
+                showClearOnFB="true"
+                showClearButton="true"
+                filterContainerWidth="21rem"
+                search="onSearch"
+                clear="onClearStudentListFilters"
+                class="sapUiNoContentPadding">
+            <smartFilterBar:controlConfiguration>
+                <smartFilterBar:ControlConfiguration
+                        id="idFirstNameFilterConfiguration"
+                        index="1"
+                        key="FirstName"
+                        groupId="_BASIC"
+                        visibleInAdvancedArea="true"/>
+                <smartFilterBar:ControlConfiguration
+                        id="idLastNameFilterConfiguration"
+                        index="2"
+                        key="LastName"
+                        groupId="_BASIC"
+                        visibleInAdvancedArea="true"/>
+                <smartFilterBar:ControlConfiguration
+                        id="idEmailFilterConfiguration"
+                        index="4"
+                        key="Email"
+                        groupId="_BASIC"
+                        visibleInAdvancedArea="true"/>
+                <smartFilterBar:ControlConfiguration
+                        id="idCityFilterConfiguration"
+                        index="5"
+                        key="City"
+                        groupId="_BASIC"
+                        visibleInAdvancedArea="true"/>
+                <smartFilterBar:ControlConfiguration
+                        id="idRoomNumberFilterConfiguration"
+                        index="6"
+                        key="Room_RoomNumber"
+                        groupId="_BASIC"
+                        visibleInAdvancedArea="true"/>
+            </smartFilterBar:controlConfiguration>
+        </smartFilterBar:SmartFilterBar>
+        <smartTable:SmartTable
+                id="idStudentListSmartTable"
+                entitySet="Students"
+                smartFilterId="idStudentListFilterBar"
+                useExportToExcel="false"
+                useVariantManagement="true"
+                useTablePersonalisation="true"
+                persistencyKey="bstu.hmss.lib.studentlisttable"
+                placeToolbarInTable="true"
+                header="{i18n>Student.TypeNamePlural}"
+                showRowCount="true"
+                showFullScreenButton="true"
+                enableAutoBinding="false"
+                requestAtLeastFields="ID"
+                beforeRebindTable="onBeforeRebindStudentsTable">
+            <smartTable:customData>
+                <core:CustomData key="p13nDialogSettings" value='\{ "filter": \{ "visible": false} }'/>
+            </smartTable:customData>
+            <smartTable:layoutData>
+                <FlexItemData growFactor="1" baseSize="0%" id="idFlexItemData"/>
+            </smartTable:layoutData>
+
+            <table:Table
+                    id="idStudentListTable"
+                    selectionMode="Single"
+                    visibleRowCountMode="Auto"
+                    enableColumnFreeze="true"
+                    rowActionCount="1"
+                    rowSelectionChange="onRowSelectionChangeStudents">
+                <table:columns>
+                    <table:Column
+                            id="idColumnStudentFirstName"
+                            sortProperty="FirstName">
+                        <Label
+                                id="idLabelStudentFirstName"
+                                text="{i18n>Student.FirstName}"/>
+                        <table:customData>
+                            <core:CustomData key="p13nData"
+                                             value='\{"columnKey": "FirstName", "columnIndex":"0", "leadingProperty": "FirstName"}'/>
+                        </table:customData>
+                        <table:template>
+                            <Text
+                                    id="idTextStudent"
+                                    text="{FirstName}"/>
+                        </table:template>
+                    </table:Column>
+
+                    <table:Column
+                            id="idColumnStudentLastName"
+                            sortProperty="LastName">
+                        <Label
+                                id="idLabelStudentLastName"
+                                text="{i18n>Student.LastName}"/>
+                        <table:customData>
+                            <core:CustomData key="p13nData"
+                                             value='\{"columnKey": "LastName", "columnIndex":"1", "leadingProperty": "LastName"}'/>
+                        </table:customData>
+                        <table:template>
+                            <Text
+                                    id="idTextStudentLastName"
+                                    text="{LastName}"/>
+                        </table:template>
+                    </table:Column>
+
+                    <table:Column
+                            id="idColumnStudentPatronymic"
+                            sortProperty="Patronymic">
+                        <Label
+                                id="idLabelStudentPatronymic"
+                                text="{i18n>Student.Patronymic}"/>
+                        <table:customData>
+                            <core:CustomData key="p13nData"
+                                             value='\{"columnKey": "Patronymic", "columnIndex":"2", "leadingProperty": "Patronymic"}'/>
+                        </table:customData>
+                        <table:template>
+                            <Text
+                                    id="idTextStudentPatronymic"
+                                    text="{Patronymic}"/>
+                        </table:template>
+                    </table:Column>
+
+                    <table:Column
+                            id="idColumnStudentEmail"
+                            sortProperty="Email">
+                        <Label
+                                id="idLabelStudentEmail"
+                                text="{i18n>Student.Email}"/>
+                        <table:customData>
+                            <core:CustomData key="p13nData"
+                                             value='\{"columnKey": "Email", "columnIndex":"3", "leadingProperty": "Email"}'/>
+                        </table:customData>
+                        <table:template>
+                            <Text
+                                    id="idTextStudentEmail"
+                                    text="{Email}"/>
+                        </table:template>
+                    </table:Column>
+
+                    <table:Column
+                            id="idColumnStudentCity"
+                            sortProperty="City">
+                        <Label
+                                id="idLabelStudentCity"
+                                text="{i18n>Student.City}"/>
+                        <table:customData>
+                            <core:CustomData key="p13nData"
+                                             value='\{"columnKey": "City", "columnIndex":"4", "leadingProperty": "City"}'/>
+                        </table:customData>
+                        <table:template>
+                            <Text
+                                    id="idTextStudentCity"
+                                    text="{City}"/>
+                        </table:template>
+                    </table:Column>
+
+                    <table:Column
+                            id="idColumnStudentRoomNumber"
+                            sortProperty="Room_RoomNumber">
+                        <Label
+                                id="idLabelStudentRoomNumber"
+                                text="{i18n>Student.RoomNumber}"/>
+                        <table:customData>
+                            <core:CustomData key="p13nData"
+                                             value='\{"columnKey": "Room_RoomNumber", "columnIndex":"5", "leadingProperty": "Room_RoomNumber"}'/>
+                        </table:customData>
+                        <table:template>
+                            <Text
+                                    id="idTextStudentRoomNumber"
+                                    text="{Room_RoomNumber}"/>
+                        </table:template>
+                    </table:Column>
+
+                </table:columns>
+                <table:rowActionTemplate>
+                    <table:RowAction id="idStudentListTableRowAction">
+                        <table:items>
+                            <table:RowActionItem
+                                    id="idStudentListTableRowActionItem"
+                                    icon="sap-icon://navigation-right-arrow"
+                                    tooltip="{i18n>CreateRoom.SelectStudent}"
+                                    press="onPressSelectStudent">
+                            </table:RowActionItem>
+                        </table:items>
+                    </table:RowAction>
+                </table:rowActionTemplate>
+            </table:Table>
+
+        </smartTable:SmartTable>
+
+        <table:Table
+                id="idSelectedStudentsTable"
+                class="sapUiSmallMarginTopBottom"
+                selectionMode="Single"
+                rowActionCount="1"
+                visibleRowCountMode="Auto"
+                enableColumnFreeze="true"
+                rows="{this>SelectedStudents}">
+            <table:extension>
+                <OverflowToolbar
+                        id="idSelectedStudentsToolbar"
+                        design="Transparent">
+                    <Title
+                            id="idSelectedStudentsTitle"
+                            text="{i18n>CreateRoom.SelectedStudentsTitle}"
+                            titleStyle="H4"/>
+                    <ToolbarSpacer id="idSelectedStudentsToolbarSpacer"/>
+                </OverflowToolbar>
+            </table:extension>
+            <table:columns>
+                <table:Column
+                        id="idColumnSelectedStudentsFirstName">
+                    <Label
+                            id="idLabelSelectedStudentsFirstName"
+                            text="{i18n>Student.FirstName}"/>
+                    <table:template>
+                        <Text
+                                id="idTextSelectedStudentsFirstName"
+                                text="{this>FirstName}"/>
+                    </table:template>
+                </table:Column>
+
+                <table:Column
+                        id="idColumnSelectedStudentsLastName">
+                    <Label
+                            id="idLabelSelectedStudentsLastName"
+                            text="{i18n>Student.LastName}"/>
+                    <table:template>
+                        <Text
+                                id="idTextSelectedStudentsLastName"
+                                text="{this>LastName}"/>
+                    </table:template>
+                </table:Column>
+
+                <table:Column
+                        id="idColumnSelectedStudentsPatronymic">
+                    <Label
+                            id="idLabelSSelectedStudentsPatronymic"
+                            text="{i18n>Student.Patronymic}"/>
+                    <table:template>
+                        <Text
+                                id="idTextSelectedStudentsPatronymic"
+                                text="{this>Patronymic}"/>
+                    </table:template>
+                </table:Column>
+
+                <table:Column
+                        id="idColumnSSelectedStudentsEmail">
+                    <Label
+                            id="idLabelSelectedStudentsEmail"
+                            text="{i18n>Student.Email}"/>
+                    <table:template>
+                        <Text
+                                id="idTextSelectedStudentsEmail"
+                                text="{this>Email}"/>
+                    </table:template>
+                </table:Column>
+
+                <table:Column
+                        id="idColumnSelectedStudentsCity">
+                    <Label
+                            id="idLabelSelectedStudentsCity"
+                            text="{i18n>Student.City}"/>
+                    <table:template>
+                        <Text
+                                id="idTextSelectedStudentsCity"
+                                text="{this>City}"/>
+                    </table:template>
+                </table:Column>
+
+                <table:Column
+                        id="idColumnSelectedStudentsRoomNumber">
+                    <Label
+                            id="idLabelSelectedStudentsRoomNumber"
+                            text="{i18n>Student.RoomNumber}"/>
+                    <table:template>
+                        <Text
+                                id="idTextSelectedStudentsRoomNumber"
+                                text="{this>Room_RoomNumber}"/>
+                    </table:template>
+                </table:Column>
+
+            </table:columns>
+            <table:rowActionTemplate>
+                <table:RowAction id="idSelectedStudentsTableRowAction">
+                    <table:items>
+                        <table:RowActionItem
+                                id="idSelectedStudentsTableRowActionItem"
+                                icon="sap-icon://delete"
+                                tooltip="{i18n>CreateRoom.RemoveSelectedStudent}"
+                                press="onPressRemoveSelectedStudent">
+                        </table:RowActionItem>
+                    </table:items>
+                </table:RowAction>
+            </table:rowActionTemplate>
+        </table:Table>
+    </VBox>
+</core:FragmentDefinition>

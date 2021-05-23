@@ -1,0 +1,101 @@
+<core:FragmentDefinition
+        xmlns="sap.m"
+        xmlns:core="sap.ui.core"
+        xmlns:table="sap.ui.table">
+    <VBox
+            id="idVBoxLiveDates">
+        <table:Table
+                id="idStudentsLiveDatesTable"
+                class="sapUiSmallMarginTopBottom"
+                selectionMode="Single"
+                visibleRowCountMode="Auto"
+                enableColumnFreeze="true"
+                rows="{this>SelectedStudents}">
+            <table:columns>
+                <table:Column
+                        id="idColumnStudentsLiveDatesFullName">
+                    <Label
+                            id="idLabelStudentsLiveDatesFullName"
+                            text="{i18n>Student.FullName}"/>
+                    <table:template>
+                        <Text
+                                id="idTextStudentsLiveDatesFullName"
+                                text="{parts:[
+                                        'this>FirstName',
+                                        'this>LastName',
+                                        'this>Patronymic'
+                                        ],
+                                    formatter: '.formatter.getStudentFullName'}"/>
+                    </table:template>
+                </table:Column>
+
+                <table:Column
+                        id="idColumnStudentsLiveDatesCity">
+                    <Label
+                            id="idLabelStudentsLiveDatesCity"
+                            text="{i18n>Student.City}"/>
+                    <table:template>
+                        <Text
+                                id="idTextStudentsLiveDatesCity"
+                                text="{this>City}"/>
+                    </table:template>
+                </table:Column>
+
+                <table:Column
+                        id="idColumnStudentsLiveDatesCheckIn">
+                    <Label
+                            id="idLabelStudentsLiveDatesCheckIn"
+                            text="{i18n>Student.CheckIn}"/>
+                    <table:template>
+                        <DatePicker
+                                id="idDatePickerStudentsLiveDatesCheckIn"
+                                displayFormat="short"
+                                change="onChangeCheckInLiveDate"
+                                value="{this>CheckIn}"/>
+                    </table:template>
+                </table:Column>
+
+                <table:Column
+                        id="idColumnStudentsLiveDatesCheckInAll">
+                    <Label
+                            id="idLabelStudentsLiveDatesCheckInAll"
+                            text="{i18n>CreateRoom.CheckInForAll}"/>
+                    <table:template>
+                        <RadioButton
+                                id="idRadioButtonStudentsLiveDatesCheckInAll"
+                                select="onSelectCheckInLiveDateForAll"
+                                groupName="CheckInForAll"/>
+                    </table:template>
+                </table:Column>
+
+                <table:Column
+                        id="idColumnStudentsLiveDatesCheckOut">
+                    <Label
+                            id="idLabelStudentsLiveDatesCheckOut"
+                            text="{i18n>Student.CheckOut}"/>
+                    <table:template>
+                        <DatePicker
+                                id="idDatePickerStudentsLiveDatesCheckOut"
+                                displayFormat="short"
+                                change="onChangeCheckOutLiveDate"
+                                value="{this>CheckOut}"/>
+                    </table:template>
+                </table:Column>
+
+                <table:Column
+                        id="idColumnStudentsLiveDatesCheckOutAll">
+                    <Label
+                            id="idLabelStudentsLiveDatesCheckOutAll"
+                            text="{i18n>CreateRoom.CheckOutForAll}"/>
+                    <table:template>
+                        <RadioButton
+                                id="idRadioButtonStudentsLiveDatesCheckOutAll"
+                                select="onSelectCheckOutLiveDateForAll"
+                                groupName="CheckOutForAll"/>
+                    </table:template>
+                </table:Column>
+
+            </table:columns>
+        </table:Table>
+    </VBox>
+</core:FragmentDefinition>

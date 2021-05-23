@@ -1,0 +1,35 @@
+{
+  "name": "hmss",
+  "version": "1.0.0",
+  "description": "A simple CAP project.",
+  "repository": "<Add your repository here>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@sap/cds": "^4",
+    "@sap/cds-odata-v2-adapter-proxy": "^1.6.2",
+    "express": "^4"
+  },
+  "devDependencies": {
+    "@sap/ux-specification": "^1.84.11",
+    "sqlite3": "^5.0.2"
+  },
+  "scripts": {
+    "start": "cds run"
+  },
+  "cds": {
+    "requires": {
+      "db": {
+        "kind": "sqlite",
+        "model": "*",
+        "credentials": {
+          "database": "hmss.db"
+        }
+      }
+    }
+  },
+  "sapux": [
+    "app/rooms",
+    "app/rooms"
+  ]
+}
