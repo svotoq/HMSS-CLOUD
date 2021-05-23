@@ -116,7 +116,7 @@ sap.ui.define([
         /**
          * Sets data for form
          * @param {string} sSectionId - Section name
-         * @param {array} aSectionData - Section data
+         * @param {array} aRawSectionData - Section data
          * @private
          */
         _setSectionData: function (sSectionId, aRawSectionData) {

@@ -136,6 +136,7 @@ sap.ui.define([
                 aRoomStudents = oViewModel.getProperty("/Students/data");
             
             aRoomStudents.concat(aSelectedStudents);
+            oViewModel.setProperty("/Students/data", aRoomStudents);
             this._getAddStudentsDialog().close();
         },
 
