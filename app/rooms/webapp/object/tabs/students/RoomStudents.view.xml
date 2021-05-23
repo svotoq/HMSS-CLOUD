@@ -31,13 +31,13 @@
                         id="idButtonCreateStudent"
                         text="{i18n>Button.Create}"
                         visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/EDIT} }"
-                        enabled="{= ${this>/BRoom/EmptySpaces} > ${this>/Students}.length }"
+                        enabled="{= ${this>/BRoom/EmptyPlaces} > ${this>/Students/data}.length }"
                         press="onPressCreateNewStudent"/>
                     <Button
                         id="idButtonAddStudent"
                         text="{i18n>Button.Add}"
                         visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/EDIT} }"
-                        enabled="{= ${this>/BRoom/EmptySpaces} > ${this>/Students}.length }"
+                        enabled="{= ${this>/BRoom/EmptyPlaces} > ${this>/Students/data}.length }"
                         press="onPressAddStudent"/>
                     <Button
                         id="idButtonDeleteStudent"

@@ -17,6 +17,7 @@ sap.ui.define([
          * Creates instance of add students dialog
          */
         openAddStudentsDialog: function () {
+            this.setAppBusy(true);
             if (!this._oAddStudentsDialog) {
                 var oView = this.getView();
 
@@ -67,6 +68,7 @@ sap.ui.define([
             this._oWizard = this.byId("idAddStudentsWizard");
 
             this.handleButtonsVisibility();
+            this.setAppBusy(false);
         },
 
         handleButtonsVisibility: function () {
@@ -140,6 +142,11 @@ sap.ui.define([
             });
             aRoomStudents = aRoomStudents.concat(aSelectedStudents);
             oViewModel.setProperty("/Students/data", aRoomStudents);
+            
+            var oRoom  = oViewModel.getProperty("/BRoom");
+            oRoom.EmptyPlaces = oRoom.Capacity - aRoomStudents.length;
+            oViewModel.setProperty("/BRoom", oRoom);
+            
             this._getAddStudentsDialog().close();
         },
 
