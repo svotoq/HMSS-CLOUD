@@ -31,17 +31,25 @@ async function _hasEmptyPlaces(req) {
 /** Reduce the number of taken places */
 async function _updateRoomLogic(req) {
     var oRoom = req.data,
-        aStudents = oRoom.Students;
+        aStudents = oRoom.Students,
+        sRoomNumber = oRoom.RoomNumber;
 
     var aRoomStudents = aStudents.filter(function (oStudent) {
         return oStudent.ActionIndicator !== "DELETE";
     });
 
-    if (aRoomStudents.length > oRoom.Capacity) {
+    oRoom.EmptyPlaces = oRoom.Capacity - aRoomStudents.length;
+
+    if (oRoom.EmptyPlaces >= 0) {
         return req.error(409, `Reduce the number of students. Room Capacity is ${oRoom.Capacity}`);
     }
 
     const db = cds.transaction(req)
+
+    if (oRoom.ActionIndicator === "DELETE") {
+        sRoomNumber = "";
+        _deleteRoom(db, oRoom)
+    }
 
     var aStudentsToDelete = aStudents.filter(function (oStudent) {
         return oStudent.ActionIndicator === "DELETE";
@@ -52,15 +60,24 @@ async function _updateRoomLogic(req) {
         return oStudent.ActionIndicator === "UPDATE";
     });
 
-    await _updateStudents(db, aStudentsToUpdate, oRoom.RoomNumber);
+    await _updateStudents(db, aStudentsToUpdate, sRoomNumber);
 
     var aStudentsToCreate = aStudents.filter(function (oStudent) {
         return oStudent.ActionIndicator === "CREATE";
     });
 
-    await _createStudents(db, aStudentsToCreate, oRoom.RoomNumber);
-}
+    await _createStudents(db, aStudentsToCreate, sRoomNumber);
 
+    if (oRoom.ActionIndicator === "UPDATE") {
+        _updateRoom(db, oRoom)
+    } else if (oRoom.ActionIndicator === "CREATE") {
+        _createRoom(db, oRoom)
+    }
+    
+    if(sRoomNumber) {
+        return db.read(Rooms).byKey(sRoomNumber);
+    }
+}
 
 async function _createStudents(db, aStudents, sRoomNumber) {
     aStudents.forEach(function (oStudent) {
@@ -82,4 +99,20 @@ async function _deleteStudents(db, aStudents) {
     aStudents.forEach(function (oStudent) {
         db.run(DELETE.from('Students').byKey(oStudent.ID))
     });
+}
+
+async function _deleteRoom(db, oRoom) {
+    db.run(DELETE.from('Rooms').byKey(oRoom.RoomNumber))
+}
+
+async function _updateRoom(db, oRoom) {
+    delete oRoom.Students;
+    oRoom.ActionIndicator = "";
+    db.run(UPDATE('Rooms').set(oRoom).byKey(oRoom.RoomNumber))
+}
+
+async function _createRoom(db, oRoom) {
+    delete oRoom.Students;
+    oRoom.ActionIndicator = "";
+    db.run(INSERT.into('Rooms').rows(oRoom))
 }

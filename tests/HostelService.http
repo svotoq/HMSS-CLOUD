@@ -1,9 +1,9 @@
 ### List all rooms - deep read
-GET http://localhost:4004/hostel/Rooms?
+GET http://localhost:4004/v2/hostel/Rooms?
 &$expand=Students
 
 ### Create Rooms - insert
-POST http://localhost:4004/hostel/Rooms
+POST http://localhost:4004/v2/hostel/Rooms
 Content-Type: application/json
 
 {
@@ -11,22 +11,22 @@ Content-Type: application/json
 }
 
 ### Update Rooms - update
-PATCH  http://localhost:4004/hostel/Rooms('1234')
+PATCH  http://localhost:4004/v2/hostel/Rooms('1234')
 Content-Type: application/json
 
 {
-    "RoomNumber": "1234",
+    "RoomNumber": "313",
     "Capacity": 3,
     "EmptyPlaces": 3
 }
 
 
 ### Try to get the Rooms
-GET http://localhost:4004/hostel/Rooms
+GET http://localhost:4004/v2/hostel/Rooms
 
 
 ### Create Students - deep insert
-POST http://localhost:4004/hostel/Students
+POST http://localhost:4004/v2/hostel/Students
 Content-Type: application/json
 
 {
@@ -46,7 +46,7 @@ Content-Type: application/json
 }
 
 ### Try to update the Student
-PATCH http://localhost:4004/hostel/Students(5964950a-ca5b-4974-80c8-aa2580e07007)
+PATCH http://localhost:4004/v2/hostel/Students(5964950a-ca5b-4974-80c8-aa2580e07007)
 Content-Type: application/json
 
 {
@@ -67,21 +67,22 @@ Content-Type: application/json
 }
 
 ### Try to get the Orders
-GET http://localhost:4004/hostel/Students
+GET http://localhost:4004/v2/hostel/Students
 
 ### Try to get the Orders
 
-PATCH http://localhost:4004/hostel/Rooms('1')
+PATCH http://localhost:4004/v2/hostel/Rooms('313')
 Content-Type: application/json
 
 {
     "RoomNumber": "1",
     "Capacity": 3,
     "EmptyPlaces": 3,
+    "ActionIndicator": "UPDATE",
     "Students": [
         {
-            "FirstName": "Stanislau",
-            "LastName": "Pyrkin",
+            "FirstName": "CREATE",
+            "LastName": "CREATE",
             "Email": "Stanislau.pyrkin@gmail.com",
             "City": "Minsk",
             "AddressLine": "Knorina 6b, 56",
@@ -93,11 +94,12 @@ Content-Type: application/json
                 }
             ],
             "Notes": [],
-            "ActionIndicator": "Create"
+            "ActionIndicator": "CREATE"
         },
         {
-            "FirstName": "Stanislau2",
-            "LastName": "Pyrkin2",
+            "ID": "",
+            "FirstName": "DELETE",
+            "LastName": "DELETE",
             "Email": "Stanislau.pyrkin@gmail.com",
             "City": "Minsk",
             "AddressLine": "Knorina 6b, 56",
@@ -110,6 +112,23 @@ Content-Type: application/json
             ],
             "Notes": [],
             "ActionIndicator": "DELETE"
+        },
+        {
+            "ID": "",
+            "FirstName": "UPDATE",
+            "LastName": "UPDATE",
+            "Email": "Stanislau.pyrkin@gmail.com",
+            "City": "Minsk",
+            "AddressLine": "Knorina 6b, 56",
+            "ZipCode": "213410",
+            "Phones": [
+                {
+                    "PhoneNumber": "+375298639126",
+                    "PhoneType": "MOBILE"
+                }
+            ],
+            "Notes": [],
+            "ActionIndicator": "UPDATE"
         }
     ]
 }
