@@ -80,6 +80,15 @@ sap.ui.define([
                 this.openCreateStudentDialogForRoom();
             },
 
+            saveNewStudent: function (oNewStudent) {
+                var oViewModel = this.getViewModel(),
+                    aRoomStudents = oViewModel.getProperty("/Students/data");
+
+                aRoomStudents = aRoomStudents.push(oNewStudent);
+
+                oViewModel.setProperty("/Students/data", aRoomStudents);
+            },
+
             onPressDeleteStudent: function () {
                 var iIndex = this.getViewModel().getProperty("/SelectedRoomStudentIndex"),
                     oAddressTable = this.getRoomStudentsTable();

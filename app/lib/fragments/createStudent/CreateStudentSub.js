@@ -1,7 +1,8 @@
 /* eslint-disable max-params */
 sap.ui.define([
-    "sap/ui/core/Fragment"
-], function (Fragment) {
+    "sap/ui/core/Fragment",
+    "bstu/hmss/lib/util/Constants"
+], function (Fragment, Constants) {
     /* eslint-enable max-params */
     "use strict";
     //ViewMode = STUDENT || ROOM
@@ -55,10 +56,10 @@ sap.ui.define([
             });
         },
 
-        _onAfterOpenCreateStudentDialog: function() {
+        _onAfterOpenCreateStudentDialog: function () {
             this.setAppBusy(false);
         },
-        
+
         /**
          * Event handler for 'afterClose' of create student dialog
          */
@@ -86,7 +87,8 @@ sap.ui.define([
         _onPressSubmitCreateStudentDialog: function () {
             if (this._validateDialog()) {
                 var oNewStudent = this.getViewModel().getProperty("/NewStudent");
-                // this.fireStudentCreated({newStudent: oNewStudent});
+                oNewStudent.ActionIndicator = Constants.ODATA_ACTIONS.CREATE;
+                this.saveNewStudent(oNewStudent);
             } else {
                 this._showCreateStudentMessagePopover();
             }
