@@ -55,6 +55,10 @@ sap.ui.define([
             });
         },
 
+        _onAfterOpenCreateStudentDialog: function() {
+            this.setAppBusy(false);
+        },
+        
         /**
          * Event handler for 'afterClose' of create student dialog
          */

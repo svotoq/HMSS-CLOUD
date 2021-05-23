@@ -9,7 +9,7 @@
             contentHeight="60%"
             binding="{this>/CreateStudentDialog/NewStudent}"
             afterClose="_onAfterCloseCreateStudentDialog"
-            beforeOpen="_onBeforeOpenCreateStudentDialog">
+            afterOpen="_onAfterOpenCreateStudentDialog">
         <form:Form id="idCreateStudentForm"
                    editable="true">
             <form:layout>
