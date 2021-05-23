@@ -84,7 +84,7 @@ sap.ui.define([
                 var oViewModel = this.getViewModel(),
                     aRoomStudents = oViewModel.getProperty("/Students/data");
 
-                aRoomStudents = aRoomStudents.push(oNewStudent);
+                aRoomStudents.push(oNewStudent);
 
                 oViewModel.setProperty("/Students/data", aRoomStudents);
             },

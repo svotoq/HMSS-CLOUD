@@ -86,9 +86,10 @@ sap.ui.define([
 
         _onPressSubmitCreateStudentDialog: function () {
             if (this._validateDialog()) {
-                var oNewStudent = this.getViewModel().getProperty("/NewStudent");
+                var oNewStudent = this.getViewModel().getProperty("/CreateStudentDialog/NewStudent");
                 oNewStudent.ActionIndicator = Constants.ODATA_ACTIONS.CREATE;
                 this.saveNewStudent(oNewStudent);
+                this._getCreateStudentDialog().close();
             } else {
                 this._showCreateStudentMessagePopover();
             }
