@@ -7,8 +7,9 @@
             busyIndicatorDelay="0"
             contentWidth="60%"
             contentHeight="60%"
-            binding="{this>/NewStudent}"
-            afterClose="_onAfterCloseCreateStudentDialog">
+            binding="{this>/CreateStudentDialog/NewStudent}"
+            afterClose="_onAfterCloseCreateStudentDialog"
+            beforeOpen="_onBeforeOpenCreateStudentDialog">
         <form:Form id="idCreateStudentForm"
                    editable="true">
             <form:layout>
@@ -72,7 +73,7 @@
                 </form:FormElement>
                 <form:FormElement
                     id="idElementCreateStudentRoomNumber"
-                    visible="{= {$this>/ViewMode} === 'STUDENT' }">
+                    visible="{= ${this>/CreateStudentDialog/ViewMode} === 'STUDENT' }">
                     <form:label>
                         <Label id="idLabelCreateStudentRoomNumber"
                                text="{i18n>Student.RoomNumber}"

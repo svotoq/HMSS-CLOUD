@@ -77,7 +77,7 @@ sap.ui.define([
             },
 
             onPressCreateNewStudent: function () {
-                this.openCreateStudentDialog();
+                this.openCreateStudentDialogForRoom();
             },
 
             onPressDeleteStudent: function () {

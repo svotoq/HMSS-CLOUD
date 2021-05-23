@@ -7,23 +7,32 @@ sap.ui.define([
     //ViewMode = STUDENT || ROOM
     return {
 
-        _resetStudentModel: function () {
-            var oEmptyStudent = {
-                FirstName: "",
-                LastName: "",
-                Patronymic: "",
-                Email: "",
-                Room_RoomNumber: "",
-                Country: "",
-                City: "",
-                AddressLine: "",
-                ZipCode: ""
+        _initStudentModel: function () {
+            var oDialogData = {
+                NewStudent: {
+                    FirstName: "",
+                    LastName: "",
+                    Patronymic: "",
+                    Email: "",
+                    Room_RoomNumber: "",
+                    Country: "",
+                    City: "",
+                    AddressLine: "",
+                    ZipCode: ""
+                },
+                ViewMode: "STUDENT"
             };
-            this.getModel("this").setProperty("/CreateStudentDialog", oEmptyStudent);
+            this.getViewModel().setProperty("/CreateStudentDialog", oDialogData);
         },
 
+        openCreateStudentDialogForRoom: function () {
+            this._initStudentModel();
+            this.getViewModel().setProperty("/CreateStudentDialog/ViewMode", "ROOM");
+            this._loadCreateStudentDialog();
+        },
 
         openCreateStudentDialog: function () {
+            this._initStudentModel();
             this._loadCreateStudentDialog();
         },
 
@@ -50,7 +59,6 @@ sap.ui.define([
          * Event handler for 'afterClose' of create student dialog
          */
         _onAfterCloseCreateStudentDialog: function () {
-            this._resetStudentModel();
             this._oAddVehicleDialog.destroy();
             this._oAddVehicleDialog = null;
         },
@@ -73,7 +81,7 @@ sap.ui.define([
 
         _onPressSubmitCreateStudentDialog: function () {
             if (this._validateDialog()) {
-                var oNewStudent = this.getModel("this").getProperty("/NewStudent");
+                var oNewStudent = this.getViewModel().getProperty("/NewStudent");
                 // this.fireStudentCreated({newStudent: oNewStudent});
             } else {
                 this._showCreateStudentMessagePopover();
