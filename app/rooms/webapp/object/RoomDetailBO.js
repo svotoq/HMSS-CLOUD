@@ -132,6 +132,7 @@ sap.ui.define([
          * @public
          */
         save: function (oDependentsData) {
+            //send changed students with room
             var oRoomParams = this._getSavingCallPayload(oDependentsData);
             return Utility.odataUpdate(
                 this.getODataModel(),

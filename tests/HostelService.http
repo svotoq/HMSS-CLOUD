@@ -6,16 +6,16 @@ GET http://localhost:4004/hostel/Rooms?
 POST http://localhost:4004/hostel/Rooms
 Content-Type: application/json
 
-{ 
-    "RoomNumber":"1234"
+{
+    "RoomNumber": "1"
 }
 
 ### Update Rooms - update
 PATCH  http://localhost:4004/hostel/Rooms('1234')
 Content-Type: application/json
 
-{ 
-    "RoomNumber":"1234",
+{
+    "RoomNumber": "1234",
     "Capacity": 3,
     "EmptyPlaces": 3
 }
@@ -29,14 +29,14 @@ GET http://localhost:4004/hostel/Rooms
 POST http://localhost:4004/hostel/Students
 Content-Type: application/json
 
-{ 
+{
     "FirstName": "Stanislau7",
     "LastName": "Pyrkin7",
     "Email": "Stanislau.pyrkin@gmail.com",
     "City": "Minsk",
     "AddressLine": "Knorina 6b, 56",
     "ZipCode": "213410",
-    "Phones": [ 
+    "Phones": [
         {
             "PhoneNumber": "+375298639126",
             "PhoneType": "MOBILE"
@@ -56,7 +56,7 @@ Content-Type: application/json
     "City": "Minsk",
     "AddressLine": "Knorina 6b, 56",
     "ZipCode": "213410",
-    "Phones": [ 
+    "Phones": [
         {
             "PhoneNumber": "+375298639126",
             "PhoneType": "MOBILE"
@@ -68,3 +68,48 @@ Content-Type: application/json
 
 ### Try to get the Orders
 GET http://localhost:4004/hostel/Students
+
+### Try to get the Orders
+
+PATCH http://localhost:4004/hostel/Rooms('1')
+Content-Type: application/json
+
+{
+    "RoomNumber": "1",
+    "Capacity": 3,
+    "EmptyPlaces": 3,
+    "Students": [
+        {
+            "FirstName": "Stanislau",
+            "LastName": "Pyrkin",
+            "Email": "Stanislau.pyrkin@gmail.com",
+            "City": "Minsk",
+            "AddressLine": "Knorina 6b, 56",
+            "ZipCode": "213410",
+            "Phones": [
+                {
+                    "PhoneNumber": "+375298639126",
+                    "PhoneType": "MOBILE"
+                }
+            ],
+            "Notes": [],
+            "ActionIndicator": "Create"
+        },
+        {
+            "FirstName": "Stanislau2",
+            "LastName": "Pyrkin2",
+            "Email": "Stanislau.pyrkin@gmail.com",
+            "City": "Minsk",
+            "AddressLine": "Knorina 6b, 56",
+            "ZipCode": "213410",
+            "Phones": [
+                {
+                    "PhoneNumber": "+375298639126",
+                    "PhoneType": "MOBILE"
+                }
+            ],
+            "Notes": [],
+            "ActionIndicator": "DELETE"
+        }
+    ]
+}
