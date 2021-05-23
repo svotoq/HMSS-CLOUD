@@ -7,12 +7,14 @@ sap.ui.define([
     "sap/base/util/merge",
     "bstu/hmss/managerooms/model/formatter",
     "sap/ui/model/Filter",
-    "sap/ui/model/FilterOperator"
-], function (BaseController, JSONModel, RoomStudentsBO, Constants, merge, formatter, Filter, FilterOperator) {
+    "sap/ui/model/FilterOperator",
+    "./AddStudentsSub"
+], function (BaseController, JSONModel, RoomStudentsBO, Constants, merge, formatter, Filter, FilterOperator, AddStudentsSub) {
     /* eslint-enable max-params */
     "use strict";
 
-    return BaseController.extend("bstu.hmss.managerooms.object.tabs.students.RoomStudents", {
+    return BaseController.extend("bstu.hmss.managerooms.object.tabs.students.RoomStudents", 
+        merge({
 
         formatter: formatter,
         STUDENTS_SECTION_ID: "Students",
@@ -43,7 +45,11 @@ sap.ui.define([
             //     params: { "OrderNumber": sOrderNumber}
             // });
         },
-
+        
+        onPressAddStudent: function () {
+            this.openAddStudentsDialog();
+        },
+        
         /**
          * Get Main view view model
          * @returns {sap.ui.model.json.JSONModel} View model instance
@@ -171,5 +177,5 @@ sap.ui.define([
                 CurrViewMode: Constants.VIEW_MODES.DISPLAY
             });
         }
-    });
+    }, AddStudentsSub));
 });
