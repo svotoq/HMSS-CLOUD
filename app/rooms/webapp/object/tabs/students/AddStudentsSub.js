@@ -59,10 +59,10 @@ sap.ui.define([
                 WizardFinishVisible: false
             };
         },
-        
+
         /**
-        * Event handler for 'beforeOpen' of add students dialog
-        */
+         * Event handler for 'beforeOpen' of add students dialog
+         */
         onAfterOpenAddStudentsDialog: function () {
             this._oWizard = this.byId("idAddStudentsWizard");
 
@@ -78,7 +78,7 @@ sap.ui.define([
                     oDialogData.WizardBackVisible = false;
                     oDialogData.WizardReviewVisible = false;
                     oDialogData.WizardFinishVisible = false;
-                    
+
                     oDialogData.WizardNextEnabled = oDialogData.SelectedStudents.length > 0;
                     break;
                 }
@@ -134,7 +134,10 @@ sap.ui.define([
             var oViewModel = this.getViewModel(),
                 aSelectedStudents = oViewModel.getProperty("/AddStudentsDialog/SelectedStudents"),
                 aRoomStudents = oViewModel.getProperty("/Students/data");
-            
+            aSelectedStudents = aSelectedStudents.map(function (oStudent) {
+                oStudent.ActionIndicator = Constants.ODATA_ACTIONS.UPDATE;
+                return oStudent;
+            });
             aRoomStudents = aRoomStudents.concat(aSelectedStudents);
             oViewModel.setProperty("/Students/data", aRoomStudents);
             this._getAddStudentsDialog().close();
