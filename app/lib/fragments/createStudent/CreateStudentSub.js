@@ -64,8 +64,8 @@ sap.ui.define([
          * Event handler for 'afterClose' of create student dialog
          */
         _onAfterCloseCreateStudentDialog: function () {
-            this._oAddVehicleDialog.destroy();
-            this._oAddVehicleDialog = null;
+            this._oDialogCreateStudent.destroy();
+            this._oDialogCreateStudent = null;
         },
 
         /**

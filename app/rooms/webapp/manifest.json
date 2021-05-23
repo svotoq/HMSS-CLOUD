@@ -154,7 +154,7 @@
                     "viewName": "object.RoomDetail",
                     "viewId": "roomdetail",
                     "viewLevel": 2,
-                    "title": "{i18n>roomDetailTitle}"
+                    "title": "{i18n>RoomDetail.Title}"
                 },
                 "objectNotFound": {
                     "viewName": "app.ObjectNotFound",

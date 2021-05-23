@@ -1,93 +1,93 @@
 <mvc:View
-        controllerName="bstu.hmss.managerooms.object.tabs.roomInfo.RoomInfo"
-        displayBlock="true"
-        height="100%"
-        xmlns="sap.m"
-        xmlns:mvc="sap.ui.core.mvc"
-        xmlns:layout="sap.ui.layout"
-        xmlns:f="sap.ui.layout.form"
-        xmlns:core="sap.ui.core">
+    controllerName="bstu.hmss.managerooms.object.tabs.roomInfo.RoomInfo"
+    displayBlock="true"
+    height="100%"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:layout="sap.ui.layout"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:core="sap.ui.core">
     <layout:VerticalLayout
-            id="idVerticalLayout"
-            width="100%">
+        id="idVerticalLayout"
+        width="100%">
         <f:Form
-                id="idRoomInfoForm"
-                editable="true"
-                binding="{this>/RoomInfo/data}">
+            id="idRoomInfoForm"
+            editable="true"
+            binding="{this>/RoomInfo/data}">
             <f:layout>
                 <f:ResponsiveGridLayout
-                        id="idRoomInfoFormLayout"
-                        columnsM="2"
-                        columnsL="2"
-                        columnsXL="3"
-                        labelSpanM="12"
-                        labelSpanL="12"
-                        labelSpanXL="12"
-                        emptySpanXL="1"
-                        emptySpanL="3"
-                        emptySpanM="1"/>
+                    id="idRoomInfoFormLayout"
+                    columnsM="2"
+                    columnsL="2"
+                    columnsXL="3"
+                    labelSpanM="12"
+                    labelSpanL="12"
+                    labelSpanXL="12"
+                    emptySpanXL="1"
+                    emptySpanL="3"
+                    emptySpanM="1"/>
             </f:layout>
             <f:title>
                 <core:Title
-                        id="idRoomInfoFormTitle"
-                        text="{i18n>roomInfo}"/>
+                    id="idRoomInfoFormTitle"
+                    text="{i18n>RoomDetail.RoomInfoSectionTitle}"/>
             </f:title>
             <f:FormContainer id="idRoomInfoFirstFormContainer">
                 <f:FormElement
-                        label="{i18n>roomNumber}">
+                    label="{i18n>Room.RoomNumber}">
                     <f:fields>
                         <VBox>
                             <Input
-                                    value="{this>RoomNumber}"
-                                    visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/EDIT} }"
-                                    maxLength="{= parseInt(${/#Rooms/RoomNumber/@maxLength}) }"/>
+                                value="{this>RoomNumber}"
+                                visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/EDIT} }"
+                                maxLength="{= parseInt(${/#Rooms/RoomNumber/@maxLength}) }"/>
                             <Text
-                                    text="{this>RoomNumber}"
-                                    visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/DISPLAY} }"/>
+                                text="{this>RoomNumber}"
+                                visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/DISPLAY} }"/>
                         </VBox>
                     </f:fields>
                 </f:FormElement>
                 <f:FormElement
-                        label="{i18n>capacity}">
+                    label="{i18n>Room.Capacity}">
                     <f:fields>
                         <VBox>
                             <Input
-                                    value="{this>Capacity}"
-                                    visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/EDIT} }"
-                                    maxLength="{= parseInt(${/#Rooms/Capacity/@maxLength}) }"/>
+                                value="{this>Capacity}"
+                                visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/EDIT} }"
+                                maxLength="{= parseInt(${/#Rooms/Capacity/@maxLength}) }"/>
                             <Text
-                                    text="{this>Capacity}"
-                                    visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/DISPLAY} }"/>
+                                text="{this>Capacity}"
+                                visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/DISPLAY} }"/>
                         </VBox>
                     </f:fields>
                 </f:FormElement>
             </f:FormContainer>
             <f:FormContainer id="idRoomInfoSecondFormContainer">
                 <f:FormElement
-                        label="{i18n>bedsInRoom}">
+                    label="{i18n>Room.Beds}">
                     <f:fields>
                         <VBox>
                             <Input
-                                    value="{this>Beds}"
-                                    visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/EDIT} }"
-                                    maxLength="{= parseInt(${/#Rooms/Beds/@maxLength}) }"/>
+                                value="{this>Beds}"
+                                visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/EDIT} }"
+                                maxLength="{= parseInt(${/#Rooms/Beds/@maxLength}) }"/>
                             <Text
-                                    text="{this>Beds}"
-                                    visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/DISPLAY} }"/>
+                                text="{this>Beds}"
+                                visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/DISPLAY} }"/>
                         </VBox>
                     </f:fields>
                 </f:FormElement>
                 <f:FormElement
-                        label="{i18n>tables}">
+                    label="{i18n>Room.Tables}">
                     <f:fields>
                         <VBox>
                             <Input
-                                    value="{this>Tables}"
-                                    visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/EDIT} }"
-                                    maxLength="{= parseInt(${/#Rooms/Tables/@maxLength}) }"/>
+                                value="{this>Tables}"
+                                visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/EDIT} }"
+                                maxLength="{= parseInt(${/#Rooms/Tables/@maxLength}) }"/>
                             <Text
-                                    text="{this>Tables}"
-                                    visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/DISPLAY} }"/>
+                                text="{this>Tables}"
+                                visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/DISPLAY} }"/>
                         </VBox>
                     </f:fields>
                 </f:FormElement>
