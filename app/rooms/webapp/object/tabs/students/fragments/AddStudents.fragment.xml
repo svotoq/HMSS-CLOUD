@@ -77,7 +77,7 @@
                         enabled="{this>WizardReviewEnabled}"
                         press="onPressAddStudentsNextStep"/>
                     <Button
-                        text="{i18n>Button.Finish}"
+                        text="{i18n>Button.Add}"
                         type="Emphasized"
                         visible="{this>WizardFinishVisible}"
                         press="onPressSaveStudentsDialog"/>
