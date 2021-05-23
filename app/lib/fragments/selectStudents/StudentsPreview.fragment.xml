@@ -1,0 +1,71 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:table="sap.ui.table">
+    <VBox
+        id="idVBoxRoomPreview">
+        <table:Table
+            id="idRoomPreviewStudentsTable"
+            class="sapUiSmallMarginTopBottom"
+            selectionMode="Single"
+            visibleRowCountMode="Auto"
+            enableColumnFreeze="true"
+            rows="{this>SelectedStudents}">
+            <table:columns>
+                <table:Column
+                    id="idColumnRoomPreviewStudentsFullName">
+                    <Label
+                        id="idLabelRoomPreviewStudentsFullName"
+                        text="{i18n>Student.FullName}"/>
+                    <table:template>
+                        <Text
+                            id="idTextRoomPreviewStudentsFullName"
+                            text="{parts:[
+                                        'this>FirstName',
+                                        'this>LastName',
+                                        'this>Patronymic'
+                                        ],
+                                    formatter: '.formatter.getStudentFullName'}"/>
+                    </table:template>
+                </table:Column>
+
+                <table:Column
+                    id="idColumnRoomPreviewStudentsCity">
+                    <Label
+                        id="idLabelRoomPreviewStudentsCity"
+                        text="{i18n>Student.City}"/>
+                    <table:template>
+                        <Text
+                            id="idTextRoomPreviewStudentsCity"
+                            text="{this>City}"/>
+                    </table:template>
+                </table:Column>
+
+                <table:Column
+                    id="idColumnRoomPreviewStudentsCheckIn">
+                    <Label
+                        id="idLabelRoomPreviewStudentsCheckIn"
+                        text="{i18n>Student.CheckIn}"/>
+                    <table:template>
+                        <Text
+                            id="idTextRoomPreviewStudentsCheckIn"
+                            text="{this>CheckIn}"/>
+                    </table:template>
+                </table:Column>
+
+                <table:Column
+                    id="idColumnRoomPreviewStudentsCheckOut">
+                    <Label
+                        id="idLabelRoomPreviewStudentsCheckOut"
+                        text="{i18n>Student.CheckOut}"/>
+                    <table:template>
+                        <Text
+                            id="idTextRoomPreviewStudentsCheckOut"
+                            text="{this>CheckOut}"/>
+                    </table:template>
+                </table:Column>
+
+            </table:columns>
+        </table:Table>
+    </VBox>
+</core:FragmentDefinition>

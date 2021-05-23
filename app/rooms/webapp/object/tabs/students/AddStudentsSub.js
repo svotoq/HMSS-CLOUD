@@ -14,77 +14,75 @@ sap.ui.define([
     return {
 
         /**
-         * Creates instance of Create Room dialog
+         * Creates instance of add students dialog
          */
-        openCreateRoomDialog: function () {
-            if (!this._oCreateRoomDialog) {
+        openAddStudentsDialog: function () {
+            if (!this._oAddStudentsDialog) {
                 var oView = this.getView();
 
-                this._oCreateRoomDialog = Fragment.load({
+                this._oAddStudentsDialog = Fragment.load({
                     id: oView.getId(),
-                    name: "bstu.hmss.managerooms.list.fragments.CreateRoom",
+                    name: "bstu.hmss.managerooms.object.tabs.students.fragments.AddStudents",
                     controller: this
                 }).then(function (oDialog) {
                     oView.addDependent(oDialog);
                     return oDialog;
                 });
             }
-            this._oCreateRoomDialog.then(function (oDialog) {
+            this._oAddStudentsDialog.then(function (oDialog) {
                 oDialog.open();
             });
         },
 
         /**
-         * Event handler for 'beforeOpen' of create Room dialog
+         * Event handler for 'beforeOpen' of add Students dialog
          */
-        onBeforeOpenCreateRoomDialog: function () {
+        onBeforeOpenAddStudentsDialog: function () {
             this.getOwnerComponent().removeAllMessages();
-            this.getViewModel().setProperty("/CreateRoomDialog", this._getCreateRoomInitialData());
+            this.getViewModel().setProperty("/AddStudentsDialog", this._getAddStudentsInitialData());
         },
 
         /**
-        * Event handler for 'beforeOpen' of create Room dialog
+         * Sets initial data for add students dialog
+         * @returns {object} initial students dialog data
+         * @private
+         */
+        _getAddStudentsInitialData: function () {
+            return {
+                Room: this.getViewModel().getProperty("/BRoom"),
+                SelectedStudents: [],
+                WizardBackVisible: false,
+                WizardNextEnabled: false,
+                WizardNextVisible: true,
+                WizardReviewVisible: false,
+                WizardReviewEnabled: false,
+                WizardFinishVisible: false
+            };
+        },
+        
+        /**
+        * Event handler for 'beforeOpen' of add students dialog
         */
-        onAfterOpenCreateRoomDialog: function () {
-            this._oWizard = this.byId("idCreateRoomWizard");
+        onAfterOpenAddStudentsDialog: function () {
+            this._oWizard = this.byId("idAddStudentsWizard");
 
             this.handleButtonsVisibility();
         },
 
         handleButtonsVisibility: function () {
             var oViewModel = this.getViewModel(),
-                oDialogData = oViewModel.getProperty("/CreateRoomDialog");
+                oDialogData = oViewModel.getProperty("/AddStudentsDialog");
             switch (this._oWizard.getProgress()) {
                 case 1: {
                     oDialogData.WizardNextVisible = true;
                     oDialogData.WizardBackVisible = false;
                     oDialogData.WizardReviewVisible = false;
                     oDialogData.WizardFinishVisible = false;
-                    oDialogData.CreateWithoudStudentsVisible = true;
-
-                    if (oDialogData.Room.RoomNumber) {
-                        oDialogData.CreateWithoudStudentsEnabled = true;
-                        oDialogData.WizardNextEnabled = true;
-                    } else {
-                        oDialogData.CreateWithoudStudentsEnabled = false;
-                        oDialogData.WizardNextEnabled = false;
-                    }
+                    
+                    oDialogData.WizardNextEnabled = oDialogData.SelectedStudents.length > 0;
                     break;
                 }
                 case 2: {
-                    oDialogData.WizardBackVisible = true;
-                    oDialogData.CreateWithoudStudentsVisible = false;
-                    oDialogData.WizardReviewVisible = false;
-                    oDialogData.WizardNextVisible = true;
-
-                    if (oDialogData.SelectedStudents.length > 0) {
-                        oDialogData.WizardNextEnabled = true;
-                    } else {
-                        oDialogData.WizardNextEnabled = false;
-                    }
-                    break;
-                }
-                case 3: {
                     oDialogData.WizardBackVisible = true;
                     oDialogData.WizardNextVisible = false;
                     oDialogData.WizardReviewVisible = true;
@@ -93,7 +91,7 @@ sap.ui.define([
                     this._validateLiveDatesStep()
                     break;
                 }
-                case 4: {
+                case 3: {
                     oDialogData.WizardBackVisible = true;
                     oDialogData.WizardReviewVisible = false;
                     oDialogData.WizardFinishVisible = true;
@@ -101,54 +99,30 @@ sap.ui.define([
                 }
             }
 
-            oViewModel.setProperty("/CreateRoomDialog", oDialogData);
+            oViewModel.setProperty("/AddStudentsDialog", oDialogData);
         },
 
-        onPressCreateRoomNextStep: function () {
+        onPressAddStudentsNextStep: function () {
             if (this._oWizard.getProgressStep().getValidated()) {
                 this._oWizard.nextStep();
             }
             this.handleButtonsVisibility();
         },
 
-        onPressCreateRoomBack: function () {
+        onPressAddStudentsBack: function () {
             this._oWizard.previousStep();
             this.handleButtonsVisibility();
         },
 
-        onLiveChangeRoomNumber: function (oEvent) {
-            var sValue = oEvent.getParameter("value"),
-                oViewModel = this.getViewModel(),
-                oDialogData = oViewModel.getProperty("/CreateRoomDialog");
-            if (sValue) {
-                oDialogData.WizardNextEnabled = true;
-                oDialogData.CreateWithoudStudentsEnabled = true;
-            } else {
-                oDialogData.WizardNextEnabled = false;
-                oDialogData.CreateWithoudStudentsEnabled = false;
-            }
-
-            oViewModel.setProperty("/CreateRoomDialog", oDialogData);
-        },
-
         /**
-         * Event handler for 'submit' of create Room dialog
+         * Event handler for 'submit' of add students dialog
          */
-        onPressCreateRoomDialog: function () {
+        onPressSaveStudentsDialog: function () {
             this.getOwnerComponent().removeErrorMessages(false, true, true, true);
             if (this._validateDialog()) {
-                this._saveData();
+                this._addStudents();
             } else {
-                this._showCreateRoomMessagePopover();
-            }
-        },
-
-        onPressCreateWithoutStudents: function () {
-            this.getOwnerComponent().removeErrorMessages(false, true, true, true);
-            if (this._validateDialog()) {
-                this._createRoom();
-            } else {
-                this._showCreateRoomMessagePopover();
+                this._showAddStudentsMessagePopover();
             }
         },
 
@@ -156,128 +130,62 @@ sap.ui.define([
          * Calls a method to save data
          * @private
          */
-        _createRoom: function () {
-            var oDialog = this._getCreateRoomDialog();
-            oDialog.setBusy(true);
-
-            var oNewRoom = this.getViewModel().getProperty("/CreateRoomDialog/Room");
-            this.getBO().createRoom(oNewRoom)
-                .then(function (oRoom) {
-                    oDialog.setBusy(false);
-                    oDialog.close();
-                    this.navigateToRoomDetails(oRoom.RoomNumber);
-                }.bind(this))
-                .fail(function (oError) {
-                    oDialog.setBusy(false);
-                    this.handleError(oError, this.byId("idCreateRoomMessagePopover"));
-                }.bind(this));
+        _addStudents: function () {
+            var oViewModel = this.getViewModel(),
+                aSelectedStudents = oViewModel.getProperty("/AddStudentsDialog/SelectedStudents"),
+                aRoomStudents = oViewModel.getProperty("/Students/data");
+            
+            aRoomStudents.concat(aSelectedStudents);
+            this._getAddStudentsDialog().close();
         },
 
         /**
-         * Event handler for 'cancel' of create Room dialog
+         * Event handler for 'cancel' of add students dialog
          */
-        onPressCancelRoomDialog: function () {
-            this._getCreateRoomDialog().close();
+        onPressCancelAddStudentsDialog: function () {
+            this._getAddStudentsDialog().close();
         },
 
         /**
-         * Event handler for 'afterClose' of create Room dialog
+         * Event handler for 'afterClose' of add students dialog
          */
-        onAfterCloseCreateRoomDialog: function () {
+        onAfterCloseAddStudentsDialog: function () {
             this.getOwnerComponent().removeAllMessages();
-            this._getCreateRoomDialog().destroy();
-            this._oCreateRoomDialog = null;
+            this._getAddStudentsDialog().destroy();
+            this._oAddStudentsDialog = null;
         },
 
         /**
          * Event handler for 'press' of show message popover button
          */
-        onPressShowCreateRoomMessagePopover: function () {
-            this._showCreateRoomMessagePopover();
+        onPressShowAddStudentsMessagePopover: function () {
+            this._showAddStudentsMessagePopover();
         },
 
         /**
          * Show create customer message popover
          * @private
          */
-        _showCreateRoomMessagePopover: function () {
-            this.showMessagePopover(this.byId("idCreateRoomMessagePopover"));
+        _showAddStudentsMessagePopover: function () {
+            this.showMessagePopover(this.byId("idAddStudentsMessagePopover"));
         },
 
         /**
-         * Sets initial data for Create Room dialog
-         * @returns {object} initial customer data
-         * @private
-         */
-        _getCreateRoomInitialData: function () {
-            return {
-                Room: {
-                    RoomNumber: "",
-                    Capacity: 0,
-                    Beds: 0,
-                    Tables: 0,
-                    EmptyPlaces: 0
-                },
-                SelectedStudents: [],
-                WizardBackVisible: false,
-                WizardNextEnabled: false,
-                WizardNextVisible: true,
-                WizardReviewVisible: false,
-                WizardReviewEnabled: false,
-                WizardFinishVisible: false,
-                CreateWithoudStudentsVisible: true,
-                CreateWithoudStudentsEnabled: false
-            };
-        },
-
-        /**
-         * Validated Room Profile and Vehicles fields
-         * @returns {boolean} is customer information valid
+         * Validated add students dialog
+         * @returns {boolean} is information valid
          * @private
          */
         _validateDialog: function () {
-            return this.validateCreateRoomDataConsistency();
+            return true
         },
 
         /**
-         * Validates create customer form fields
-         * @returns {boolean} validation result
-         */
-        validateCreateRoomDataConsistency: function () {
-            var aFormElements = Utility.getFormElements(this.byId("idCreateRoomForm"));
-            var aRequiredFormElements = aFormElements.filter(function (oFE) {
-                return oFE.getLabel().getRequired();
-            });
-            var aGroupedFormFields = aRequiredFormElements.map(function (oFE) {
-                return oFE.getFields();
-            });
-            var aRequiredFields = [].concat.apply([], aGroupedFormFields);
-
-            var aInvalidFields = aRequiredFields.filter(function (oField) {
-                return !FieldValidations.isRequiredValueFieldValid(oField);
-            }, this);
-
-            aInvalidFields.forEach(function (oField) {
-                var oFormElement = oField.getParent();
-                var sFieldLabel = oFormElement.getLabel().getText();
-
-                FieldValidations.setFieldValid(oField, false, {
-                    property: "required",
-                    element: oFormElement,
-                    message: this.i18n("requiredFieldValidationError", sFieldLabel)
-                }, false);
-            }, this);
-
-            return !aInvalidFields.length;
-        },
-
-        /**
-         * Convenience method to get Create Room dialog control
-         * @returns {sap.m.Dialog} Room dialog
+         * Convenience method to get Create AddStudents dialog control
+         * @returns {sap.m.Dialog} AddStudents dialog
          * @private
          */
-        _getCreateRoomDialog: function () {
-            return this.byId("idCreateRoomDialog");
+        _getAddStudentsDialog: function () {
+            return this.byId("idAddStudentsDialog");
         },
 
         // Students
@@ -300,7 +208,7 @@ sap.ui.define([
          */
         onStudentsDataTableRecieved: function (oEvent) {
             if (typeof oEvent.getParameter("data") === "undefined") {
-                this._showCreateRoomMessagePopover();
+                this._showAddStudentsMessagePopover();
             }
         },
 
@@ -308,9 +216,9 @@ sap.ui.define([
             var oContext = oEvent.getParameter("row").getBindingContext(),
                 oSelectedStudent = oContext.getObject(),
                 oViewModel = this.getViewModel(),
-                oDialogData = oViewModel.getProperty("/CreateRoomDialog");
+                oDialogData = oViewModel.getProperty("/AddStudentsDialog");
 
-            if (oDialogData.SelectedStudents.length === Number(oDialogData.Room.Capacity)) {
+            if (oDialogData.SelectedStudents.length === Number(oDialogData.Room.EmptyPlaces)) {
                 MessageBox.error(this.i18n("MessageBox.RoomIsFull"));
                 return;
             }
@@ -322,7 +230,7 @@ sap.ui.define([
                 oDialogData.SelectedStudents.push(oSelectedStudent);
                 oDialogData.WizardNextEnabled = true;
                 this._oWizard.validateStep(this.getAddStudentsStep());
-                oViewModel.setProperty("/CreateRoomDialog", oDialogData);
+                oViewModel.setProperty("/AddStudentsDialog", oDialogData);
             } else {
                 MessageBox.alert(this.i18n("MessageBox.StudentIsAlreadySelected"));
             }
@@ -332,7 +240,7 @@ sap.ui.define([
             var oContext = oEvent.getParameter("row").getBindingContext("this"),
                 oSelectedStudent = oContext.getObject(),
                 oViewModel = this.getViewModel(),
-                oDialogData = oViewModel.getProperty("/CreateRoomDialog");
+                oDialogData = oViewModel.getProperty("/AddStudentsDialog");
 
             oDialogData.SelectedStudents = oDialogData.SelectedStudents.filter(function (oStudent) {
                 return oStudent.ID !== oSelectedStudent.ID;
@@ -342,7 +250,7 @@ sap.ui.define([
                 oDialogData.WizardNextEnabled = false;
                 this._oWizard.invalidateStep(this.getAddStudentsStep());
             }
-            oViewModel.setProperty("/CreateRoomDialog", oDialogData);
+            oViewModel.setProperty("/AddStudentsDialog", oDialogData);
         },
 
         getAddStudentsStep: function () {
@@ -361,14 +269,14 @@ sap.ui.define([
             }
 
             var oViewModel = this.getViewModel(),
-                oDialogData = oViewModel.getProperty("/CreateRoomDialog");
+                oDialogData = oViewModel.getProperty("/AddStudentsDialog");
 
             oDialogData.SelectedStudents = oDialogData.SelectedStudents.map(function (oStudent) {
                 oStudent.CheckIn = sCheckInDate;
                 return oStudent;
             });
 
-            oViewModel.setProperty("/CreateRoomDialog", oDialogData);
+            oViewModel.setProperty("/AddStudentsDialog", oDialogData);
             this._validateLiveDatesStep();
         },
         onSelectCheckOutLiveDateForAll: function (oEvent) {
@@ -381,13 +289,13 @@ sap.ui.define([
             }
 
             var oViewModel = this.getViewModel(),
-                oDialogData = oViewModel.getProperty("/CreateRoomDialog");
+                oDialogData = oViewModel.getProperty("/AddStudentsDialog");
 
             oDialogData.SelectedStudents = oDialogData.SelectedStudents.map(function (oStudent) {
                 oStudent.CheckOut = sCheckOutDate;
                 return oStudent;
             });
-            oViewModel.setProperty("/CreateRoomDialog", oDialogData);
+            oViewModel.setProperty("/AddStudentsDialog", oDialogData);
             this._validateLiveDatesStep();
         },
 
@@ -402,7 +310,7 @@ sap.ui.define([
 
         _validateLiveDatesStep: function () {
             var oViewModel = this.getViewModel(),
-                oDialogData = oViewModel.getProperty("/CreateRoomDialog");
+                oDialogData = oViewModel.getProperty("/AddStudentsDialog");
 
             var oStudentWithoutDates = oDialogData.SelectedStudents.find(function (oStudent) {
                 return !oStudent.CheckIn || !oStudent.CheckOut;
@@ -414,7 +322,7 @@ sap.ui.define([
                 oDialogData.WizardReviewEnabled = false;
             }
 
-            oViewModel.setProperty("/AddStudentdsDialog", oDialogData);
+            oViewModel.setProperty("/AddStudentsDialog", oDialogData);
         }
 
     };
