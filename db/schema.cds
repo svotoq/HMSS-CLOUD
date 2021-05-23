@@ -9,7 +9,7 @@ entity Rooms: managed {
     Tables: Integer default 0;
     Beds: Integer default 0;
     Students: Association to many Students on Students.Room = $self;
-    EmptyPlaces: Integer default 0 @readonly;
+    EmptyPlaces: Integer default 0;
     Notes: array of Notes;
 }
 
