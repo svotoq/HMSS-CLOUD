@@ -10,9 +10,10 @@ sap.ui.define([
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
     "./AddStudentsSub",
-    "sap/m/MessageBox"
+    "sap/m/MessageBox",
+    "bstu/hmss/lib/fragments/createStudent/CreateStudentSub"
 ], function (BaseController, JSONModel, RoomStudentsBO, Constants, merge, Utility,
-             formatter, Filter, FilterOperator, AddStudentsSub, MessageBox) {
+             formatter, Filter, FilterOperator, AddStudentsSub, MessageBox, CreateStudentSub) {
     /* eslint-enable max-params */
     "use strict";
 
@@ -73,6 +74,10 @@ sap.ui.define([
 
             onPressAddStudent: function () {
                 this.openAddStudentsDialog();
+            },
+
+            onPressCreateStudent: function () {
+                this.openCreateStudentDialog();
             },
 
             onPressDeleteStudent: function () {

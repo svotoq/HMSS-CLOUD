@@ -1,0 +1,161 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form">
+    <Dialog id="idCreateStudentDialog"
+            title="{i18n>CreateStudent.Title}"
+            busyIndicatorDelay="0"
+            contentWidth="60%"
+            contentHeight="60%"
+            binding="{this>/NewStudent}"
+            afterClose="_onAfterCloseCreateStudentDialog">
+        <form:Form id="idCreateStudentForm"
+                   editable="true">
+            <form:layout>
+                <form:ColumnLayout id="idFormColumnLayout"
+                                   columnsXL="3"
+                                   columnsL="3"
+                                   columnsM="2"/>
+            </form:layout>
+            <form:FormContainer id="idStudentProfileFormContainer">
+                <form:FormElement id="idElementCreateStudentFirstName">
+                    <form:label>
+                        <Label id="idLabelCreateStudentFirstName"
+                               text="{i18n>Student.FirstName}"
+                               required="{= !${/#Students/FirstName/@Nullable} }"
+                               labelFor="idInputCreateStudentFirstName"/>
+                    </form:label>
+                    <form:fields>
+                        <Input id="idInputCreateStudentFirstName"
+                               value="{this>FirstName}"
+                               maxLength="{= parseInt(${/#Students/FirstName/@maxLength}) }"/>
+                    </form:fields>
+                </form:FormElement>
+                <form:FormElement id="idElementCreateStudentLastName">
+                    <form:label>
+                        <Label id="idLabelCreateStudentLastName"
+                               text="{i18n>Student.LastName}"
+                               required="{= !${/#Students/LastName/@Nullable} }"
+                               labelFor="idInputCreateStudentLastName"/>
+                    </form:label>
+                    <form:fields>
+                        <Input id="idInputCreateStudentLastName"
+                               value="{this>LastName}"
+                               maxLength="{= parseInt(${/#Students/LastName/@maxLength}) }"/>
+                    </form:fields>
+                </form:FormElement>
+                <form:FormElement id="idElementCreateStudentPatronymic">
+                    <form:label>
+                        <Label id="idLabelCreateStudentPatronymic"
+                               text="{i18n>Student.Patronymic}"
+                               required="{= !${/#Students/Patronymic/@Nullable} }"
+                               labelFor="idInputCreateStudentPatronymic"/>
+                    </form:label>
+                    <form:fields>
+                        <Input id="idInputCreateStudentPatronymic"
+                               value="{this>Patronymic}"
+                               maxLength="{= parseInt(${/#Students/Patronymic/@maxLength}) }"/>
+                    </form:fields>
+                </form:FormElement>
+                <form:FormElement id="idElementCreateStudentEmail">
+                    <form:label>
+                        <Label id="idLabelCreateStudentEmail"
+                               text="{i18n>Student.Email}"
+                               required="{= !${/#Students/Email/@Nullable} }"
+                               labelFor="idInputCreateStudentEmail"/>
+                    </form:label>
+                    <form:fields>
+                        <Input id="idInputCreateStudentEmail"
+                               value="{this>Email}"
+                               maxLength="{= parseInt(${/#Students/Email/@maxLength}) }"/>
+                    </form:fields>
+                </form:FormElement>
+                <form:FormElement
+                    id="idElementCreateStudentRoomNumber"
+                    visible="{= {$this>/ViewMode} === 'STUDENT' }">
+                    <form:label>
+                        <Label id="idLabelCreateStudentRoomNumber"
+                               text="{i18n>Student.RoomNumber}"
+                               labelFor="idInputCreateStudentRoomNumber"/>
+                    </form:label>
+                    <form:fields>
+                        <Input id="idInputCreateStudentRoomNumber"
+                               value="{this>Room_RoomNumber}"/>
+                    </form:fields>
+                </form:FormElement>
+            </form:FormContainer>
+
+            <form:FormContainer id="idStudentAddressFormContainer">
+                <form:FormElement id="idElementCreateStudentCountry">
+                    <form:label>
+                        <Label id="idLabelCreateStudentCountry"
+                               text="{i18n>Student.Country}"
+                               required="{= !${/#Students/Country/@Nullable} }"
+                               labelFor="idInputCreateStudentCountry"/>
+                    </form:label>
+                    <form:fields>
+                        <Input id="idInputCreateStudentCountry"
+                               value="{this>Country}"
+                               maxLength="{= parseInt(${/#Students/Country/@maxLength}) }"/>
+                    </form:fields>
+                </form:FormElement>
+                <form:FormElement id="idElementCreateStudentCity">
+                    <form:label>
+                        <Label id="idLabelCreateStudentCity"
+                               text="{i18n>Student.City}"
+                               required="{= !${/#Students/City/@Nullable} }"
+                               labelFor="idInputCreateStudentCity"/>
+                    </form:label>
+                    <form:fields>
+                        <Input id="idInputCreateStudentCity"
+                               value="{this>City}"
+                               maxLength="{= parseInt(${/#Students/City/@maxLength}) }"/>
+                    </form:fields>
+                </form:FormElement>
+                <form:FormElement id="idElementCreateStudentAddressLine">
+                    <form:label>
+                        <Label id="idLabelCreateStudentAddressLine"
+                               text="{i18n>Student.AddressLine}"
+                               required="{= !${/#Students/AddressLine/@Nullable} }"
+                               labelFor="idInputCreateStudentAddressLine"/>
+                    </form:label>
+                    <form:fields>
+                        <Input id="idInputCreateStudentAddressLine"
+                               value="{this>AddressLine}"
+                               maxLength="{= parseInt(${/#Students/AddressLine/@maxLength}) }"/>
+                    </form:fields>
+                </form:FormElement>
+                <form:FormElement id="idElementCreateStudentZipCode">
+                    <form:label>
+                        <Label id="idLabelCreateStudentZipCode"
+                               text="{i18n>Student.ZipCode}"
+                               required="{= !${/#Students/ZipCode/@Nullable} }"
+                               labelFor="idInputCreateStudentZipCode"/>
+                    </form:label>
+                    <form:fields>
+                        <Input id="idInputCreateStudentZipCode"
+                               value="{this>ZipCode}"
+                               maxLength="{= parseInt(${/#Students/ZipCode/@maxLength}) }"/>
+                    </form:fields>
+                </form:FormElement>
+            </form:FormContainer>
+        </form:Form>
+        <buttons>
+            <Button id="idCreateStudentDialogMessagePopover"
+                    icon="sap-icon://message-popup"
+                    type="Emphasized"
+                    press="_onPressShowCreateStudentMessagePopover"
+                    text="{= ${message>/}.length}"
+                    visible="{= !!${message>/}.length}"/>
+            <Button id="idCreateStudentDialogSubmitButton"
+                    text="{i18n>Button.Create}"
+                    type="Emphasized"
+                    press="_onPressSubmitCreateStudentDialog"
+                    enabled="{= !${this>IsVHDataLoading} }"/>
+            <Button id="idCreateStudentDialogCancelButton"
+                    text="{i18n>Button.Cancel}"
+                    press="_onPressCancelCreateStudentDialog"/>
+        </buttons>
+    </Dialog>
+</core:FragmentDefinition>
+
