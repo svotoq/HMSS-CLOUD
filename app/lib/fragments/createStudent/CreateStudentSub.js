@@ -1,5 +1,7 @@
 /* eslint-disable max-params */
-sap.ui.define([], function () {
+sap.ui.define([
+    "sap/ui/core/Fragment"
+], function (Fragment) {
     /* eslint-enable max-params */
     "use strict";
     //ViewMode = STUDENT || ROOM
@@ -22,20 +24,26 @@ sap.ui.define([], function () {
 
 
         openCreateStudentDialog: function () {
-            this._getCreateStudentDialog().open();
+            this._loadCreateStudentDialog();
         },
 
-        _getCreateStudentDialog: function () {
+        _loadCreateStudentDialog: function () {
+            this.setAppBusy(true);
             if (!this._oDialogCreateStudent) {
-                this._oDialogCreateStudent = sap.ui.xmlfragment(
-                    this.getId(),
-                    "bstu.hmss.lib.fragments.createStudent.CreateStudent",
-                    this
-                );
-                this.addDependent(this._oDialogCreateStudent);
-                this._oDialogCreateStudent.setBindingContext(null);
+                var oView = this.getView();
+
+                this._oDialogCreateStudent = Fragment.load({
+                    id: oView.getId(),
+                    name: "bstu.hmss.lib.fragments.createStudent.CreateStudent",
+                    controller: this
+                }).then(function (oDialog) {
+                    oView.addDependent(oDialog);
+                    return oDialog;
+                });
             }
-            return this._oDialogCreateStudent;
+            this._oDialogCreateStudent.then(function (oDialog) {
+                oDialog.open();
+            });
         },
 
         /**
@@ -52,6 +60,15 @@ sap.ui.define([], function () {
          */
         _onPressCancelCreateStudentDialog: function () {
             this._getCreateStudentDialog().close();
+        },
+
+        /**
+         * Convenience method to get Create AddStudents dialog control
+         * @returns {sap.m.Dialog} AddStudents dialog
+         * @private
+         */
+        _getCreateStudentDialog: function () {
+            return this.byId("idCreateStudentDialog");
         },
 
         _onPressSubmitCreateStudentDialog: function () {
