@@ -418,7 +418,7 @@ sap.ui.define([
                 BRoom: {},
                 CurrViewMode: Constants.VIEW_MODES.DISPLAY,
                 ObjectHeaderEntityKey: {
-                    ID: null
+                    RoomNumber: ""
                 }
             });
         },
@@ -570,13 +570,13 @@ sap.ui.define([
             var oViewModel = this.getViewModel();
             oViewModel.setProperty("/BRoom", oBRoom);
 
-            if (!oBRoom.ID) {
+            if (!oBRoom.RoomNumber) {
                 var oODataModel = this.getComponentModel(),
                     sNewRoomIndicator = Utility.generateTemporaryId(
-                        oODataModel, this.getBO().getHeaderSet(), "ID", 1
+                        oODataModel, this.getBO().getHeaderSet(), "RoomNumber", 1
                     );
 
-                oViewModel.setProperty("/BRoom/ID", sNewRoomIndicator);
+                oViewModel.setProperty("/BRoom/RoomNumber", sNewRoomIndicator);
             }
 
             this.fireAppEvent("BRoomHeaderChange", {
