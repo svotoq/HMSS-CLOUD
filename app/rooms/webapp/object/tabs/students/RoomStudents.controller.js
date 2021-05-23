@@ -76,7 +76,7 @@ sap.ui.define([
                 this.openAddStudentsDialog();
             },
 
-            onPressCreateStudent: function () {
+            onPressCreateNewStudent: function () {
                 this.openCreateStudentDialog();
             },
 
@@ -259,5 +259,5 @@ sap.ui.define([
                     SelectedRoomStudentIndex: -1
                 });
             }
-        }, AddStudentsSub));
+        }, AddStudentsSub, CreateStudentSub));
 });
