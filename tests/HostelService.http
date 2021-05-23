@@ -63,7 +63,7 @@ Content-Type: application/json
         }
     ],
     "Notes": [],
-    "Room_RoomNumber": "1234"
+    "Room_RoomNumber": "1"
 }
 
 ### Try to get the Orders

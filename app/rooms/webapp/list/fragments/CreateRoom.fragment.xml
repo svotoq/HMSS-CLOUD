@@ -98,14 +98,14 @@
                             title="{i18n>CreateRoom.AddStudentsStep}"
                             activate="onActivateStudentsLiveDates">
                       <core:Fragment
-                            fragmentName="bstu.hmss.managerooms.list.fragments.StudentsStep"
+                            fragmentName="bstu.hmss.lib.fragments.selectStudents.SelectStudents"
                             type="XML"/>
                     </WizardStep>
                     <WizardStep id="idSetStudentsLiveDates"
                                 validated="true"
                                 title="{i18n>CreateRoom.SetLiveDatesTitle}">
                          <core:Fragment
-                            fragmentName="bstu.hmss.managerooms.list.fragments.LiveDates"
+                            fragmentName="bstu.hmss.lib.fragments.selectStudents.LiveDates"
                             type="XML"/>
                     </WizardStep>
                     <WizardStep

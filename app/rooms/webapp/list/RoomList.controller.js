@@ -59,18 +59,18 @@ sap.ui.define([
              */
             onRoomDetailPress: function (oEvent) {
                 var oBindingContext = oEvent.getSource().getBindingContext(),
-                    sRoomID = oBindingContext.getProperty("ID");
-                this.navigateToRoomDetails(sRoomID);
+                    sRoomNumber = oBindingContext.getProperty("RoomNumber");
+                this.navigateToRoomDetails(sRoomNumber);
             },
 
             /**
              * Navigates to Room details
-             * @param {string} sRoomID - Room ID
+             * @param {string} sRoomNumber - Room Number
              * @private
              */
-            navigateToRoomDetails: function (sRoomID) {
-                this.getRouter().navTo("roomdetails", {
-                    RoomID: sRoomID
+            navigateToRoomDetails: function (sRoomNumber) {
+                this.getRouter().navTo("roomdetail", {
+                    RoomNumber: sRoomNumber
                 });
             },
 

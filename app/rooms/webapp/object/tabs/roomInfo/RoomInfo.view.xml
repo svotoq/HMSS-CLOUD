@@ -1,0 +1,97 @@
+<mvc:View
+        controllerName="bstu.hmss.managerooms.object.tabs.roomInfo.RoomInfo"
+        displayBlock="true"
+        height="100%"
+        xmlns="sap.m"
+        xmlns:mvc="sap.ui.core.mvc"
+        xmlns:layout="sap.ui.layout"
+        xmlns:f="sap.ui.layout.form"
+        xmlns:core="sap.ui.core">
+    <layout:VerticalLayout
+            id="idVerticalLayout"
+            width="100%">
+        <f:Form
+                id="idRoomInfoForm"
+                editable="true"
+                binding="{this>/RoomInfo/data}">
+            <f:layout>
+                <f:ResponsiveGridLayout
+                        id="idRoomInfoFormLayout"
+                        columnsM="2"
+                        columnsL="2"
+                        columnsXL="3"
+                        labelSpanM="12"
+                        labelSpanL="12"
+                        labelSpanXL="12"
+                        emptySpanXL="1"
+                        emptySpanL="3"
+                        emptySpanM="1"/>
+            </f:layout>
+            <f:title>
+                <core:Title
+                        id="idRoomInfoFormTitle"
+                        text="{i18n>roomInfo}"/>
+            </f:title>
+            <f:FormContainer id="idRoomInfoFirstFormContainer">
+                <f:FormElement
+                        label="{i18n>roomNumber}">
+                    <f:fields>
+                        <VBox>
+                            <Input
+                                    value="{this>RoomNumber}"
+                                    visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/EDIT} }"
+                                    maxLength="{= parseInt(${/#Rooms/RoomNumber/@maxLength}) }"/>
+                            <Text
+                                    text="{this>RoomNumber}"
+                                    visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/DISPLAY} }"/>
+                        </VBox>
+                    </f:fields>
+                </f:FormElement>
+                <f:FormElement
+                        label="{i18n>capacity}">
+                    <f:fields>
+                        <VBox>
+                            <Input
+                                    value="{this>Capacity}"
+                                    visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/EDIT} }"
+                                    maxLength="{= parseInt(${/#Rooms/Capacity/@maxLength}) }"/>
+                            <Text
+                                    text="{this>Capacity}"
+                                    visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/DISPLAY} }"/>
+                        </VBox>
+                    </f:fields>
+                </f:FormElement>
+            </f:FormContainer>
+            <f:FormContainer id="idRoomInfoSecondFormContainer">
+                <f:FormElement
+                        label="{i18n>bedsInRoom}">
+                    <f:fields>
+                        <VBox>
+                            <Input
+                                    value="{this>Beds}"
+                                    visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/EDIT} }"
+                                    maxLength="{= parseInt(${/#Rooms/Beds/@maxLength}) }"/>
+                            <Text
+                                    text="{this>Beds}"
+                                    visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/DISPLAY} }"/>
+                        </VBox>
+                    </f:fields>
+                </f:FormElement>
+                <f:FormElement
+                        label="{i18n>tables}">
+                    <f:fields>
+                        <VBox>
+                            <Input
+                                    value="{this>Tables}"
+                                    visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/EDIT} }"
+                                    maxLength="{= parseInt(${/#Rooms/Tables/@maxLength}) }"/>
+                            <Text
+                                    text="{this>Tables}"
+                                    visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/DISPLAY} }"/>
+                        </VBox>
+                    </f:fields>
+                </f:FormElement>
+            </f:FormContainer>
+        </f:Form>
+    </layout:VerticalLayout>
+</mvc:View>

@@ -188,7 +188,7 @@
                             <table:RowActionItem
                                     id="idStudentListTableRowActionItem"
                                     icon="sap-icon://navigation-right-arrow"
-                                    tooltip="{i18n>CreateRoom.SelectStudent}"
+                                    tooltip="{i18n>SelectStudents.SelectStudent}"
                                     press="onPressSelectStudent">
                             </table:RowActionItem>
                         </table:items>
@@ -212,7 +212,7 @@
                         design="Transparent">
                     <Title
                             id="idSelectedStudentsTitle"
-                            text="{i18n>CreateRoom.SelectedStudentsTitle}"
+                            text="{i18n>SelectStudents.SelectedStudentsTitle}"
                             titleStyle="H4"/>
                     <ToolbarSpacer id="idSelectedStudentsToolbarSpacer"/>
                 </OverflowToolbar>
@@ -297,7 +297,7 @@
                         <table:RowActionItem
                                 id="idSelectedStudentsTableRowActionItem"
                                 icon="sap-icon://delete"
-                                tooltip="{i18n>CreateRoom.RemoveSelectedStudent}"
+                                tooltip="{i18n>SelectStudents.RemoveSelectedStudent}"
                                 press="onPressRemoveSelectedStudent">
                         </table:RowActionItem>
                     </table:items>

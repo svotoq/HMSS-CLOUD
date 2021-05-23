@@ -165,7 +165,7 @@ sap.ui.define([
                 .then(function (oRoom) {
                     oDialog.setBusy(false);
                     oDialog.close();
-                    this.navigateToRoomDetails(oRoom.ID);
+                    this.navigateToRoomDetails(oRoom.RoomNumber);
                 }.bind(this))
                 .fail(function (oError) {
                     oDialog.setBusy(false);

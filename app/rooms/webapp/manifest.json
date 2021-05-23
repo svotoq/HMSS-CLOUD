@@ -136,7 +136,7 @@
                     ]
                 },
                 {
-                    "pattern": "Rooms/{RoomID}:?query:",
+                    "pattern": "Rooms/{RoomNumber}:?query:",
                     "name": "roomdetail",
                     "target": [
                         "roomdetail"
@@ -150,7 +150,7 @@
                     "viewLevel": 1,
                     "title": "{i18n>roomViewTitle}"
                 },
-                "roomdetails": {
+                "roomdetail": {
                     "viewName": "object.RoomDetail",
                     "viewId": "roomdetail",
                     "viewLevel": 2,

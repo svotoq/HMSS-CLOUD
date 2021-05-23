@@ -1,0 +1,134 @@
+<mvc:View
+        controllerName="bstu.hmss.managerooms.object.tabs.students.RoomStudents"
+        displayBlock="true"
+        height="100%"
+        xmlns="sap.m"
+        xmlns:mvc="sap.ui.core.mvc"
+        xmlns:core="sap.ui.core"
+        xmlns:table="sap.ui.table"
+        xmlns:smartLink="sap.ui.comp.navpopover">
+    <VBox
+            id="idVBoxRoomStudents"
+            fitContainer="true">
+        <table:Table
+                id="idRoomStudentsTable"
+                selectionMode="Single"
+                rowActionCount="1"
+                visibleRowCountMode="Auto"
+                enableColumnFreeze="true"
+                rows="{this>/Students/data}">
+            <table:extension>
+                <OverflowToolbar
+                        id="idRoomStudentsToolbar"
+                        design="Transparent">
+                    <Title
+                            id="idRoomStudentsTitle"
+                            text="{i18n>RoomDetail.RoomStudentsTitle}"
+                            titleStyle="H4"/>
+                    <ToolbarSpacer id="idRoomStudentsToolbarSpacer"/>
+                     <Button 
+                            id="idButtonCreateStudent"
+                            text="{i18n>Button.Create}"
+                            visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/EDIT} }"
+                            press="onPressCreateNewStudent"/>
+                    <Button 
+                            id="idButtonAddStudent"
+                            text="{i18n>Button.Add}"
+                            visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/EDIT} }"
+                            press="onPressAddStudent"/>
+                    <Button 
+                            id="idButtonDeleteStudent"
+                            text="{i18n>Button.Delete}"
+                            visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/EDIT} }"
+                            press="onPressDeleteStudent"/>
+                </OverflowToolbar>
+            </table:extension>
+            <table:columns>
+                <table:Column
+                        id="idColumnRoomStudentsFirstName">
+                    <Label
+                            id="idLabelRoomStudentsFirstName"
+                            text="{i18n>Student.FirstName}"/>
+                    <table:template>
+                        <Text
+                                id="idTextRoomStudentsFirstName"
+                                text="{this>FirstName}"/>
+                    </table:template>
+                </table:Column>
+
+                <table:Column
+                        id="idColumnRoomStudentsLastName">
+                    <Label
+                            id="idLabelRoomStudentsLastName"
+                            text="{i18n>Student.LastName}"/>
+                    <table:template>
+                        <Text
+                                id="idTextRoomStudentsLastName"
+                                text="{this>LastName}"/>
+                    </table:template>
+                </table:Column>
+
+                <table:Column
+                        id="idColumnRoomStudentsPatronymic">
+                    <Label
+                            id="idLabelSRoomStudentsPatronymic"
+                            text="{i18n>Student.Patronymic}"/>
+                    <table:template>
+                        <Text
+                                id="idTextRoomStudentsPatronymic"
+                                text="{this>Patronymic}"/>
+                    </table:template>
+                </table:Column>
+
+                <table:Column
+                        id="idColumnSRoomStudentsEmail">
+                    <Label
+                            id="idLabelRoomStudentsEmail"
+                            text="{i18n>Student.Email}"/>
+                    <table:template>
+                        <Text
+                                id="idTextRoomStudentsEmail"
+                                text="{this>Email}"/>
+                    </table:template>
+                </table:Column>
+
+                <table:Column
+                        id="idColumnRoomStudentsCity">
+                    <Label
+                            id="idLabelRoomStudentsCity"
+                            text="{i18n>Student.City}"/>
+                    <table:template>
+                        <Text
+                                id="idTextRoomStudentsCity"
+                                text="{this>City}"/>
+                    </table:template>
+                </table:Column>
+
+                <table:Column
+                        id="idColumnRoomStudentsRoomNumber">
+                    <Label
+                            id="idLabelRoomStudentsRoomNumber"
+                            text="{i18n>Student.RoomNumber}"/>
+                    <table:template>
+                        <Text
+                                id="idTextRoomStudentsRoomNumber"
+                                text="{this>Room_RoomNumber}"/>
+                    </table:template>
+                </table:Column>
+
+            </table:columns>
+            <table:rowActionTemplate>
+                <table:RowAction id="idRoomStudentsTableRowAction">
+                    <table:items>
+                        <table:RowActionItem
+                                id="idRoomStudentsTableRowActionItem"
+                                type="Navigation"
+                                tooltip="{i18n>RoomDetail.NavToStudent}"
+                                press="onPressStudentDetail">
+                        </table:RowActionItem>
+                    </table:items>
+                </table:RowAction>
+            </table:rowActionTemplate>
+        </table:Table>
+    </VBox>
+</mvc:View>
