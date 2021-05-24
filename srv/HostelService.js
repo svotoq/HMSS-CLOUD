@@ -1,5 +1,5 @@
 const cds = require("@sap/cds")
-const {Rooms, Students} = cds.entities;
+const { Rooms, Students } = cds.entities;
 
 
 /** Service implementation for Hostel Service */
@@ -34,16 +34,17 @@ async function _updateRoomLogic(req) {
         aStudents = oRoom.Students,
         sRoomNumber = oRoom.RoomNumber;
 
-    var aRoomStudents = aStudents.filter(function (oStudent) {
-        return oStudent.ActionIndicator !== "DELETE";
-    });
+    if (aStudents) {
+        var aRoomStudents = aStudents.filter(function (oStudent) {
+            return oStudent.ActionIndicator !== "DELETE";
+        });
 
-    oRoom.EmptyPlaces = oRoom.Capacity - aRoomStudents.length;
+        oRoom.EmptyPlaces = oRoom.Capacity - aRoomStudents.length;
 
-    if (oRoom.EmptyPlaces >= 0) {
-        return req.error(409, `Reduce the number of students. Room Capacity is ${oRoom.Capacity}`);
+        if (oRoom.EmptyPlaces < 0) {
+            return req.error(409, `Reduce the number of students. Room Capacity is ${oRoom.Capacity}`);
+        }
     }
-
     const db = cds.transaction(req)
 
     if (oRoom.ActionIndicator === "DELETE") {
@@ -51,33 +52,34 @@ async function _updateRoomLogic(req) {
         _deleteRoom(db, oRoom)
     }
 
-    var aStudentsToDelete = aStudents.filter(function (oStudent) {
-        return oStudent.ActionIndicator === "DELETE";
-    });
-    await _deleteStudents(db, aStudentsToDelete);
+    if (aStudents) {
+        var aStudentsToDelete = aStudents.filter(function (oStudent) {
+            return oStudent.ActionIndicator === "DELETE";
+        });
+        await _deleteStudents(db, aStudentsToDelete);
 
-    var aStudentsToUpdate = aStudents.filter(function (oStudent) {
-        return oStudent.ActionIndicator === "UPDATE";
-    });
+        var aStudentsToUpdate = aStudents.filter(function (oStudent) {
+            return oStudent.ActionIndicator === "UPDATE";
+        });
 
-    await _updateStudents(db, aStudentsToUpdate, sRoomNumber);
+        await _updateStudents(db, aStudentsToUpdate, sRoomNumber);
 
-    var aStudentsToCreate = aStudents.filter(function (oStudent) {
-        return oStudent.ActionIndicator === "CREATE";
-    });
+        var aStudentsToCreate = aStudents.filter(function (oStudent) {
+            return oStudent.ActionIndicator === "CREATE";
+        });
 
-    await _createStudents(db, aStudentsToCreate, sRoomNumber);
+        await _createStudents(db, aStudentsToCreate, sRoomNumber);
 
+    }
     if (oRoom.ActionIndicator === "UPDATE") {
         _updateRoom(db, oRoom)
     } else if (oRoom.ActionIndicator === "CREATE") {
         _createRoom(db, oRoom)
     }
-    
-    if(sRoomNumber) {
-        return db.read(Rooms).byKey(sRoomNumber);
+
+    if (!sRoomNumber) {
+        return db.read(Rooms).byKey(sRoomNumber)
     }
-}
 
 async function _createStudents(db, aStudents, sRoomNumber) {
     aStudents.forEach(function (oStudent) {
@@ -97,7 +99,8 @@ async function _updateStudents(db, aStudents, sRoomNumber) {
 
 async function _deleteStudents(db, aStudents) {
     aStudents.forEach(function (oStudent) {
-        db.run(DELETE.from('Students').byKey(oStudent.ID))
+        oStudent.Room_RoomNumber = "";
+        db.run(UPDATE('Students').set(oStudent).byKey(oStudent.ID))
     });
 }
 
@@ -108,7 +111,7 @@ async function _deleteRoom(db, oRoom) {
 async function _updateRoom(db, oRoom) {
     delete oRoom.Students;
     oRoom.ActionIndicator = "";
-    db.run(UPDATE('Rooms').set(oRoom).byKey(oRoom.RoomNumber))
+    db.run(UPDATE('Rooms').set(oRoom).where({RoomNumber: oRoom.RoomNumber}))
 }
 
 async function _createRoom(db, oRoom) {
