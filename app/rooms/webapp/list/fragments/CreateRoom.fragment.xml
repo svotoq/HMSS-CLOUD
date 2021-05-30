@@ -131,8 +131,8 @@
                     <Button
                             text="{i18n>CreateRoom.CreateWithoutStudentsButton}"
                             type="Emphasized"
-                            visible="{this>CreateWithoudStudentsVisible}"
-                            enabled="{this>CreateWithoudStudentsEnabled}"
+                            visible="{this>CreateWithoutStudentsVisible}"
+                            enabled="{this>CreateWithoutStudentsEnabled}"
                             press="onPressCreateWithoutStudents"/>
                     <Button
                             text="{i18n>Button.Previous}"

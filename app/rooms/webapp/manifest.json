@@ -148,7 +148,7 @@
                     "viewName": "list.RoomList",
                     "viewId": "roomlist",
                     "viewLevel": 1,
-                    "title": "{i18n>roomViewTitle}"
+                    "title": "{i18n>RoomList.ViewTitle}"
                 },
                 "roomdetail": {
                     "viewName": "object.RoomDetail",

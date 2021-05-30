@@ -1,28 +1,18 @@
 ### List all rooms - deep read
-GET http://localhost:4004/v2/hostel/Rooms?
-&$expand=Students
+GET http://localhost:4004/v2/hostel/Rooms
 
 ### Create Rooms - insert
 POST http://localhost:4004/v2/hostel/Rooms
 Content-Type: application/json
 
 {
-    "RoomNumber": "1"
-}
-
-### Update Rooms - update
-PATCH  http://localhost:4004/v2/hostel/Rooms('1')
-Content-Type: application/json
-
-{
     "RoomNumber": "1",
-    "Capacity": 4,
-    "ActionIndicator": "UPDATE"
+    "Capacity": "3",
+    "ActionIndicator": "DELETE"
 }
 
-
-### Try to get the Rooms
-GET http://localhost:4004/v2/hostel/Rooms
+### Try to get the Orders
+GET http://localhost:4004/v2/hostel/Students
 
 
 ### Create Students - deep insert
@@ -42,11 +32,12 @@ Content-Type: application/json
             "PhoneType": "MOBILE"
         }
     ],
-    "Notes": []
+    "Notes": [],
+    "ActionIndicator": ""
 }
 
 ### Try to update the Student
-PATCH http://localhost:4004/v2/hostel/Students(5964950a-ca5b-4974-80c8-aa2580e07007)
+PATCH http://localhost:4004/v2/hostel/Students(147db7da-75df-4de7-bd78-50f5ce3c93cb)
 Content-Type: application/json
 
 {
@@ -67,21 +58,20 @@ Content-Type: application/json
 }
 
 ### Try to get the Orders
-GET http://localhost:4004/v2/hostel/Students
-
-### Try to get the Orders
 
 PATCH http://localhost:4004/v2/hostel/Rooms('1')
 Content-Type: application/json
 
 {
     "RoomNumber": "1",
-    "Capacity": 3,
-    "EmptyPlaces": 3,
+    "Capacity": 4,
+    "Rating": 0,
+    "Tables": 0,
+    "Beds": 0,
     "ActionIndicator": "UPDATE",
     "Students": [
         {
-            "ID": "78673bd6-a1d9-4e14-9532-e658d83e940b",
+            "ID": "147db7da-75df-4de7-bd78-50f5ce3c93cb",
             "FirstName": "UPDATE",
             "LastName": "UPDATE",
             "Email": "Stanislau.pyrkin@gmail.com",
@@ -98,22 +88,5 @@ Content-Type: application/json
             "ActionIndicator": "DELETE ",
             "Room_RoomNumber": "1"
         }
-        #,
-        # {
-        #     "FirstName": "UPDATE",
-        #     "LastName": "UPDATE",
-        #     "Email": "Stanislau.pyrkin@gmail.com",
-        #     "City": "Minsk",
-        #     "AddressLine": "Knorina 6b, 56",
-        #     "ZipCode": "213410",
-        #     "Phones": [
-        #         {
-        #             "PhoneNumber": "+375298639126",
-        #             "PhoneType": "MOBILE"
-        #         }
-        #     ],
-        #     "Notes": [],
-        #     "ActionIndicator": "CREATE"
-        # }
     ]
 }

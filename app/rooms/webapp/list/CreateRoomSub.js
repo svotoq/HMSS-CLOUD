@@ -60,20 +60,20 @@ sap.ui.define([
                     oDialogData.WizardBackVisible = false;
                     oDialogData.WizardReviewVisible = false;
                     oDialogData.WizardFinishVisible = false;
-                    oDialogData.CreateWithoudStudentsVisible = true;
+                    oDialogData.CreateWithoutStudentsVisible = true;
 
                     if (oDialogData.Room.RoomNumber) {
-                        oDialogData.CreateWithoudStudentsEnabled = true;
+                        oDialogData.CreateWithoutStudentsEnabled = true;
                         oDialogData.WizardNextEnabled = true;
                     } else {
-                        oDialogData.CreateWithoudStudentsEnabled = false;
+                        oDialogData.CreateWithoutStudentsEnabled = false;
                         oDialogData.WizardNextEnabled = false;
                     }
                     break;
                 }
                 case 2: {
                     oDialogData.WizardBackVisible = true;
-                    oDialogData.CreateWithoudStudentsVisible = false;
+                    oDialogData.CreateWithoutStudentsVisible = false;
                     oDialogData.WizardReviewVisible = false;
                     oDialogData.WizardNextVisible = true;
 
@@ -122,10 +122,10 @@ sap.ui.define([
                 oDialogData = oViewModel.getProperty("/CreateRoomDialog");
             if (sValue) {
                 oDialogData.WizardNextEnabled = true;
-                oDialogData.CreateWithoudStudentsEnabled = true;
+                oDialogData.CreateWithoutStudentsEnabled = true;
             } else {
                 oDialogData.WizardNextEnabled = false;
-                oDialogData.CreateWithoudStudentsEnabled = false;
+                oDialogData.CreateWithoutStudentsEnabled = false;
             }
 
             oViewModel.setProperty("/CreateRoomDialog", oDialogData);
@@ -146,7 +146,7 @@ sap.ui.define([
         onPressCreateWithoutStudents: function () {
             this.getOwnerComponent().removeErrorMessages(false, true, true, true);
             if (this._validateDialog()) {
-                this._createRoom();
+                this._createRoomWithoutStudents();
             } else {
                 this._showCreateRoomMessagePopover();
             }
@@ -156,11 +156,12 @@ sap.ui.define([
          * Calls a method to save data
          * @private
          */
-        _createRoom: function () {
+        _createRoomWithoutStudents: function () {
             var oDialog = this._getCreateRoomDialog();
             oDialog.setBusy(true);
 
             var oNewRoom = this.getViewModel().getProperty("/CreateRoomDialog/Room");
+            
             this.getBO().createRoom(oNewRoom)
                 .then(function (oRoom) {
                     oDialog.setBusy(false);
@@ -225,8 +226,8 @@ sap.ui.define([
                 WizardReviewVisible: false,
                 WizardReviewEnabled: false,
                 WizardFinishVisible: false,
-                CreateWithoudStudentsVisible: true,
-                CreateWithoudStudentsEnabled: false
+                CreateWithoutStudentsVisible: true,
+                CreateWithoutStudentsEnabled: false
             };
         },
 

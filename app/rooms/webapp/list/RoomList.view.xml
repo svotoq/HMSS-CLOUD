@@ -58,7 +58,7 @@
                     placeToolbarInTable="true"
                     persistencyKey="bstu.hmss.managerooms.roomlisttable"
                     initialise="onInitSmartFilterBar"
-                    header="{i18n>roomsListHeader}"
+                    header="{i18n>Room.TypeNamePlural}"
                     showRowCount="true"
                     smartVariant="idRoomListPageVariant"
                     enableAutoBinding="false"
@@ -70,7 +70,7 @@
                         <ToolbarSpacer id="idSmartTableToolbarSpacer"/>
                         <Button
                                 id="idCreateRoomButton"
-                                text="{i18n>createRoom}"
+                                text="{i18n>RoomList.CreateRoomButton}"
                                 type="Transparent"
                                 press="onCreateRoomPress"/>
                     </OverflowToolbar>
