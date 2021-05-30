@@ -10,7 +10,7 @@
 |**Service URL**<br>/hostel/
 |**Module Name**<br>student|
 |**Application Title**<br>Students Management|
-|**Namespace**<br>bstu.hmss.managerooms|
+|**Namespace**<br>bstu.hmss.managestudents|
 |**UI5 Theme**<br>sap_fiori_3|
 |**UI5 Version**<br>Latest|
 |**Enable Telemetry**<br>True|

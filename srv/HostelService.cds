@@ -114,11 +114,21 @@ annotate HostelService.Rooms with {
   Students    @(Common.Label : '{i18n>Room.Students}');
   EmptyPlaces @(Common.Label : '{i18n>Room.EmptyPlaces}');
   Notes       @(Common.Label : '{i18n>Room.Notes}');
+  ActionIndicator       @(Common.Label : '{i18n>Room.ActionIndicator}');
 };
+
 annotate HostelService.Students with {
   FirstName   @(Common : {Label : '{i18n>Student.FirstName}'});
   LastName   @(Common : {Label : '{i18n>Student.LastName}'});
   Patronymic   @(Common : {Label : '{i18n>Student.Patronymic}'});
+  Email   @(Common : {Label : '{i18n>Student.Email}'});
+  City   @(Common : {Label : '{i18n>Student.City}'});
+  Room_RoomNumber   @(Common : {Label : '{i18n>Student.Room_RoomNumber}'});
+  ActionIndicator       @(Common.Label : '{i18n>Student.ActionIndicator}');
+  AddressLine       @(Common.Label : '{i18n>Student.AddressLine}');
+  CheckIn       @(Common.Label : '{i18n>Student.CheckIn}');
+  CheckOut       @(Common.Label : '{i18n>Student.CheckOut}');
+  ZipCode       @(Common.Label : '{i18n>Student.ZipCode}');
 };
 
 // annotate CatalogService.Suppliers with {

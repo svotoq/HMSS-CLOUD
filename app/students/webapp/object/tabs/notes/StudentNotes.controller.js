@@ -6,7 +6,7 @@ sap.ui.define([
     "bstu/hmss/managestudents/model/formatter",
     "sap/base/util/merge",
     "sap/ui/core/format/DateFormat"
-], function (BaseController, JSONModel, CustomerNotesBO, Constants, formatter, merge, DateFormat) {
+], function (BaseController, JSONModel, StudentNotesBO, Constants, formatter, merge, DateFormat) {
     "use strict";
 
     return BaseController.extend("bstu.hmss.managestudents.object.tabs.notes.StudentNotes", {

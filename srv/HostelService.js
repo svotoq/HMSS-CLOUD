@@ -94,12 +94,11 @@ async function _updateRoomLogic(req) {
     }
 
     if (sRoomNumber) {
-        console.log(aStudents)
         var resultStudentsC = await _createStudents(db, aStudents, sRoomNumber)
         var resultStudentsU = await _updateStudents(db, aStudents, sRoomNumber)
     }
 
-    // var resultStudentsD = await _deleteStudentsFromRoom(db, aStudents)
+    var resultStudentsD = await _updateStudents(db, aStudents, null)
 
     // return (db.read("Rooms").where({RoomNumber: oRoom.RoomNumber}))[0]
 }

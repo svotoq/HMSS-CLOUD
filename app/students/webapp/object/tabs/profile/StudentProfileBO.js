@@ -7,7 +7,7 @@ sap.ui.define([
     "bstu/hmss/lib/util/Utility",
 ], function (BaseBO, uid, formatMessage, merge, Constants, Utility) {
     "use strict";
-    return BaseBO.extend("bstu.hmss.managerooms.object.profile.StudentProfileBO", merge({
+    return BaseBO.extend("bstu.hmss.managestudents.object.profile.StudentProfileBO", merge({
 
     }));
 });

@@ -1,30 +1,30 @@
 <mvc:View
-        controllerName="bstu.hmss.managerooms.list.RoomList"
-        xmlns="sap.m"
-        xmlns:f="sap.f"
-        xmlns:mvc="sap.ui.core.mvc"
-        xmlns:core="sap.ui.core"
-        xmlns:smartVariantManagement="sap.ui.comp.smartvariants"
-        xmlns:smartFilterBar="sap.ui.comp.smartfilterbar"
-        xmlns:smartTable="sap.ui.comp.smarttable"
-        xmlns:table="sap.ui.table">
+    controllerName="bstu.hmss.managerooms.list.RoomList"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns:smartVariantManagement="sap.ui.comp.smartvariants"
+    xmlns:smartFilterBar="sap.ui.comp.smartfilterbar"
+    xmlns:smartTable="sap.ui.comp.smarttable"
+    xmlns:table="sap.ui.table">
     <f:DynamicPage
-            id="page"
-            preserveHeaderStateOnScroll="false"
-            showFooter="{= ${message>/}.length > 0 }"
-            fitContent="true">
+        id="page"
+        preserveHeaderStateOnScroll="false"
+        showFooter="{= ${message>/}.length > 0 }"
+        fitContent="true">
         <f:title>
             <f:DynamicPageTitle id="DynamicPageTitle">
                 <f:heading>
                     <smartVariantManagement:SmartVariantManagement
-                            id="idRoomListPageVariant"
-                            persistencyKey="bstu.hmss.managerooms.RoomList"
-                            showExecuteOnSelection="true"/>
+                        id="idRoomListPageVariant"
+                        persistencyKey="bstu.hmss.managerooms.RoomList"
+                        showExecuteOnSelection="true"/>
                 </f:heading>
-                 <f:snappedContent>
+                <f:snappedContent>
                     <Text
-                            id="idFilterText"
-                            wrapping="false"/>
+                        id="idFilterText"
+                        wrapping="false"/>
                 </f:snappedContent>
             </f:DynamicPageTitle>
         </f:title>
@@ -32,63 +32,150 @@
             <f:DynamicPageHeader id="DynamicPageHeader" pinnable="false">
                 <f:content>
                     <smartFilterBar:SmartFilterBar
-                            id="idRoomListFilterBar"
-                            entitySet="Rooms"
-                            showClearOnFB="true"
-                            showClearButton="true"
-                            search="onSearch"
-                            enableBasicSearch="false"
-                            initialise="onInitSmartFilterBar"
-                            persistencyKey="bstu.hmss.managerooms.filterbar"
-                            smartVariant="idRoomListPageVariant"
-                            useToolbar="false"
-                            assignedFiltersChanged="onAssignedFiltersChanged">
+                        id="idRoomListFilterBar"
+                        entitySet="Rooms"
+                        showClearOnFB="true"
+                        showClearButton="true"
+                        search="onSearch"
+                        enableBasicSearch="false"
+                        initialise="onInitSmartFilterBar"
+                        persistencyKey="bstu.hmss.managerooms.filterbar"
+                        smartVariant="idRoomListPageVariant"
+                        useToolbar="false"
+                        assignedFiltersChanged="onAssignedFiltersChanged">
                     </smartFilterBar:SmartFilterBar>
                 </f:content>
             </f:DynamicPageHeader>
         </f:header>
         <f:content>
             <smartTable:SmartTable
-                    id="idRoomListSmartTable"
-                    entitySet="Rooms"
-                    smartFilterId="idRoomListFilterBar"
-                    useExportToExcel="true"
-                    useVariantManagement="true"
-                    useTablePersonalisation="true"
-                    placeToolbarInTable="true"
-                    persistencyKey="bstu.hmss.managerooms.roomlisttable"
-                    initialise="onInitSmartFilterBar"
-                    header="{i18n>Room.TypeNamePlural}"
-                    showRowCount="true"
-                    smartVariant="idRoomListPageVariant"
-                    enableAutoBinding="false"
-                    beforeRebindTable="onBeforeRebindTable">
+                id="idRoomListSmartTable"
+                entitySet="Rooms"
+                smartFilterId="idRoomListFilterBar"
+                useExportToExcel="true"
+                useVariantManagement="true"
+                useTablePersonalisation="true"
+                placeToolbarInTable="true"
+                persistencyKey="bstu.hmss.managerooms.roomlisttable"
+                initialise="onInitSmartFilterBar"
+                header="{i18n>Room.TypeNamePlural}"
+                showRowCount="true"
+                smartVariant="idRoomListPageVariant"
+                enableAutoBinding="false"
+                beforeRebindTable="onBeforeRebindTable">
                 <smartTable:customToolbar>
                     <OverflowToolbar
-                            id="idSmartTableToolbar"
-                            design="Transparent">
+                        id="idSmartTableToolbar"
+                        design="Transparent">
                         <ToolbarSpacer id="idSmartTableToolbarSpacer"/>
                         <Button
-                                id="idCreateRoomButton"
-                                text="{i18n>RoomList.CreateRoomButton}"
-                                type="Transparent"
-                                press="onCreateRoomPress"/>
+                            id="idCreateRoomButton"
+                            text="{i18n>RoomList.CreateRoomButton}"
+                            type="Transparent"
+                            press="onCreateRoomPress"/>
                     </OverflowToolbar>
                 </smartTable:customToolbar>
                 <table:Table
-                        id="idRoomListTable"
-                        selectionMode="Single"
-                        visibleRowCountMode="Auto"
-                        enableColumnFreeze="true"
-                        rowActionCount="1"
-                        rowSelectionChange="onRowSelectionChangeRoom">
+                    id="idRoomListTable"
+                    selectionMode="Single"
+                    visibleRowCountMode="Auto"
+                    enableColumnFreeze="true"
+                    rowActionCount="1"
+                    rowSelectionChange="onRowSelectionChangeRoom">
+                    <table:columns>
+                        <table:Column
+                            id="idColumnRoomRoomNumber"
+                            sortProperty="RoomNumber">
+                            <Label
+                                id="idLabelRoomRoomNumber"
+                                text="{i18n>Room.RoomNumber}"/>
+                            <table:customData>
+                                <core:CustomData key="p13nData"
+                                                 value='\{"columnKey": "RoomNumber", "columnIndex":"0", "leadingProperty": "RoomNumber"}'/>
+                            </table:customData>
+                            <table:template>
+                                <Text
+                                    id="idTextRoomNumber"
+                                    text="{RoomNumber}"/>
+                            </table:template>
+                        </table:Column>
+
+                        <table:Column
+                            id="idColumnRoomCapacity"
+                            sortProperty="Capacity">
+                            <Label
+                                id="idLabelRoomCapacity"
+                                text="{i18n>Room.Capacity}"/>
+                            <table:customData>
+                                <core:CustomData key="p13nData"
+                                                 value='\{"columnKey": "Capacity", "columnIndex":"1", "leadingProperty": "Capacity"}'/>
+                            </table:customData>
+                            <table:template>
+                                <Text
+                                    id="idTextRoomCapacity"
+                                    text="{Capacity}"/>
+                            </table:template>
+                        </table:Column>
+
+                        <table:Column
+                            id="idColumnRoomEmptyPlaces"
+                            sortProperty="EmptyPlaces">
+                            <Label
+                                id="idLabelRoomEmptyPlaces"
+                                text="{i18n>Room.EmptyPlaces}"/>
+                            <table:customData>
+                                <core:CustomData key="p13nData"
+                                                 value='\{"columnKey": "EmptyPlaces", "columnIndex":"2", "leadingProperty": "EmptyPlaces"}'/>
+                            </table:customData>
+                            <table:template>
+                                <Text
+                                    id="idTextRoomEmptyPlaces"
+                                    text="{EmptyPlaces}"/>
+                            </table:template>
+                        </table:Column>
+
+                        <table:Column
+                            id="idColumnRoomBeds"
+                            sortProperty="Beds">
+                            <Label
+                                id="idLabelRoomBeds"
+                                text="{i18n>Room.Beds}"/>
+                            <table:customData>
+                                <core:CustomData key="p13nData"
+                                                 value='\{"columnKey": "Beds", "columnIndex":"3", "leadingProperty": "Beds"}'/>
+                            </table:customData>
+                            <table:template>
+                                <Text
+                                    id="idTextRoomBeds"
+                                    text="{Beds}"/>
+                            </table:template>
+                        </table:Column>
+
+                        <table:Column
+                            id="idColumnRoomRating"
+                            sortProperty="Rating">
+                            <Label
+                                id="idLabelRoomRating"
+                                text="{i18n>Room.Rating}"/>
+                            <table:customData>
+                                <core:CustomData key="p13nData"
+                                                 value='\{"columnKey": "Rating", "columnIndex":"4", "leadingProperty": "Rating"}'/>
+                            </table:customData>
+                            <table:template>
+                                <Text
+                                    id="idTextRoomRating"
+                                    text="{Rating}"/>
+                            </table:template>
+                        </table:Column>
+
+                    </table:columns>
                     <table:rowActionTemplate>
                         <table:RowAction id="idRowAction">
                             <table:items>
                                 <table:RowActionItem
-                                        id="idRoomDetailAction"
-                                        type="Navigation"
-                                        press="onRoomDetailPress">
+                                    id="idRoomDetailAction"
+                                    type="Navigation"
+                                    press="onRoomDetailPress">
                                 </table:RowActionItem>
                             </table:items>
                         </table:RowAction>
@@ -99,12 +186,12 @@
         <f:footer>
             <OverflowToolbar id="OverflowToolbar">
                 <Button
-                        id="idMessagePopoverButton"
-                        icon="sap-icon://alert"
-                        text="{= ${message>/}.length }"
-                        type="Emphasized"
-                        visible="{= !!${message>/}.length }"
-                        press="onMessagesButtonPress"/>
+                    id="idMessagePopoverButton"
+                    icon="sap-icon://alert"
+                    text="{= ${message>/}.length }"
+                    type="Emphasized"
+                    visible="{= !!${message>/}.length }"
+                    press="onMessagesButtonPress"/>
             </OverflowToolbar>
         </f:footer>
     </f:DynamicPage>

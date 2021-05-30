@@ -31,7 +31,10 @@ sap.ui.define([
                 BaseController.prototype.onInit.apply(this, arguments);
 
                 this.setModel(new JSONModel({}), "this");
-
+                
+                if (sap.ushell && sap.ushell.Container && sap.ushell.Container.getService) {
+                    this.oCrossAppNavigator = sap.ushell.Container.getService("CrossApplicationNavigation");
+                }
                 this.attachAppEvent("BRoomHeaderChange", this._handleBRoomHeaderChange, this);
                 this.attachAppEvent("viewModeChange", this._handleViewModeChange, this);
                 this.attachAppEvent("displayRoom", this._handleDisplayRoom, this);
@@ -42,12 +45,12 @@ sap.ui.define([
              * @param {sap.ui.base.Event} oEvent Event object for press event on row action for navigation
              */
             onPressStudentDetail: function (oEvent) {
-                var sStudentID = oEvent.getSource().getBindingContext().getProperty("ID");
-                // var oOutbound = this.getOwnerComponent().getManifestEntry("/sap.app/crossNavigation/outbounds/displayOrder");
-                // this.oCrossAppNavigator.toExternal({
-                //     target: oOutbound,
-                //     params: { "OrderNumber": sOrderNumber}
-                // });
+                var sStudentID = oEvent.getSource().getBindingContext("this").getProperty("ID");
+                var oOutbound = this.getOwnerComponent().getManifestEntry("/sap.app/crossNavigation/outbounds/displayStudent");
+                this.oCrossAppNavigator.toExternal({
+                    target: oOutbound,
+                    params: {"ID": sStudentID}
+                });
             },
 
             onRowSelectionRoomStudents: function (oEvent) {

@@ -144,7 +144,7 @@ sap.ui.define([
                 if (bValidData && this._checkPendingChanges()) {
                     this._updateStudent();
                 } else if (bValidData) {
-                    MessageBox.show(this.i18n("saveNothing"));
+                    MessageBox.show(this.i18n("MessageBox.SaveNothing"));
                 }
             }.bind(this));
         },
@@ -154,7 +154,7 @@ sap.ui.define([
          */
         onPressCancel: function () {
             if (this._checkPendingChanges()) {
-                MessageBox.confirm(this.i18n("cancelActionText"), {
+                MessageBox.confirm(this.i18n("MessageBox.CancelActionText"), {
                     title: this.i18n("MessageBox.ConfirmActionTitle"),
                     initialFocus: MessageBox.Action.OK,
                     onClose: function (oAction) {
@@ -771,7 +771,7 @@ sap.ui.define([
 
             this.getBO().save(oDependentsData)
                 .then(function (oUpdatedStudent) {
-                    MessageToast.show(this.i18n("saveActionSuccess"));
+                    MessageToast.show(this.i18n("MessageBox.SaveActionSuccess"));
                     this.setAppBusy(false);
                     this.cancelEditingStudent();
                 }.bind(this))

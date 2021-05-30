@@ -36,8 +36,8 @@ entity Students : cuid, managed {
         PhoneNote   : String(80);
     } not null;
     Notes           : array of Notes;
-    CheckIn         : Date;
-    CheckOut        : Date;
+    CheckIn         : String;
+    CheckOut        : String;
     ActionIndicator : ActionType default '';
 // Faculty: Faculty;
 // Course: Integer not null;

@@ -33,20 +33,7 @@
                     text="{i18n>RoomDetail.RoomInfoSectionTitle}"/>
             </f:title>
             <f:FormContainer id="idRoomInfoFirstFormContainer">
-                <f:FormElement
-                    label="{i18n>Room.RoomNumber}">
-                    <f:fields>
-                        <VBox>
-                            <Input
-                                value="{this>RoomNumber}"
-                                visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/EDIT} }"
-                                maxLength="{= parseInt(${/#Rooms/RoomNumber/@maxLength}) }"/>
-                            <Text
-                                text="{this>RoomNumber}"
-                                visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/DISPLAY} }"/>
-                        </VBox>
-                    </f:fields>
-                </f:FormElement>
+               
                 <f:FormElement
                     label="{i18n>Room.Capacity}">
                     <f:fields>

@@ -107,18 +107,8 @@ sap.ui.define([
             if (sSectionID === this.STUDENT_PHONE_ID) {
                 var oSectionData = this.getSectionData(this.PROFILE_SECTION_ID);
                 oSectionData.Phones.splice(iIndex, 1);
-                this.setSectionData(sSectionID, oSectionData);
-            } else {
-                var aSectionData = this.getSectionData(sSectionID);
-
-                if (aSectionData[iIndex].ActionIndicator === Constants.ODATA_ACTIONS.CREATE
-                    || aSectionData[iIndex].ActionIndicator === Constants.ODATA_ACTIONS.UPDATE) {
-                    aSectionData.splice(iIndex, 1);
-                } else {
-                    aSectionData[iIndex].ActionIndicator = Constants.ODATA_ACTIONS.DELETE;
-                }
-                this.setSectionData(sSectionID, aSectionData);
-            }
+                this.setSectionData(this.PROFILE_SECTION_ID, oSectionData);
+            } 
         },
 
         /**

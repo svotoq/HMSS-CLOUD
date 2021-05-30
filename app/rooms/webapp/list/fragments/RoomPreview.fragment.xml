@@ -1,69 +1,93 @@
 <core:FragmentDefinition
-        xmlns="sap.m"
-        xmlns:core="sap.ui.core"
-        xmlns:form="sap.ui.layout.form"
-        xmlns:table="sap.ui.table">
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:table="sap.ui.table">
     <VBox
-            id="idVBoxRoomPreview">
+        id="idVBoxRoomPreview">
         <form:SimpleForm
-                id="idSimpleFormRoomPreview"
-                title="{i18n>CreateRoom.RoomInformation}"
-                editable="false"
-                layout="ResponsiveGridLayout">
+            id="idSimpleFormRoomPreview"
+            title="{i18n>CreateRoom.RoomInformation}"
+            editable="false"
+            layout="ResponsiveGridLayout"
+            labelSpanXL="5"
+            labelSpanL="5"
+            labelSpanM="5"
+            labelSpanS="5"
+            adjustLabelSpan="false"
+            emptySpanXL="0"
+            emptySpanL="0"
+            emptySpanM="0"
+            emptySpanS="0"
+            columnsXL="2"
+            columnsL="2"
+            columnsM="2">
             <form:content>
+                <core:Title text="{i18n>Additional.BlankTitle}"/>
                 <Label
-                        id="idLabelRoomPreviewRoomNumber"
-                        text="{i18n>Room.RoomNumber}"/>
+                    id="idLabelRoomPreviewRoomNumber"
+                    text="{i18n>Room.RoomNumber}"/>
                 <Text
-                        id="idTextRoomPreviewRoomNumber"
-                        text="{this>Room/RoomNumber}"/>
+                    id="idTextRoomPreviewRoomNumber"
+                    text="{this>Room/RoomNumber}"/>
 
                 <Label
-                        id="idLabelRoomPreviewCapacity"
-                        text="{i18n>Room.Capacity}"/>
+                    id="idLabelRoomPreviewCapacity"
+                    text="{i18n>Room.Capacity}"/>
                 <Text
-                        id="idRoomPreviewCapacity"
-                        text="{this>Room/Capacity}"/>
+                    id="idRoomPreviewCapacity"
+                    text="{this>Room/Capacity}"/>
+                <Label
+                    id="idLabelRoomPreviewEmptyPlaces"
+                    text="{i18n>Room.EmptyPlaces}"/>
+                <Text
+                    id="idTextRoomPreviewEmptyPlaces"
+                    text="{this>Room/EmptyPlaces}"/>
+                <core:Title text="{i18n>CreateRoom.AdditionalInfoTitle}"/>
+                <Label
+                    id="idLabelRoomPreviewTables"
+                    text="{i18n>Room.Tables}"/>
+                <Text
+                    id="idTextRoomPreviewTables"
+                    text="{this>Room/Tables}"/>
 
                 <Label
-                        id="idLabelRoomPreviewTables"
-                        text="{i18n>Room.Tables}"/>
+                    id="idLabelRoomPreviewBeds"
+                    text="{i18n>Room.Beds}"/>
                 <Text
-                        id="idTextRoomPreviewTables"
-                        text="{this>Room/Tables}"/>
+                    id="idTextRoomPreviewBeds"
+                    text="{this>Room/Beds}"/>
 
-                <Label
-                        id="idLabelRoomPreviewBeds"
-                        text="{i18n>Room.Beds}"/>
-                <Text
-                        id="idTextRoomPreviewBeds"
-                        text="{this>Room/Beds}"/>
-
-                <Label
-                        id="idLabelRoomPreviewEmptyPlaces"
-                        text="{i18n>Room.EmptyPlaces}"/>
-                <Text
-                        id="idTextRoomPreviewEmptyPlaces"
-                        text="{this>Room/EmptyPlaces}"/>
             </form:content>
         </form:SimpleForm>
         <table:Table
-                id="idRoomPreviewStudentsTable"
-                class="sapUiSmallMarginTopBottom"
-                selectionMode="Single"
-                visibleRowCountMode="Auto"
-                enableColumnFreeze="true"
-                rows="{this>SelectedStudents}">
+            id="idRoomPreviewStudentsTable"
+            class="sapUiSmallMarginTopBottom"
+            selectionMode="Single"
+            visibleRowCountMode="Auto"
+            enableColumnFreeze="true"
+            rows="{this>SelectedStudents}">
+            <table:extension>
+                <OverflowToolbar
+                    id="idCreateRoomStudentsToolbar"
+                    design="Transparent">
+                    <Title
+                        id="idCreateRoomStudentsTitle"
+                        text="{i18n>CreateRoom.CreateRoomStudentsTitle}"
+                        titleStyle="H4"/>
+                    <ToolbarSpacer id="idCreateRoomStudentsToolbarSpacer"/>
+                </OverflowToolbar>
+            </table:extension>
             <table:columns>
                 <table:Column
-                        id="idColumnRoomPreviewStudentsFullName">
+                    id="idColumnRoomPreviewStudentsFullName">
                     <Label
-                            id="idLabelRoomPreviewStudentsFullName"
-                            text="{i18n>Student.FullName}"/>
+                        id="idLabelRoomPreviewStudentsFullName"
+                        text="{i18n>Student.FullName}"/>
                     <table:template>
                         <Text
-                                id="idTextRoomPreviewStudentsFullName"
-                                text="{parts:[
+                            id="idTextRoomPreviewStudentsFullName"
+                            text="{parts:[
                                         'this>FirstName',
                                         'this>LastName',
                                         'this>Patronymic'
@@ -73,38 +97,38 @@
                 </table:Column>
 
                 <table:Column
-                        id="idColumnRoomPreviewStudentsCity">
+                    id="idColumnRoomPreviewStudentsCity">
                     <Label
-                            id="idLabelRoomPreviewStudentsCity"
-                            text="{i18n>Student.City}"/>
+                        id="idLabelRoomPreviewStudentsCity"
+                        text="{i18n>Student.City}"/>
                     <table:template>
                         <Text
-                                id="idTextRoomPreviewStudentsCity"
-                                text="{this>City}"/>
+                            id="idTextRoomPreviewStudentsCity"
+                            text="{this>City}"/>
                     </table:template>
                 </table:Column>
 
                 <table:Column
-                        id="idColumnRoomPreviewStudentsCheckIn">
+                    id="idColumnRoomPreviewStudentsCheckIn">
                     <Label
-                            id="idLabelRoomPreviewStudentsCheckIn"
-                            text="{i18n>Student.CheckIn}"/>
+                        id="idLabelRoomPreviewStudentsCheckIn"
+                        text="{i18n>Student.CheckIn}"/>
                     <table:template>
                         <Text
-                                id="idTextRoomPreviewStudentsCheckIn"
-                                text="{this>CheckIn}"/>
+                            id="idTextRoomPreviewStudentsCheckIn"
+                            text="{this>CheckIn}"/>
                     </table:template>
                 </table:Column>
 
                 <table:Column
-                        id="idColumnRoomPreviewStudentsCheckOut">
+                    id="idColumnRoomPreviewStudentsCheckOut">
                     <Label
-                            id="idLabelRoomPreviewStudentsCheckOut"
-                            text="{i18n>Student.CheckOut}"/>
+                        id="idLabelRoomPreviewStudentsCheckOut"
+                        text="{i18n>Student.CheckOut}"/>
                     <table:template>
                         <Text
-                                id="idTextRoomPreviewStudentsCheckOut"
-                                text="{this>CheckOut}"/>
+                            id="idTextRoomPreviewStudentsCheckOut"
+                            text="{this>CheckOut}"/>
                     </table:template>
                 </table:Column>
 

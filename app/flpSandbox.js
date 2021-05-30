@@ -39,13 +39,13 @@ sap.ui.define([
                             "tiles": [{
                                 "tileType": "sap.ushell.ui.tile.StaticTile",
                                 "properties": {
-                                    "title": "Manage Rooms",
+                                    "title": "Комнаты",
                                     "targetURL": "#Room-manage"
                                 }
                             }, {
                                 "tileType": "sap.ushell.ui.tile.StaticTile",
                                 "properties": {
-                                    "title": "Manage Students",
+                                    "title": "Студенты",
                                     "targetURL": "#Student-manage"
                                 }
                             }]
@@ -60,8 +60,8 @@ sap.ui.define([
                             "Room-manage": {
                                 "semanticObject": "Room",
                                 "action": "manage",
-                                "description": "Manage Rooms",
-                                "title": "Manage Rooms",
+                                "description": "Управление комнатами",
+                                "title": "Управление комнатами",
                                 "signature": {
                                     "parameters": {},
                                     "additionalParameters": "allowed"
@@ -95,8 +95,8 @@ sap.ui.define([
                             "Student-manage": {
                                 "semanticObject": "Student",
                                 "action": "manage",
-                                "description": "Manage Students",
-                                "title": "Manage Students",
+                                "description": "Управление студентами",
+                                "title": "Управление студентами",
                                 "signature": {
                                     "parameters": {},
                                     "additionalParameters": "allowed"

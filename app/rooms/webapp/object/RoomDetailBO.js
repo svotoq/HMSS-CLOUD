@@ -136,12 +136,7 @@ sap.ui.define([
         save: function (oDependentsData) {
 
             var oRoomPayload = this._getCreateRoomPayload(oDependentsData);
-            //     aStudentsToDelete = oRoomPayload.Students.filter(function (oStudent) {
-            //         return oStudent.ActionIndicator === "DELETE";
-            //     });
-            // aStudentsToDelete.forEach(function (oStudent) {
-            //     Utility.odataUpdate(this.getODataModel(), "Students(" + oStudent.ID + ")", oRoomPayload);
-            // }.bind(this));
+          
             return Utility.odataUpdate(this.getODataModel(), "Rooms('" + oRoomPayload.RoomNumber + "')", oRoomPayload);
         },
 
@@ -149,6 +144,7 @@ sap.ui.define([
         _getCreateRoomPayload: function (oData) {
             var aStudents = merge([], oData.Students);
             var oRoom = Utility.removeMetadata(oData.RoomInfo);
+            oRoom.Notes = oData.Notes;
             aStudents = this._formatStudentsDate(aStudents);
             return {
                 RoomNumber: oRoom.RoomNumber,

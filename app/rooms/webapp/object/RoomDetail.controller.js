@@ -22,6 +22,7 @@ sap.ui.define([
     var _aSectionIds = [
         "ROOMINFO",
         "ROOMSTUDENTS",
+        "NOTES"
     ];
 
     /**
@@ -136,7 +137,7 @@ sap.ui.define([
                 if (bValidData && this._checkPendingChanges()) {
                     this._updateRoom();
                 } else if (bValidData) {
-                    MessageBox.show(this.i18n("saveNothing"));
+                    MessageBox.show(this.i18n("MessageBox.SaveNothing"));
                 }
             }.bind(this));
         },
@@ -146,8 +147,8 @@ sap.ui.define([
          */
         onPressCancel: function () {
             if (this._checkPendingChanges()) {
-                MessageBox.confirm(this.i18n("cancelActionText"), {
-                    title: this.i18n("confirmActionTitle"),
+                MessageBox.confirm(this.i18n("MessageBox.CancelActionText"), {
+                    title: this.i18n("MessageBox.ConfirmActionTitle"),
                     initialFocus: MessageBox.Action.OK,
                     onClose: function (oAction) {
                         if (oAction === MessageBox.Action.OK) {
@@ -224,7 +225,8 @@ sap.ui.define([
         getDependentViews: function () {
             return [
                 this.byId("ROOMINFO"),
-                this.byId("ROOMSTUDENTS")
+                this.byId("ROOMSTUDENTS"),
+                this.byId("NOTES")
             ]
                 .map(this._getTabView.bind(this));
         },
@@ -691,7 +693,8 @@ sap.ui.define([
          */
         _getPrerequisiteTabsToLoad: function (sTabId) {
             return [
-                this.byId("ROOMSTUDENTS")
+                this.byId("ROOMSTUDENTS"),
+                this.byId("NOTES")
             ];
         },
 
@@ -763,7 +766,7 @@ sap.ui.define([
 
             this.getBO().save(oDependentsData)
                 .then(function (oUpdatedRoom) {
-                    MessageToast.show(this.i18n("saveActionSuccess"));
+                    MessageToast.show(this.i18n("MessageBox.SaveActionSuccess"));
                     this.setAppBusy(false);
                     this.cancelEditingRoom();
                 }.bind(this))
@@ -790,6 +793,8 @@ sap.ui.define([
                     return {RoomInfo: oController.getDataForSave("RoomInfo")};
                 } else if (oController.getView().data("TabId") === "ROOMSTUDENTS") {
                     return {Students: oController.getDataForSave("Students")};
+                }  else if (oController.getView().data("TabId") === "NOTES") {
+                    return {Notes: oController.getDataForSave("RoomNotes")};
                 }
             }.bind(this));
 

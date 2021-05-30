@@ -8,20 +8,22 @@ sap.ui.define([], function () {
             IsDefault: true,
             ViewName: "bstu.hmss.managerooms.object.tabs.roomInfo.RoomInfo",
             DependentTab: [],
-            PrerequisiteTab: [{
-                Id: "ROOMSTUDENTS"
-            }]
+            PrerequisiteTab: []
         }, {
             Id: "ROOMSTUDENTS",
             Sections: [],
             IsDefault: false,
             ViewName: "bstu.hmss.managerooms.object.tabs.students.RoomStudents",
             DependentTab: [],
-            PrerequisiteTab: [
-                {
-                    Id: "ROOMINFO"
-                }
-            ]
+            PrerequisiteTab: []
+        },
+        {
+            Id: "NOTES",
+            Sections: [],
+            IsDefault: false,
+            ViewName: "bstu.hmss.managerooms.object.tabs.notes.RoomNotes",
+            DependentTab: [],
+            PrerequisiteTab: []
         }
     ];
 });

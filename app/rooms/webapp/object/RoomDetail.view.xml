@@ -80,6 +80,25 @@
                     </uxap:ObjectPageSubSection>
                 </uxap:subSections>
             </uxap:ObjectPageSection>
+            <uxap:ObjectPageSection
+                id="NOTES"
+                titleUppercase="false"
+                title="{i18n>RoomDetail.NotesSectionTitle}"
+                data:viewId="idRoomNotesView">
+                <uxap:subSections>
+                    <uxap:ObjectPageSubSection
+                        id="idRoomNotesSubSection"
+                        class="sapUxAPObjectPageSubSectionFitContainer">
+                        <uxap:blocks>
+                            <mvc:XMLView
+                                id="idRoomNotesView"
+                                viewName="bstu.hmss.managerooms.object.tabs.notes.RoomNotes"
+                                data:Sections='[]'
+                                data:TabId="NOTES"/>
+                        </uxap:blocks>
+                    </uxap:ObjectPageSubSection>
+                </uxap:subSections>
+            </uxap:ObjectPageSection>
         </uxap:sections>
         <uxap:footer>
             <OverflowToolbar
