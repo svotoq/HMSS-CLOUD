@@ -70,16 +70,19 @@ async function _updateRoomLogic(req) {
 
         await _createStudents(db, aStudentsToCreate, sRoomNumber);
 
+    } else {
+        var aRoomStudents = await db.read("Students").where({ Room_RoomNumber: sRoomNumber });
+        oRoom.EmptyPlaces = oRoom.Capacity - aRoomStudents.length;
     }
+
     if (oRoom.ActionIndicator === "UPDATE") {
         _updateRoom(db, oRoom)
     } else if (oRoom.ActionIndicator === "CREATE") {
         _createRoom(db, oRoom)
     }
 
-    if (!sRoomNumber) {
-        return db.read(Rooms).byKey(sRoomNumber)
-    }
+    return (db.read("Rooms").where({ RoomNumber: sRoomNumber }))[0]
+}
 
 async function _createStudents(db, aStudents, sRoomNumber) {
     aStudents.forEach(function (oStudent) {
@@ -111,7 +114,7 @@ async function _deleteRoom(db, oRoom) {
 async function _updateRoom(db, oRoom) {
     delete oRoom.Students;
     oRoom.ActionIndicator = "";
-    db.run(UPDATE('Rooms').set(oRoom).where({RoomNumber: oRoom.RoomNumber}))
+    db.run(UPDATE('Rooms').set(oRoom).where({ RoomNumber: oRoom.RoomNumber }))
 }
 
 async function _createRoom(db, oRoom) {

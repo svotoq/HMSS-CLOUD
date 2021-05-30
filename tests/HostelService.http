@@ -17,7 +17,7 @@ Content-Type: application/json
 {
     "RoomNumber": "1",
     "Capacity": 4,
-    "EmptyPlaces": 2
+    "ActionIndicator": "UPDATE"
 }
 
 
@@ -95,24 +95,25 @@ Content-Type: application/json
                 }
             ],
             "Notes": [],
-            "ActionIndicator": "UPDATE",
+            "ActionIndicator": "DELETE ",
             "Room_RoomNumber": "1"
-        },
-        {
-            "FirstName": "UPDATE",
-            "LastName": "UPDATE",
-            "Email": "Stanislau.pyrkin@gmail.com",
-            "City": "Minsk",
-            "AddressLine": "Knorina 6b, 56",
-            "ZipCode": "213410",
-            "Phones": [
-                {
-                    "PhoneNumber": "+375298639126",
-                    "PhoneType": "MOBILE"
-                }
-            ],
-            "Notes": [],
-            "ActionIndicator": "CREATE"
         }
+        #,
+        # {
+        #     "FirstName": "UPDATE",
+        #     "LastName": "UPDATE",
+        #     "Email": "Stanislau.pyrkin@gmail.com",
+        #     "City": "Minsk",
+        #     "AddressLine": "Knorina 6b, 56",
+        #     "ZipCode": "213410",
+        #     "Phones": [
+        #         {
+        #             "PhoneNumber": "+375298639126",
+        #             "PhoneType": "MOBILE"
+        #         }
+        #     ],
+        #     "Notes": [],
+        #     "ActionIndicator": "CREATE"
+        # }
     ]
 }
