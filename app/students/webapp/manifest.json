@@ -1,7 +1,7 @@
 {
     "_version": "1.12.0",
     "sap.app": {
-        "id": "bstu.hmss.managerooms",
+        "id": "bstu.hmss.managestudents",
         "type": "application",
         "i18n": "i18n/i18n.properties",
         "title": "{{appTitle}}",
@@ -33,32 +33,32 @@
         },
         "crossNavigation": {
             "inbounds": {
-                "manageRoom": {
+                "manageStudent": {
                     "signature": {
                         "parameters": {},
                         "additionalParameters": "allowed"
                     },
-                    "semanticObject": "Room",
+                    "semanticObject": "Student",
                     "action": "manage"
                 },
-                "displayRoom": {
-                    "parameters": {
-                        "RoomNumber": {
-                            "required": true
-                        }
-                    },
-                    "additionalParameters": "ignored",
-                    "semanticObject": "Room",
-                    "action": "display"
-                }
-            },
-            "outbounds": {
                 "displayStudent": {
                     "semanticObject": "Student",
                     "action": "display",
                     "additionalParameters": "ignored",
                     "parameters": {
                         "ID": {
+                            "required": true
+                        }
+                    }
+                }
+            },
+            "outbounds": {
+                "displayRoom": {
+                    "semanticObject": "Room",
+                    "action": "display",
+                    "additionalParameters": "ignored",
+                    "parameters": {
+                        "RoomNumber": {
                             "required": true
                         }
                     }
@@ -90,7 +90,7 @@
     },
     "sap.ui5": {
         "rootView": {
-            "viewName": "bstu.hmss.managerooms.app.App",
+            "viewName": "bstu.hmss.managestudents.app.App",
             "type": "XML",
             "async": true,
             "id": "app"
@@ -118,7 +118,7 @@
             "i18n": {
                 "type": "sap.ui.model.resource.ResourceModel",
                 "settings": {
-                    "bundleName": "bstu.hmss.managerooms.i18n.i18n"
+                    "bundleName": "bstu.hmss.managestudents.i18n.i18n"
                 }
             },
             "": {
@@ -144,7 +144,7 @@
             "config": {
                 "routerClass": "sap.m.routing.Router",
                 "viewType": "XML",
-                "viewPath": "bstu.hmss.managerooms",
+                "viewPath": "bstu.hmss.managestudents",
                 "controlId": "app",
                 "controlAggregation": "pages",
                 "bypassed": {
@@ -157,38 +157,38 @@
             "routes": [
                 {
                     "pattern": "",
-                    "name": "roomlist",
+                    "name": "studentlist",
                     "target": [
-                        "roomlist"
+                        "studentlist"
                     ]
                 },
                 {
                     "pattern": "{?query}",
                     "name": "localstate",
                     "target": [
-                        "roomlist"
+                        "studentlist"
                     ]
                 },
                 {
-                    "pattern": "Rooms/{RoomNumber}:?query:",
-                    "name": "roomdetail",
+                    "pattern": "Students/{ID}:?query:",
+                    "name": "studentdetail",
                     "target": [
-                        "roomdetail"
+                        "studentdetail"
                     ]
                 }
             ],
             "targets": {
-                "roomlist": {
-                    "viewName": "list.RoomList",
-                    "viewId": "roomlist",
+                "studentlist": {
+                    "viewName": "list.StudentList",
+                    "viewId": "studentlist",
                     "viewLevel": 1,
-                    "title": "{i18n>RoomList.ViewTitle}"
+                    "title": "{i18n>StudentList.ViewTitle}"
                 },
-                "roomdetail": {
-                    "viewName": "object.RoomDetail",
-                    "viewId": "roomdetail",
+                "studentdetail": {
+                    "viewName": "object.StudentDetail",
+                    "viewId": "studentdetail",
                     "viewLevel": 2,
-                    "title": "{i18n>RoomDetail.Title}"
+                    "title": "{i18n>StudentDetail.Title}"
                 },
                 "objectNotFound": {
                     "viewName": "app.ObjectNotFound",

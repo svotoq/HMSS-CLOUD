@@ -1,0 +1,293 @@
+<mvc:View
+    controllerName="bstu.hmss.managestudents.object.tabs.profile.StudentProfile"
+    displayBlock="true"
+    height="100%"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:layout="sap.ui.layout"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:core="sap.ui.core"
+    xmlns:table="sap.ui.table">
+    <layout:VerticalLayout
+        id="idVerticalLayout"
+        width="100%">
+        <f:Form
+            id="idStudentInfoForm"
+            editable="true"
+            binding="{this>/StudentProfile/data}">
+            <f:layout>
+                <f:ResponsiveGridLayout
+                    id="idStudentInfoFormLayout"
+                    columnsM="2"
+                    columnsL="2"
+                    columnsXL="3"
+                    labelSpanM="12"
+                    labelSpanL="12"
+                    labelSpanXL="12"
+                    emptySpanXL="1"
+                    emptySpanL="3"
+                    emptySpanM="1"/>
+            </f:layout>
+            <f:title>
+                <core:Title
+                    id="idStudentInfoFormTitle"
+                    text="{i18n>StudentDetail.StudentInfoSectionTitle}"/>
+            </f:title>
+            <f:FormContainer id="idStudentInfoFirstFormContainer">
+                <f:FormElement
+                    label="{i18n>Student.FirstName}">
+                    <f:fields>
+                        <VBox>
+                            <Input
+                                value="{this>FirstName}"
+                                visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/EDIT} }"
+                                maxLength="{= parseInt(${/#Students/FirstName/@maxLength}) }"/>
+                            <Text
+                                text="{this>FirstName}"
+                                visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/DISPLAY} }"/>
+                        </VBox>
+                    </f:fields>
+                </f:FormElement>
+                <f:FormElement
+                    label="{i18n>Student.LastName}">
+                    <f:fields>
+                        <VBox>
+                            <Input
+                                value="{this>LastName}"
+                                visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/EDIT} }"
+                                maxLength="{= parseInt(${/#Students/LastName/@maxLength}) }"/>
+                            <Text
+                                text="{this>LastName}"
+                                visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/DISPLAY} }"/>
+                        </VBox>
+                    </f:fields>
+                </f:FormElement>
+                <f:FormElement
+                    label="{i18n>Student.Patronymic}">
+                    <f:fields>
+                        <VBox>
+                            <Input
+                                value="{this>Patronymic}"
+                                visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/EDIT} }"
+                                maxLength="{= parseInt(${/#Students/Patronymic/@maxLength}) }"/>
+                            <Text
+                                text="{this>Patronymic}"
+                                visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/DISPLAY} }"/>
+                        </VBox>
+                    </f:fields>
+                </f:FormElement>
+            </f:FormContainer>
+            <f:FormContainer id="idStudentInfoSecondFormContainer">
+                <f:FormElement
+                    label="{i18n>Student.Email}">
+                    <f:fields>
+                        <VBox>
+                            <Input
+                                value="{this>Email}"
+                                visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/EDIT} }"
+                                maxLength="{= parseInt(${/#Students/Email/@maxLength}) }"/>
+                            <Text
+                                text="{this>Email}"
+                                visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/DISPLAY} }"/>
+                        </VBox>
+                    </f:fields>
+                </f:FormElement>
+            </f:FormContainer>
+        </f:Form>
+        <f:Form
+            id="idStudentAddressForm"
+            editable="true"
+            binding="{this>/StudentProfile/data}">
+            <f:layout>
+                <f:ResponsiveGridLayout
+                    id="idStudentAddressFormLayout"
+                    columnsM="2"
+                    columnsL="2"
+                    columnsXL="3"
+                    labelSpanM="12"
+                    labelSpanL="12"
+                    labelSpanXL="12"
+                    emptySpanXL="1"
+                    emptySpanL="3"
+                    emptySpanM="1"/>
+            </f:layout>
+            <f:title>
+                <core:Title
+                    id="idStudentAddressFormTitle"
+                    text="{i18n>StudentDetail.StudentAddressSectionTitle}"/>
+            </f:title>
+            <f:FormContainer id="idStudentAddressFirstFormContainer">
+                <f:FormElement
+                    label="{i18n>Student.Country}">
+                    <f:fields>
+                        <VBox>
+                            <Input
+                                value="{this>CountryText}"
+                                visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/EDIT} }"
+                                maxLength="{= parseInt(${/#Students/Country/@maxLength}) }"/>
+                            <Text
+                                text="{this>CountryText}"
+                                visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/DISPLAY} }"/>
+                        </VBox>
+                    </f:fields>
+                </f:FormElement>
+                <f:FormElement
+                    label="{i18n>Student.City}">
+                    <f:fields>
+                        <VBox>
+                            <Input
+                                value="{this>City}"
+                                visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/EDIT} }"
+                                maxLength="{= parseInt(${/#Students/City/@maxLength}) }"/>
+                            <Text
+                                text="{this>City}"
+                                visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/DISPLAY} }"/>
+                        </VBox>
+                    </f:fields>
+                </f:FormElement>
+            </f:FormContainer>
+            <f:FormContainer id="idStudentAddressSecondFormContainer">
+                <f:FormElement
+                    label="{i18n>Student.AddressLine}">
+                    <f:fields>
+                        <VBox>
+                            <Input
+                                value="{this>AddressLine}"
+                                visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/EDIT} }"
+                                maxLength="{= parseInt(${/#Students/AddressLine/@maxLength}) }"/>
+                            <Text
+                                text="{this>AddressLine}"
+                                visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/DISPLAY} }"/>
+                        </VBox>
+                    </f:fields>
+                </f:FormElement>
+                <f:FormElement
+                    label="{i18n>Student.ZipCode}">
+                    <f:fields>
+                        <VBox>
+                            <Input
+                                value="{this>ZipCode}"
+                                visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/EDIT} }"
+                                maxLength="{= parseInt(${/#Students/ZipCode/@maxLength}) }"/>
+                            <Text
+                                text="{this>ZipCode}"
+                                visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/DISPLAY} }"/>
+                        </VBox>
+                    </f:fields>
+                </f:FormElement>
+            </f:FormContainer>
+        </f:Form>
+        <table:Table
+            id="idStudentPhonesTable"
+            class="sapUiSmallMarginEnd"
+            selectionMode="Single"
+            visibleRowCountMode="Fixed"
+            visibleRowCount="{path: 'this>/StudentProfile/data/Phones', formatter: '.formatter.visibleRowCount'}"
+            rowSelectionChange="onRowSelectionChangeStudentPhone"
+            rows="{this>/StudentProfile/data/Phones}">
+            <table:extension>
+                <OverflowToolbar
+                    id="idStudentPhonesTableToolbar"
+                    design="Transparent">
+                    <Title
+                        id="idStudentPhonesTableTitle"
+                        text="{i18n>StudentDetail.PhonesTitle}"
+                        titleStyle="H4"/>
+                    <ToolbarSpacer id="idStudentPhonesTableToolBarSpacer"/>
+                    <Button
+                        id="idStudentPhoneAddButton"
+                        text="{i18n>Button.Add}"
+                        type="Transparent"
+                        press="onPressAddStudentPhone"
+                        visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/EDIT} }"/>
+                    <Button
+                        id="idStudentPhoneDeleteButton"
+                        text="{i18n>Button.Delete}"
+                        type="Transparent"
+                        press="onPressDeleteStudentPhone"
+                        visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/EDIT} }"
+                        enabled="{= ${this>/SelectedStudentPhoneIndex} > -1 }"/>
+                </OverflowToolbar>
+            </table:extension>
+            <table:columns>
+                <table:Column
+                    id="idStudentPhoneTypeColumn"
+                    minWidth="240">
+                    <Label
+                        id="idStudentPhoneTypeLabel"
+                        text="{i18n>Student.PhoneType}"
+                        labelFor="idAddStudentPhoneTypeComboBox"/>
+                    <table:template>
+                        <VBox
+                            id="idStudentPhoneTypeVBox">
+                            <Text
+                                id="idStudentPhoneTypeText"
+                                text="{path: 'this>PhoneType', formatter: '.formatter.getPhoneTypeText'}"
+                                visible="{= ${this>ActionIndicator} !== ${constant>/ODATA_ACTIONS/CREATE} }"/>
+                            <ComboBox
+                                id="idAddStudentPhoneTypeComboBox"
+                                selectedKey="{this>PhoneType}"
+                                items="{path: 'this>/PhoneTypesVH', templateShareable: false}"
+                                visible="{= ${this>ActionIndicator} === ${constant>/ODATA_ACTIONS/CREATE} }">
+                                <items>
+                                    <core:Item
+                                        id="idPhoneTypeItem"
+                                        key="{this>Type}"
+                                        text="{path: 'this>Type', formatter: '.formatter.getPhoneTypeText'}"/>
+                                </items>
+                            </ComboBox>
+                        </VBox>
+                    </table:template>
+                </table:Column>
+                <table:Column
+                    id="idStudentPhoneNumberColumn"
+                    minWidth="240">
+                    <Label
+                        id="idStudentPhoneNumberLabel"
+                        text="{i18n>Student.PhoneNumber}"
+                        labelFor="idAddStudentMobilePhoneInput"/>
+                    <table:template>
+                        <VBox
+                            id="idStudentPhoneNumberVBox">
+                            <Text
+                                id="idStudentPhoneNumberText"
+                                text="{this>PhoneNumber}"
+                                visible="{= ${this>ActionIndicator} !== ${constant>/ODATA_ACTIONS/CREATE} }"/>
+                            <Input
+                                id="idAddStudentMobilePhoneInput"
+                                value="{path: 'this>PhoneNumber',
+                                                        type:'sap.ui.model.type.String',
+                                                        constraints: {
+                                                            search: '^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\\s\\.\\0-9]*$'
+                                                         } }"
+                                maxLength="30"
+                                visible="{= ${this>ActionIndicator} === ${constant>/ODATA_ACTIONS/CREATE} }"/>
+                        </VBox>
+                    </table:template>
+                </table:Column>
+                <table:Column
+                    id="idStudentPhoneNoteColumn"
+                    minWidth="240">
+                    <Label
+                        id="idStudentPhoneNoteLabel"
+                        text="{i18n>Student.PhoneNote}"
+                        labelFor="idAddStudentPhoneNoteInput"/>
+                    <table:template>
+                        <VBox
+                            id="idStudentPhoneNoteVBox">
+                            <Text
+                                id="idStudentPhoneNoteText"
+                                text="{this>PhoneNote}"
+                                visible="{= ${this>ActionIndicator} !== ${constant>/ODATA_ACTIONS/CREATE} }"/>
+                            <Input
+                                id="idAddStudentPhoneNoteInput"
+                                value="{this>PhoneNote}"
+                                maxLength="80"
+                                visible="{= ${this>ActionIndicator} === ${constant>/ODATA_ACTIONS/CREATE} }"/>
+                        </VBox>
+                    </table:template>
+                </table:Column>
+            </table:columns>
+        </table:Table>
+    </layout:VerticalLayout>
+</mvc:View>

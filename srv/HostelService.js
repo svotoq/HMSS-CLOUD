@@ -30,18 +30,18 @@ async function _updateStudentsLogic(req) {
         }
     }
 
-    if (sRoomNumber) {
-        const oRoom = await db.read(Rooms).where({RoomNumber: sRoomNumber})[0]
-        const aStudents = await db.read(Students).where({Room_RoomNumber: sRoomNumber})
-        console.log(aStudents);
-        console.log(oRoom)
-        if (!aStudents.length && oRoom.Capacity) {
-            oRoom.EmptyPlaces = oRoom.Capacity;
-        } else {
-            oRoom.EmptyPlaces = oRoom.Capacity - aStudents.length;
-        }
-        var resultUpdateRoom = await _updateRoom(db, oRoom)
-    }
+    // if (sRoomNumber) {
+    //     const oRoom = await db.read(Rooms).where({RoomNumber: sRoomNumber})[0]
+    //     const aStudents = await db.read(Students).where({Room_RoomNumber: sRoomNumber})
+    //     console.log(aStudents);
+    //     console.log(oRoom)
+    //     if (!aStudents.length && oRoom.Capacity) {
+    //         oRoom.EmptyPlaces = oRoom.Capacity;
+    //     } else {
+    //         oRoom.EmptyPlaces = oRoom.Capacity - aStudents.length;
+    //     }
+    //     var resultUpdateRoom = await _updateRoom(db, oRoom)
+    // }
 }
 
 

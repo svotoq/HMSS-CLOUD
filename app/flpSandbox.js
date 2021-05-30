@@ -40,7 +40,13 @@ sap.ui.define([
                                 "tileType": "sap.ushell.ui.tile.StaticTile",
                                 "properties": {
                                     "title": "Manage Rooms",
-                                    "targetURL": "#ManageRooms-display"
+                                    "targetURL": "#Room-manage"
+                                }
+                            }, {
+                                "tileType": "sap.ushell.ui.tile.StaticTile",
+                                "properties": {
+                                    "title": "Manage Students",
+                                    "targetURL": "#Student-manage"
                                 }
                             }]
                         }]
@@ -51,9 +57,9 @@ sap.ui.define([
                 "adapter": {
                     "config": {
                         "inbounds": {
-                            "ManageRooms-display": {
-                                "semanticObject": "ManageRooms",
-                                "action": "display",
+                            "Room-manage": {
+                                "semanticObject": "Room",
+                                "action": "manage",
                                 "description": "Manage Rooms",
                                 "title": "Manage Rooms",
                                 "signature": {
@@ -65,7 +71,62 @@ sap.ui.define([
                                     "additionalInformation": "SAPUI5.Component=bstu.hmss.managerooms",
                                     "url": "/rooms/webapp"
                                 }
-                            }
+                            },
+                            "Room-display": {
+                                "semanticObject": "Room",
+                                "action": "display",
+                                "description": "Display Room",
+                                "title": "Display Room",
+                                "signature": {
+                                    "parameters": {
+                                        "RoomNumber": {
+                                            "defaultValue": {"value": "", "format": "plain"},
+                                            "required": true
+                                        }
+                                    },
+                                    "additionalParameters": "ignored"
+                                },
+                                "resolutionResult": {
+                                    "applicationType": "SAPUI5",
+                                    "additionalInformation": "SAPUI5.Component=bstu.hmss.managerooms",
+                                    "url": "/rooms/webapp"
+                                }
+                            },
+                            "Student-manage": {
+                                "semanticObject": "Student",
+                                "action": "manage",
+                                "description": "Manage Students",
+                                "title": "Manage Students",
+                                "signature": {
+                                    "parameters": {},
+                                    "additionalParameters": "allowed"
+                                },
+                                "resolutionResult": {
+                                    "applicationType": "SAPUI5",
+                                    "additionalInformation": "SAPUI5.Component=bstu.hmss.managestudents",
+                                    "url": "/students/webapp"
+                                }
+                            },
+                            "Student-display": {
+                                "semanticObject": "Student",
+                                "action": "display",
+                                "description": "Display Student",
+                                "title": "Display Student",
+                                "signature": {
+                                    "parameters": {
+                                        "ID": {
+                                            "defaultValue": {"value": "", "format": "plain"},
+                                            "required": true
+                                        }
+                                    },
+                                    "additionalParameters": "ignored"
+                                },
+                                "resolutionResult": {
+                                    "applicationType": "SAPUI5",
+                                    "additionalInformation": "SAPUI5.Component=bstu.hmss.managestudents",
+                                    "url": "/students/webapp"
+                                }
+                            },
                         }
                     }
                 }

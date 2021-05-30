@@ -8,8 +8,7 @@ sap.ui.define([
     //ViewMode = STUDENT || ROOM
     return {
 
-        _initStudentModel: function () {
-            var sRoomNumber = this.getViewModel().getProperty("/BRoom/RoomNumber");
+        _initStudentModel: function (sRoomNumber, sViewMode) {
             var oDialogData = {
                 NewStudent: {
                     FirstName: "",
@@ -19,21 +18,23 @@ sap.ui.define([
                     Room_RoomNumber: sRoomNumber,
                     City: "",
                     AddressLine: "",
-                    ZipCode: ""
+                    ZipCode: "",
+                    CheckIn: "",
+                    CheckOut: ""
                 },
-                ViewMode: "STUDENT"
+                ViewMode: sViewMode
             };
             this.getViewModel().setProperty("/CreateStudentDialog", oDialogData);
         },
 
         openCreateStudentDialogForRoom: function () {
-            this._initStudentModel();
-            this.getViewModel().setProperty("/CreateStudentDialog/ViewMode", "ROOM");
+            var sRoomNumber = this.getViewModel().getProperty("/BRoom/RoomNumber");
+            this._initStudentModel(sRoomNumber, "ROOM");
             this._loadCreateStudentDialog();
         },
 
         openCreateStudentDialog: function () {
-            this._initStudentModel();
+            this._initStudentModel("", "STUDENT");
             this._loadCreateStudentDialog();
         },
 
@@ -86,10 +87,26 @@ sap.ui.define([
 
         _onPressSubmitCreateStudentDialog: function () {
             if (this._validateDialog()) {
-                var oNewStudent = this.getViewModel().getProperty("/CreateStudentDialog/NewStudent");
+                var oDialogData = this.getViewModel().getProperty("/CreateStudentDialog"),
+                    oNewStudent = oDialogData.NewStudent;
+
                 oNewStudent.ActionIndicator = Constants.ODATA_ACTIONS.CREATE;
-                this.saveNewStudent(oNewStudent);
-                this._getCreateStudentDialog().close();
+                if (!oNewStudent.Room_RoomNumber) {
+                    oNewStudent.CheckIn = "";
+                    oNewStudent.CheckOut = "";
+                    this.getViewModel().setProperty("/CreateStudentDialog/NewStudent", oNewStudent);
+                }
+                if (oDialogData.ViewMode === "STUDENT") {
+                    this._getCreateStudentDialog().setBusy(true);
+                    this.saveNewStudent(oNewStudent)
+                        .fail(function (oError) {
+                            this._getCreateStudentDialog().setBusy(false);
+                            this.handleError(oError, this.byId("idCreateRoomMessagePopover"));
+                        }.bind(this));
+                } else {
+                    this.saveNewStudent(oNewStudent)
+                    this._getCreateStudentDialog().close();
+                }
             } else {
                 this._showCreateStudentMessagePopover();
             }

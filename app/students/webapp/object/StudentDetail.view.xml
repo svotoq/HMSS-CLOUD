@@ -1,0 +1,123 @@
+<mvc:View
+    controllerName="bstu.hmss.managestudents.object.StudentDetail"
+    displayBlock="true"
+    height="100%"
+    xmlns="sap.m"
+    xmlns:uxap="sap.uxap"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:facet="bstu.hmss.lib.control.facet"
+    xmlns:data="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+    <uxap:ObjectPageLayout
+        id="idStudentDetailPage"
+        useIconTabBar="true"
+        showTitleInHeaderContent="false"
+        alwaysShowContentHeader="false"
+        preserveHeaderStateOnScroll="true"
+        headerContentPinnable="true"
+        isChildPage="true"
+        enableLazyLoading="true"
+        upperCaseAnchorBar="false"
+        showFooter="{= ${this>/CurrViewMode} !== ${constant>/VIEW_MODES/DISPLAY} || !!${message>/length}}"
+        navigate="onTabSelected"
+        selectedSection="PROFILE">
+        <uxap:headerTitle>
+            <uxap:ObjectPageDynamicHeaderTitle id="idStudentDetailDynamicHeader">
+                <uxap:heading>
+                    <Title
+                        id="idStudentDetailTitle"
+                        text="{parts:[
+                                        'this>/BStudent/FirstName',
+                                        'this>/BStudent/LastName',
+                                        'this>/BStudent/Patronymic'
+                                        ],
+                                    formatter: '.formatter.getStudentFullName'}"/>
+                </uxap:heading>
+                <uxap:actions>
+                    <uxap:ObjectPageHeaderActionButton
+                        id="idOpenRoomButton"
+                        hideIcon="true"
+                        hideText="false"
+                        text="{i18n>Button.OpenRoom}"
+                        type="Emphasized"
+                        enabled="{= !!${this>/BStudent/Room_RoomNumber} }"
+                        visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/DISPLAY}}"
+                        press="onPressOpenRoom"/>
+                    <uxap:ObjectPageHeaderActionButton
+                        id="idEditButton"
+                        hideIcon="true"
+                        hideText="false"
+                        text="{i18n>Button.Edit}"
+                        type="Transparent"
+                        visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/DISPLAY}}"
+                        press="onPressEdit"/>
+                </uxap:actions>
+            </uxap:ObjectPageDynamicHeaderTitle>
+        </uxap:headerTitle>
+        <uxap:headerContent>
+
+        </uxap:headerContent>
+        <uxap:sections>
+            <uxap:ObjectPageSection
+                id="PROFILE"
+                titleUppercase="false"
+                title="{i18n>StudentDetail.StudentInfoSectionTitle}"
+                data:viewId="idStudentProfileView">
+                <uxap:subSections>
+                    <uxap:ObjectPageSubSection
+                        id="idStudentProfileSubSection">
+                        <uxap:blocks>
+                            <mvc:XMLView
+                                id="idStudentProfileView"
+                                viewName="bstu.hmss.managestudents.object.tabs.profile.StudentProfile"
+                                data:Sections='[]'
+                                data:TabId="PROFILE"/>
+                        </uxap:blocks>
+                    </uxap:ObjectPageSubSection>
+                </uxap:subSections>
+            </uxap:ObjectPageSection>
+            <uxap:ObjectPageSection
+                id="NOTES"
+                titleUppercase="false"
+                title="{i18n>StudentDetail.StudentNotesSectionTitle}"
+                data:viewId="idStudentNotesView">
+                <uxap:subSections>
+                    <uxap:ObjectPageSubSection
+                        id="idStudentNotesSubSection">
+                        <uxap:blocks>
+                            <mvc:XMLView
+                                id="idStudentNotesView"
+                                viewName="bstu.hmss.managestudents.object.tabs.notes.StudentNotes"
+                                data:Sections='[]'
+                                data:TabId="NOTES"/>
+                        </uxap:blocks>
+                    </uxap:ObjectPageSubSection>
+                </uxap:subSections>
+            </uxap:ObjectPageSection>
+        </uxap:sections>
+        <uxap:footer>
+            <OverflowToolbar
+                id="idGlobalActionFooter"
+                visible="{= ${this>/CurrViewMode} !== ${constant>/VIEW_MODES/DISPLAY} || !!${message>/length}}">
+                <Button
+                    id="idMessagePopoverButton"
+                    icon="sap-icon://message-popup"
+                    text="{message>/length}"
+                    visible="{= !!${message>/length} }"
+                    type="Emphasized"
+                    press="onMessagesButtonPress"/>
+                <ToolbarSpacer id="idFooterToolbarSpacer"/>
+                <Button
+                    id="idSaveButton"
+                    text="{i18n>Button.Save}"
+                    type="Emphasized"
+                    visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/EDIT}  &amp;&amp; ${this>/IsGlobalActionsAvailable}}"
+                    press="onPressSave"/>
+                <Button
+                    id="idCancelButton"
+                    text="{i18n>Button.Cancel}"
+                    visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/EDIT}  &amp;&amp; ${this>/IsGlobalActionsAvailable}}"
+                    press="onPressCancel"/>
+            </OverflowToolbar>
+        </uxap:footer>
+    </uxap:ObjectPageLayout>
+</mvc:View>

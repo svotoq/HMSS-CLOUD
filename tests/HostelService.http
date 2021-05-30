@@ -16,7 +16,7 @@ GET http://localhost:4004/v2/hostel/Students
 
 
 ### Create Students - deep insert
-PATCH http://localhost:4004/v2/hostel/Students(147db7da-75df-4de7-bd78-50f5ce3c93cb)
+PATCH http://localhost:4004/v2/hostel/Students
 Content-Type: application/json
 
 {

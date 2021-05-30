@@ -115,6 +115,11 @@ annotate HostelService.Rooms with {
   EmptyPlaces @(Common.Label : '{i18n>Room.EmptyPlaces}');
   Notes       @(Common.Label : '{i18n>Room.Notes}');
 };
+annotate HostelService.Students with {
+  FirstName   @(Common : {Label : '{i18n>Student.FirstName}'});
+  LastName   @(Common : {Label : '{i18n>Student.LastName}'});
+  Patronymic   @(Common : {Label : '{i18n>Student.Patronymic}'});
+};
 
 // annotate CatalogService.Suppliers with {
 //   identifier @( Common : { Label: '{i18n>Cat.SuppliersIdentifier}', Text: name,  TextArrangement: #TextFirst } );

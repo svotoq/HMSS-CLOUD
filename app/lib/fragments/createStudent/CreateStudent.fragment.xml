@@ -93,13 +93,12 @@
                     <form:label>
                         <Label id="idLabelCreateStudentCountry"
                                text="{i18n>Student.Country}"
-                               required="{= !${/#Students/Country/@Nullable} }"
+                               required="true"
                                labelFor="idInputCreateStudentCountry"/>
                     </form:label>
                     <form:fields>
                         <Input id="idInputCreateStudentCountry"
-                               value="{this>Country}"
-                               maxLength="{= parseInt(${/#Students/Country/@maxLength}) }"/>
+                               value="{this>Country}"/>
                     </form:fields>
                 </form:FormElement>
                 <form:FormElement id="idElementCreateStudentCity">

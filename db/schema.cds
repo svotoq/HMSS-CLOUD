@@ -33,6 +33,7 @@ entity Students : cuid, managed {
     Phones          : array of {
         PhoneNumber : String(30) not null;
         PhoneType   : PhoneType default 'MOBILE';
+        PhoneNote   : String(80);
     } not null;
     Notes           : array of Notes;
     CheckIn         : Date;
@@ -50,9 +51,10 @@ entity Faculties : CodeList {
 //---------------------------------------------------------------------------
 // Types...
 
-type Notes : managed {
-    Title : String(80);
-    Text  : String(241);
+type Notes {
+    Text  : String;
+    CreatedAt: String;
+    CreatedBy: String;
 }
 
 type PhoneType : String enum {
