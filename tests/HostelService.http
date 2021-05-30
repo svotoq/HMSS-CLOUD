@@ -2,7 +2,7 @@
 GET http://localhost:4004/v2/hostel/Rooms
 
 ### Create Rooms - insert
-POST http://localhost:4004/v2/hostel/Rooms
+PATCH http://localhost:4004/v2/hostel/Rooms('1')
 Content-Type: application/json
 
 {
