@@ -4,24 +4,24 @@ sap.ui.define([], function () {
     return [
         {
             Id: "ROOMINFO",
-            Sections: [
-                "Students"
-            ],
+            Sections: [],
             IsDefault: true,
             ViewName: "bstu.hmss.managerooms.object.tabs.roomInfo.RoomInfo",
             DependentTab: [],
-            PrerequisiteTab: []
+            PrerequisiteTab: [{
+                Id: "ROOMSTUDENTS"
+            }]
         }, {
             Id: "ROOMSTUDENTS",
-            Sections: [
-                "Students"
-            ],
+            Sections: [],
             IsDefault: false,
             ViewName: "bstu.hmss.managerooms.object.tabs.students.RoomStudents",
             DependentTab: [],
-            PrerequisiteTab: [{
-                Id: "ROOMINFO"
-            }]
+            PrerequisiteTab: [
+                {
+                    Id: "ROOMINFO"
+                }
+            ]
         }
     ];
 });

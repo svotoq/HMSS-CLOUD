@@ -18,7 +18,8 @@
                                    columnsL="3"
                                    columnsM="2"/>
             </form:layout>
-            <form:FormContainer id="idStudentProfileFormContainer">
+            <form:FormContainer id="idStudentProfileFormContainer"
+                                title="{i18n>CreateStudent.ProfileFormContainerTitle}">
                 <form:FormElement id="idElementCreateStudentFirstName">
                     <form:label>
                         <Label id="idLabelCreateStudentFirstName"
@@ -86,7 +87,8 @@
                 </form:FormElement>
             </form:FormContainer>
 
-            <form:FormContainer id="idStudentAddressFormContainer">
+            <form:FormContainer id="idStudentAddressFormContainer"
+                                title="{i18n>Additional.BlankTitle}">
                 <form:FormElement id="idElementCreateStudentCountry">
                     <form:label>
                         <Label id="idLabelCreateStudentCountry"
@@ -137,6 +139,43 @@
                         <Input id="idInputCreateStudentZipCode"
                                value="{this>ZipCode}"
                                maxLength="{= parseInt(${/#Students/ZipCode/@maxLength}) }"/>
+                    </form:fields>
+                </form:FormElement>
+            </form:FormContainer>
+            
+            <form:FormContainer
+                id="idFormContainerCreateStudentLiveDates"
+                title="{i18n>CreateStudent.LiveDatesFormContainerTitle}">
+                <form:FormElement id="idElementCreateStudentCheckIn">
+                    <form:label>
+                        <Label id="idLabelCreateStudentCheckIn"
+                               text="{i18n>Student.CheckIn}"
+                               required="{= !!${this>Room_RoomNumber} }"
+                               labelFor="idDatePickerCreateStudentCheckIn"/>
+                    </form:label>
+                    <form:fields>
+                        <DatePicker
+                            id="idDatePickerCreateStudentCheckIn"
+                            displayFormat="short"
+                            change="onChangeLiveDates"
+                            enabled="{= !!${this>Room_RoomNumber} }"
+                            value="{this>CheckIn}"/>
+                    </form:fields>
+                </form:FormElement>
+                <form:FormElement id="idElementCreateStudentCheckOut">
+                    <form:label>
+                        <Label id="idLabelCreateStudentCheckOut"
+                               text="{i18n>Student.CheckOut}"
+                               required="{= !!${this>Room_RoomNumber} }"
+                               labelFor="idDatePickerCreateStudentCheckOut"/>
+                    </form:label>
+                    <form:fields>
+                        <DatePicker
+                            id="idDatePickerCreateStudentCheckOut"
+                            displayFormat="short"
+                            change="onChangeLiveDates"
+                            enabled="{= !!${this>Room_RoomNumber} }"
+                            value="{this>CheckOut}"/>
                     </form:fields>
                 </form:FormElement>
             </form:FormContainer>

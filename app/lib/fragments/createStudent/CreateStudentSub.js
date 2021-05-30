@@ -9,14 +9,14 @@ sap.ui.define([
     return {
 
         _initStudentModel: function () {
+            var sRoomNumber = this.getViewModel().getProperty("/BRoom/RoomNumber");
             var oDialogData = {
                 NewStudent: {
                     FirstName: "",
                     LastName: "",
                     Patronymic: "",
                     Email: "",
-                    Room_RoomNumber: "",
-                    Country: "",
+                    Room_RoomNumber: sRoomNumber,
                     City: "",
                     AddressLine: "",
                     ZipCode: ""
@@ -64,7 +64,7 @@ sap.ui.define([
          * Event handler for 'afterClose' of create student dialog
          */
         _onAfterCloseCreateStudentDialog: function () {
-            this._oDialogCreateStudent.destroy();
+            this._getCreateStudentDialog().destroy();
             this._oDialogCreateStudent = null;
         },
 
@@ -109,6 +109,13 @@ sap.ui.define([
 
         _validateDialog: function () {
             return true;
+        },
+
+        onChangeLiveDates: function () {
+            var oNewStudent = this.getViewModel().getProperty("/CreateStudentDialog/NewStudent");
+            if (oNewStudent.CheckIn && oNewStudent.CheckOut) {
+                //error checkIn > CheckOut
+            }
         }
     };
 });

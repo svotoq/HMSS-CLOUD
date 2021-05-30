@@ -5,8 +5,9 @@ sap.ui.define([
     "sap/base/strings/formatMessage",
     "sap/base/util/merge",
     "bstu/hmss/lib/util/Utility",
-    "bstu/hmss/lib/util/Constants"
-], function (BaseBO, aInitialTabConfigs, uid, formatMessage, merge, Utility, Constants) {
+    "bstu/hmss/lib/util/Constants",
+    "sap/ui/core/format/DateFormat"
+], function (BaseBO, aInitialTabConfigs, uid, formatMessage, merge, Utility, Constants, DateFormat) {
     "use strict";
     return BaseBO.extend("bstu.hmss.managerooms.object.RoomDetailBO", merge({
 
@@ -17,8 +18,8 @@ sap.ui.define([
          * @returns {jQuery.Deferred} Deferred loading of existing Room data
          * @public
          */
-        loadExistingRoom: function (aDependentSections, aPrerequisiteSections) {
-            return this._loadExistingRoom(aDependentSections, aPrerequisiteSections);
+        loadExistingRoom: function () {
+            return this._loadExistingRoom();
         },
 
         /**
@@ -78,9 +79,9 @@ sap.ui.define([
          * @returns {jQuery.Deferred} Deferred loading of tab data
          * @public
          */
-        loadTabData: function (sNewViewMode, aDependentSections, aPrerequisiteSections, oDependentData) {
+        loadTabData: function (sNewViewMode) {
             return this.loadMetaModelDeferred().then(function () {
-                return this.fetchDisplayModeData(aDependentSections.concat(aPrerequisiteSections || []));
+                return this.fetchDisplayModeData();
             }.bind(this));
         },
 
@@ -90,13 +91,14 @@ sap.ui.define([
          * @returns {jQuery.Deferred} Deferred loading tab data
          * @public
          */
-        fetchDisplayModeData: function (aDependentSections) {
+        fetchDisplayModeData: function () {
             var oOdataModel = this.getODataModel();
             var sHeaderSet = this.getHeaderSet();
             var sRoomPath = oOdataModel.createKey(sHeaderSet, {
                 RoomNumber: this.getRoomNumber()
             });
 
+            var aDependentSections = ["Students"];
             return Utility.odataRead(oOdataModel, sRoomPath, {
                 urlParameters: {
                     $expand: aDependentSections.join(",")
@@ -132,12 +134,45 @@ sap.ui.define([
          * @public
          */
         save: function (oDependentsData) {
-            //send changed students with room
-            var oRoomParams = this._getSavingCallPayload(oDependentsData);
-            return Utility.odataUpdate(
-                this.getODataModel(),
-                this.getHeaderSet() + "(" + oRoomParams.RoomNumber + ")",
-                oRoomParams.RoomInfo);
+
+            var oRoomPayload = this._getCreateRoomPayload(oDependentsData);
+            //     aStudentsToDelete = oRoomPayload.Students.filter(function (oStudent) {
+            //         return oStudent.ActionIndicator === "DELETE";
+            //     });
+            // aStudentsToDelete.forEach(function (oStudent) {
+            //     Utility.odataUpdate(this.getODataModel(), "Students(" + oStudent.ID + ")", oRoomPayload);
+            // }.bind(this));
+            return Utility.odataUpdate(this.getODataModel(), "Rooms('" + oRoomPayload.RoomNumber + "')", oRoomPayload);
+        },
+
+
+        _getCreateRoomPayload: function (oData) {
+            var aStudents = merge([], oData.Students);
+            var oRoom = Utility.removeMetadata(oData.RoomInfo);
+            aStudents = this._formatStudentsDate(aStudents);
+            return {
+                RoomNumber: oRoom.RoomNumber,
+                Capacity: oRoom.Capacity || 0,
+                Rating: oRoom.Rating || 0,
+                Tables: oRoom.Tables || 0,
+                Beds: oRoom.Beds || 0,
+                ActionIndicator: Constants.ODATA_ACTIONS.UPDATE,
+                EmptyPlaces: oRoom.EmptyPlaces || 0,
+                Students: aStudents || [],
+                Notes: oRoom.Notes || []
+            };
+        },
+
+        _formatStudentsDate: function (aStudents) {
+            var oDateFormat = DateFormat.getDateInstance({pattern: "YYYY-MM-DD"});
+            return aStudents.map(function (oStudent) {
+                oStudent = Utility.removeMetadata(oStudent);
+                if (oStudent.ActionIndicator) {
+                    oStudent.CheckIn = oDateFormat.parse(oStudent.CheckIn);
+                    oStudent.CheckOut = oDateFormat.parse(oStudent.CheckOut);
+                }
+                return oStudent;
+            });
         },
 
         /**
@@ -147,24 +182,10 @@ sap.ui.define([
          * @returns {jQuery.Deferred} Deferred loading of existing Room data
          * @public
          */
-        _loadExistingRoom: function (aDependentSections, aPrerequisiteSections) {
+        _loadExistingRoom: function () {
             var sViewMode = this.getViewModel().getProperty("/CurrViewMode");
 
-            return this.loadTabData(sViewMode, aDependentSections, aPrerequisiteSections)
-                .then(function (oResponse) {
-                    return this._parseInitialLoadResponse(oResponse, aDependentSections, aPrerequisiteSections);
-                }.bind(this));
-        },
-
-        _parseInitialLoadResponse: function (oResponse, aDependentSections, aPrerequisiteSections, aAdditionalSections) {
-            var aSections = aDependentSections.concat(aPrerequisiteSections || [], aAdditionalSections || []);
-            var oBRoomHeader = this.getBRoomHeader(oResponse, aSections);
-
-            return {
-                header: oBRoomHeader,
-                defaultData: oResponse,
-                otherTabData: Utility.pick(oResponse, aAdditionalSections || [])
-            };
+            return this.loadTabData(sViewMode);
         },
 
         /**

@@ -3,7 +3,9 @@ using {bstu.hmss as db} from '../db/schema';
 @path : '/hostel'
 @impl : './HostelService.js'
 service HostelService {
+@assert.integrity: false
   entity Rooms     as projection on db.Rooms;
+  @assert.integrity: false
   entity Students  as projection on db.Students;
 
   @readonly

@@ -55,7 +55,7 @@
                             <mvc:XMLView
                                     id="idRoomInfoView"
                                     viewName="bstu.hmss.managerooms.object.tabs.roomInfo.RoomInfo"
-                                    data:Sections='["Students"]'
+                                    data:Sections='[]'
                                     data:TabId="ROOMINFO"/>
                         </uxap:blocks>
                     </uxap:ObjectPageSubSection>

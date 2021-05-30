@@ -8,9 +8,9 @@ sap.ui.define([], function () {
             DISPLAY: "D"
         },
         ODATA_ACTIONS: {
-            CREATE: "I",
-            UPDATE: "U",
-            DELETE: "D"
+            CREATE: "CREATE",
+            UPDATE: "UPDATE",
+            DELETE: "DELETE"
         },
         BO_ACTION: {
         	ADD_ITEM: "ADD_ITEM",

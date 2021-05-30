@@ -1,5 +1,5 @@
 ### List all rooms - deep read
-GET http://localhost:4004/v2/hostel/Rooms
+GET http://localhost:4004/v2/hostel/Rooms?$expand=Students
 
 ### Create Rooms - insert
 PATCH http://localhost:4004/v2/hostel/Rooms('1')
@@ -16,7 +16,7 @@ GET http://localhost:4004/v2/hostel/Students
 
 
 ### Create Students - deep insert
-POST http://localhost:4004/v2/hostel/Students
+PATCH http://localhost:4004/v2/hostel/Students(147db7da-75df-4de7-bd78-50f5ce3c93cb)
 Content-Type: application/json
 
 {
@@ -33,7 +33,8 @@ Content-Type: application/json
         }
     ],
     "Notes": [],
-    "ActionIndicator": ""
+    "ActionIndicator": "CREATE",
+    "Room_RoomNumber": "1"
 }
 
 ### Try to update the Student
@@ -71,7 +72,6 @@ Content-Type: application/json
     "ActionIndicator": "UPDATE",
     "Students": [
         {
-            "ID": "147db7da-75df-4de7-bd78-50f5ce3c93cb",
             "FirstName": "UPDATE",
             "LastName": "UPDATE",
             "Email": "Stanislau.pyrkin@gmail.com",
@@ -85,7 +85,7 @@ Content-Type: application/json
                 }
             ],
             "Notes": [],
-            "ActionIndicator": "DELETE ",
+            "ActionIndicator": "CREATE ",
             "Room_RoomNumber": "1"
         }
     ]

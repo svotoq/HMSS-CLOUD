@@ -1,1 +1,0 @@
-using HostelService as service from '../../srv/HostelService';

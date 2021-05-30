@@ -154,7 +154,7 @@
                             text="{i18n>Button.Finish}"
                             type="Emphasized"
                             visible="{this>WizardFinishVisible}"
-                            press="onPressWizardSubmit"/>
+                            press="onPressCreateRoomDialog"/>
                     <Button
                             text="{i18n>Button.Cancel}"
                             type="Transparent"

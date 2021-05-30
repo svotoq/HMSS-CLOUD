@@ -1,10 +1,10 @@
 const cds = require("@sap/cds")
-const { Rooms, Students } = cds.entities;
+const {Rooms, Students} = cds.entities;
 
 /** Service implementation for Hostel Service */
 module.exports = cds.service.impl((srv) => {
-    srv.on("UPDATE", "Rooms", _updateRoomLogic)
-    // srv.on("UPDATE", "Students", _updateStudentsLogic)
+    srv.on(["CREATE", "UPDATE"], "Rooms", _updateRoomLogic)
+    srv.on("UPDATE", "Students", _updateStudentsLogic)
     // srv.before(["CREATE", "UPDATE"], "Students", _hasEmptyPlaces)
     // srv.after(["CREATE", "UPDATE"], "Students", _reduceTakenPlaces)
 })
@@ -13,7 +13,6 @@ async function _updateStudentsLogic(req) {
     var oStudent = req.data,
         sRoomNumber = oStudent.Room_RoomNumber || "";
 
-    console.log(oStudent);
     const db = cds.transaction(req)
 
     switch (oStudent.ActionIndicator) {
@@ -32,10 +31,10 @@ async function _updateStudentsLogic(req) {
     }
 
     if (sRoomNumber) {
-        const oRoom = await db.read(Rooms).where({ RoomNumber: sRoomNumber })
+        const oRoom = await db.read(Rooms).where({RoomNumber: sRoomNumber})[0]
+        const aStudents = await db.read(Students).where({Room_RoomNumber: sRoomNumber})
+        console.log(aStudents);
         console.log(oRoom)
-        const aStudents = await db.read(Students).where({ Room_RoomNumber: sRoomNumber })
-
         if (!aStudents.length && oRoom.Capacity) {
             oRoom.EmptyPlaces = oRoom.Capacity;
         } else {
@@ -48,7 +47,6 @@ async function _updateStudentsLogic(req) {
 
 /** Reduce the number of taken places */
 async function _updateRoomLogic(req) {
-    console.log(1)
     var oRoom = req.data,
         aStudents = oRoom.Students || [];
 
@@ -60,8 +58,10 @@ async function _updateRoomLogic(req) {
     }
 
     if (sErrorMessage) {
-        return req.error(404, sErrorMessage)
+        return req.error(409, sErrorMessage)
     }
+
+    const db = cds.transaction(req)
 
     oRoom.Notes = oRoom.Notes || [];
 
@@ -74,8 +74,6 @@ async function _updateRoomLogic(req) {
     if (oRoom.EmptyPlaces < 0) {
         return req.error(409, `Reduce the number of students. Room Capacity is ${oRoom.Capacity}`)
     }
-
-    const db = cds.transaction(req)
 
     var sRoomNumber = oRoom.RoomNumber;
     var affectedRows = 0;
@@ -96,31 +94,14 @@ async function _updateRoomLogic(req) {
     }
 
     if (sRoomNumber) {
+        console.log(aStudents)
         var resultStudentsC = await _createStudents(db, aStudents, sRoomNumber)
+        var resultStudentsU = await _updateStudents(db, aStudents, sRoomNumber)
     }
 
-    var resultStudentsD = await _updateStudents(db, aStudents, sRoomNumber)
-    var resultStudentsU = await _deleteStudents(db, aStudents, sRoomNumber)
+    // var resultStudentsD = await _deleteStudentsFromRoom(db, aStudents)
 
     // return (db.read("Rooms").where({RoomNumber: oRoom.RoomNumber}))[0]
-}
-
-async function createNewRoom(db, oRoom) {
-    var aStudents = oRoom.Students;
-    var resultRoom = await _createRoom(db, oRoom)
-
-    var resultStudentsC = await _createStudents(db, aStudents, oRoom.RoomNumber)
-    var resultStudentsU = await _deleteStudents(db, aStudents, oRoom.RoomNumber)
-    var resultStudentsD = await _updateStudents(db, aStudents, oRoom.RoomNumber)
-}
-
-async function updateExistingRoom(db, oRoom) {
-    var aStudents = oRoom.Students;
-    var resultRoom = await _updateRoom(db, oRoom)
-
-    var resultStudentsC = await _createStudents(db, aStudents, oRoom.RoomNumber)
-    var resultStudentsU = await _deleteStudents(db, aStudents, oRoom.RoomNumber)
-    var resultStudentsD = await _updateStudents(db, aStudents, oRoom.RoomNumber)
 }
 
 async function _deleteRoom(db, oRoom) {
@@ -128,7 +109,7 @@ async function _deleteRoom(db, oRoom) {
 }
 
 async function _updateRoom(db, oRoom) {
-  var oNewRoom = {
+    var oNewRoom = {
         RoomNumber: oRoom.RoomNumber,
         Capacity: oRoom.Capacity || 0,
         Rating: oRoom.Rating || 0,
@@ -138,7 +119,7 @@ async function _updateRoom(db, oRoom) {
         EmptyPlaces: oRoom.EmptyPlaces || 0,
         Notes: oRoom.Notes || []
     }
-    return await db.run(UPDATE('Rooms').set(oNewRoom).where({ RoomNumber: oNewRoom.RoomNumber }))
+    return await db.run(UPDATE('Rooms').set(oNewRoom).where({RoomNumber: oNewRoom.RoomNumber}))
 }
 
 async function _createRoom(db, oRoom) {
@@ -184,3 +165,12 @@ async function _deleteStudents(db, aStudents) {
     });
 }
 
+// async function _deleteStudentsFromRoom(db, aStudents) {
+//     aStudents.forEach(function (oStudent) {
+//         if (oStudent.ActionIndicator === "DELETE") {
+//             oStudent.ActionIndicator = "";
+//             oStudent.Room_RoomNumber = null;
+//             db.run(UPDATE('Students').set(oStudent).byKey(oStudent.ID))
+//         }
+//     });
+// }

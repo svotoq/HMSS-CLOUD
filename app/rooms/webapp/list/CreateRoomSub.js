@@ -43,8 +43,8 @@ sap.ui.define([
         },
 
         /**
-        * Event handler for 'beforeOpen' of create Room dialog
-        */
+         * Event handler for 'beforeOpen' of create Room dialog
+         */
         onAfterOpenCreateRoomDialog: function () {
             this._oWizard = this.byId("idCreateRoomWizard");
 
@@ -137,7 +137,12 @@ sap.ui.define([
         onPressCreateRoomDialog: function () {
             this.getOwnerComponent().removeErrorMessages(false, true, true, true);
             if (this._validateDialog()) {
-                this._saveData();
+
+                var oDialogData = this.getViewModel().getProperty("/CreateRoomDialog"),
+                    oNewRoom = oDialogData.Room;
+                oNewRoom.Students = oDialogData.SelectedStudents;
+
+                this._createRoom(oNewRoom);
             } else {
                 this._showCreateRoomMessagePopover();
             }
@@ -146,7 +151,9 @@ sap.ui.define([
         onPressCreateWithoutStudents: function () {
             this.getOwnerComponent().removeErrorMessages(false, true, true, true);
             if (this._validateDialog()) {
-                this._createRoomWithoutStudents();
+
+                var oRoom = this.getViewModel().getProperty("/CreateRoomDialog/Room");
+                this._createRoom(oRoom);
             } else {
                 this._showCreateRoomMessagePopover();
             }
@@ -156,17 +163,15 @@ sap.ui.define([
          * Calls a method to save data
          * @private
          */
-        _createRoomWithoutStudents: function () {
+        _createRoom: function (oNewRoom) {
             var oDialog = this._getCreateRoomDialog();
             oDialog.setBusy(true);
 
-            var oNewRoom = this.getViewModel().getProperty("/CreateRoomDialog/Room");
-            
             this.getBO().createRoom(oNewRoom)
-                .then(function (oRoom) {
+                .then(function () {
                     oDialog.setBusy(false);
                     oDialog.close();
-                    this.navigateToRoomDetails(oRoom.RoomNumber);
+                    this.navigateToRoomDetails(oNewRoom.RoomNumber);
                 }.bind(this))
                 .fail(function (oError) {
                     oDialog.setBusy(false);
@@ -320,6 +325,7 @@ sap.ui.define([
                 return oStudent.ID === oSelectedStudent.ID
             });
             if (!isStudentSelected) {
+                oSelectedStudent.ActionIndicator = "UPDATE";
                 oDialogData.SelectedStudents.push(oSelectedStudent);
                 oDialogData.WizardNextEnabled = true;
                 this._oWizard.validateStep(this.getAddStudentsStep());

@@ -16,7 +16,9 @@
             rowActionCount="1"
             visibleRowCountMode="Fixed"
             enableColumnFreeze="true"
-            rows="{this>/Students/data}"
+            rows="{path: 'this>/Students/data',
+			           filters: [{path: 'ActionIndicator', operator: 'NE', value1: 'DELETE'}]
+			          }"
             rowSelectionChange="onRowSelectionRoomStudents">
             <table:extension>
                 <OverflowToolbar

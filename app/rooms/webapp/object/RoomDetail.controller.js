@@ -119,14 +119,11 @@ sap.ui.define([
             this.setAppBusy(true);
 
             this.loadTabData(Constants.VIEW_MODES.EDIT)
-                .then(function(oResponse) {
-                    var aDependentSections = this._getSelectedTabDependentSections();
-                    var aPrerequisiteSections = this._getDependentSectionsOfPrerequisiteTabs(this._getSelectedTabId());
-                    var oBRoomHeader = this.getBO().getBRoomHeader(oResponse, aDependentSections.concat(aPrerequisiteSections));
-                    this._bindViewToBRoom(oBRoomHeader);
+                .then(function (oResponse) {
+                    this._bindViewToBRoom(oResponse);
                     this.setAppBusy(false);
                 }.bind(this))
-                .fail(function(oError) {
+                .fail(function (oError) {
                     this.setAppBusy(false);
                 }.bind(this));
         },
@@ -181,18 +178,12 @@ sap.ui.define([
         loadTabData: function (sNewViewMode, oDependentData) {
             var sDefaultedTabId = this._getSelectedTabId();
             var oSection = this.byId(sDefaultedTabId);
-            var oDependentTabSectionData = oDependentData || {};
             var oTabView = this._getTabView(oSection);
-            var aDependents = this._getDependentSectionsForTab(oTabView);
-            var aPrerequisiteSections = this._getDependentSectionsOfPrerequisiteTabsToLoad(this.getLocalId(oSection));
 
             this.setAppBusy(true);
 
             return this.getBO()
-                .loadTabData(sNewViewMode,
-                    aDependents,
-                    aPrerequisiteSections,
-                    oDependentTabSectionData)
+                .loadTabData(sNewViewMode)
                 .then(this._handleTabDataLoadSuccess.bind(this, oSection, sNewViewMode))
                 .fail(this._handleTabDataLoadError.bind(this));
         },
@@ -231,11 +222,10 @@ sap.ui.define([
          * @public
          */
         getDependentViews: function () {
-            return aInitialTabConfigs
-                .map(function (oTabConfig) {
-                    return this.byId(oTabConfig.Id);
-                }, this)
-                .filter(Boolean)
+            return [
+                this.byId("ROOMINFO"),
+                this.byId("ROOMSTUDENTS")
+            ]
                 .map(this._getTabView.bind(this));
         },
 
@@ -387,8 +377,8 @@ sap.ui.define([
                 this.setAppBusy(true);
                 this.setViewMode(Constants.VIEW_MODES.DISPLAY);
                 this.getBO().setRoomNumber(sRoomNumber);
-                this._resetSectionInitialLoadFlag();
-                this._removeDependentsData();
+                // this._resetSectionInitialLoadFlag();
+                // this._removeDependentsData();
                 this.getOwnerComponent().removeAllMessages();
                 this._loadExistingRoom().then(function () {
                     //First, you need to load the room's header and profile,
@@ -462,10 +452,10 @@ sap.ui.define([
          * @private
          */
         _loadExistingRoom: function () {
-            var aPrerequisiteSections = this._getDependentSectionsOfPrerequisiteTabsToLoad(this._getSelectedTabId());
-            var aDependentSections = this._getSelectedTabDependentSections();
+            // var aPrerequisiteSections = this._getDependentSectionsOfPrerequisiteTabsToLoad(this._getSelectedTabId());
+            // var aDependentSections = this._getSelectedTabDependentSections();
             return this.getBO()
-                .loadExistingRoom(aDependentSections, aPrerequisiteSections)
+                .loadExistingRoom()
                 .then(function () {
                     // Reset Dirty flag as well
                     sap.ushell.Container.setDirtyFlag(false);
@@ -499,12 +489,9 @@ sap.ui.define([
          * @private
          */
         _handleInitCallSuccess: function (oResponse) {
-            var oViewModel = this.getViewModel();
-            oViewModel.setProperty("/defaultData", oResponse.defaultData);
-
-            this._bindViewToBRoom(oResponse.header);
+            this._bindViewToBRoom(oResponse);
             this.setAppBusy(false);
-            this._initDefaultTabView(this.byId(this._getSelectedTabId()));
+            this._initDefaultTabView(this.byId(this._getSelectedTabId()), oResponse);
         },
 
         /**
@@ -512,12 +499,9 @@ sap.ui.define([
          * @param {sap.uxap.ObjectPageSection} oSection - Default section
          * @private
          */
-        _initDefaultTabView: function (oSection) {
-            var oViewModel = this.getViewModel(),
-                oDefaultData = oViewModel.getProperty("/defaultData");
-            oViewModel.setProperty("/defaultData", null);
+        _initDefaultTabView: function (oSection, oResponse) {
 
-            this._handleTabDataLoadSuccess(oSection, this.getViewMode(), oDefaultData);
+            this._handleTabDataLoadSuccess(oSection, this.getViewMode(), oResponse);
         },
 
         /**
@@ -542,15 +526,11 @@ sap.ui.define([
                     oTabController.setSectionInitialLoad(false);
                 }
 
-                var aDependents = this._getDependentSectionsForTab(oTabView),
-                    mTabData = Utility.pick(oResponse, aDependents);
+                // var aDependents = this._getDependentSectionsForTab(oTabView),
+                //     mTabData = Utility.pick(oResponse, aDependents);
 
                 if (oTabController.setTabData) {
-                    if (sTabId === "ROOMINFO") {
-                        oTabController.setTabData(oResponse);
-                    } else {
-                        oTabController.setTabData(mTabData);
-                    }
+                    oTabController.setTabData(oResponse);
                 }
             }.bind(this));
 
@@ -710,14 +690,9 @@ sap.ui.define([
          * @private
          */
         _getPrerequisiteTabsToLoad: function (sTabId) {
-            return this._getConfigForTab(sTabId).PrerequisiteTab.reduce(function (arr, oConfig) {
-                var oSection = this.byId(oConfig.Id);
-                var oTabView = this._getTabView(oSection);
-                if (this._checkViewInitialLoad(oTabView)) {
-                    arr.push(oSection);
-                }
-                return arr;
-            }.bind(this), []);
+            return [
+                this.byId("ROOMSTUDENTS")
+            ];
         },
 
         /**
@@ -788,11 +763,9 @@ sap.ui.define([
 
             this.getBO().save(oDependentsData)
                 .then(function (oUpdatedRoom) {
-                    var aUpdatedSections = Object.keys(oDependentsData);
-
-                    this.getBO().setRoomNumber(oUpdatedRoom.RoomNumber);
-                    this._handleRoomUpdateSuccess(oUpdatedRoom, aUpdatedSections, Constants.VIEW_MODES.DISPLAY);
                     MessageToast.show(this.i18n("saveActionSuccess"));
+                    this.setAppBusy(false);
+                    this.cancelEditingRoom();
                 }.bind(this))
                 .fail(function (oError) {
                     this.setAppBusy(false);
@@ -813,18 +786,11 @@ sap.ui.define([
                 });
 
             var aControllersData = aControllersToSave.map(function (oController) {
-                var aDependentSections = this._getDependentSectionsForTabSave(oController.getView());
                 if (oController.getView().data("TabId") === "ROOMINFO") {
-                    aDependentSections = ["RoomInfo"];
+                    return {RoomInfo: oController.getDataForSave("RoomInfo")};
+                } else if (oController.getView().data("TabId") === "ROOMSTUDENTS") {
+                    return {Students: oController.getDataForSave("Students")};
                 }
-                return aDependentSections.reduce(function (oAccumulator, sSection) {
-
-                    if (!oController.getSectionInitialLoad()) {
-                        oAccumulator[sSection] = oController.getDataForSave(sSection);
-                    }
-
-                    return oAccumulator;
-                }, {});
             }.bind(this));
 
             return aControllersData.reduce(function (oAccumulator, oNextData) {

@@ -3,14 +3,18 @@ sap.ui.define([
     "sap/base/util/merge",
     "bstu/hmss/lib/util/Constants",
     "bstu/hmss/lib/util/Utility",
-], function (BaseBO, merge, Constants, Utility) {
+    "sap/ui/core/format/DateFormat"
+], function (BaseBO, merge, Constants, Utility, DateFormat) {
     "use strict";
     return BaseBO.extend("bstu.hmss.managerooms.list.RoomListBO", merge({
 
         createRoom: function (oRoom) {
             var oRoomPayload = this._getCreateRoomPayload(oRoom);
 
-            return Utility.odataCreate(this.getODataModel(), "Rooms", oRoom);
+            if (oRoom.Students) {
+                oRoomPayload.Students = this._formatStudentsDate(oRoom.Students);
+            }
+            return Utility.odataUpdate(this.getODataModel(), "Rooms('" + oRoomPayload.RoomNumber + "')", oRoomPayload);
         },
 
         _getCreateRoomPayload: function (oRoom) {
@@ -24,7 +28,17 @@ sap.ui.define([
                 EmptyPlaces: oRoom.EmptyPlaces || 0,
                 Students: oRoom.Students || [],
                 Notes: oRoom.Notes || []
-            }
+            };
+        },
+
+        _formatStudentsDate: function (aStudents) {
+            var oDateFormat = DateFormat.getDateInstance({pattern: "YYYY-MM-DD"});
+            return aStudents.map(function (oStudent) {
+                oStudent.CheckIn = oDateFormat.parse(oStudent.CheckIn);
+                oStudent.CheckOut = oDateFormat.parse(oStudent.CheckOut);
+                return Utility.removeMetadata(oStudent);
+            });
         }
+
     }));
 });
