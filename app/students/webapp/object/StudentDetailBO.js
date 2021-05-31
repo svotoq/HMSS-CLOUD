@@ -143,18 +143,9 @@ sap.ui.define([
 
         _getCreateStudentPayload: function (oData) {
             var oStudent = oData.Profile;
-            oStudent.ActionIndicator = "UPDATE";
+            oStudent.ActionIndicator = "";
             oStudent.Notes = oData.Notes;
-            oStudent = Utility.removeMetadata(oStudent);
-            return this._formatStudentsDate(oStudent);
-        },
-
-        _formatStudentsDate: function (oStudent) {
-            var oDateFormat = DateFormat.getDateInstance({pattern: "YYYY-MM-DD"});
-            oStudent.CheckIn = oDateFormat.parse(oStudent.CheckIn);
-            oStudent.CheckOut = oDateFormat.parse(oStudent.CheckOut);
-    
-            return oStudent;
+            return Utility.removeMetadata(oStudent);
         },
 
         /**

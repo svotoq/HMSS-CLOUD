@@ -54,7 +54,44 @@
             </uxap:ObjectPageDynamicHeaderTitle>
         </uxap:headerTitle>
         <uxap:headerContent>
-
+            <HBox id="idPageHeaderContainer">
+                <facet:FormFacet id="idFirstColumnFormFacet">
+                    <facet:FormFacetText
+                        id="idPhoneNumberField"
+                        label="{i18n>Student.PhoneNumber}"
+                        text="{this>/BStudent/Phones/0/PhoneNumber}"/>
+                    <facet:FormFacetText
+                        id="idRoomEmailField"
+                        label="{i18n>Student.Email}"
+                        text="{this>/BStudent/Email}"/>
+                    <facet:FormFacetText
+                        id="idCheckInField"
+                        label="{i18n>Student.CheckIn}"
+                        text="{this>/BStudent/CheckIn}"/>
+                    <facet:FormFacetText
+                        id="idCheckOutField"
+                        label="{i18n>Student.CheckOut}"
+                        text="{this>/BStudent/CheckOut}"/>
+                </facet:FormFacet>
+                <facet:FormFacet id="idSecondColumnFormFacet">
+                    <facet:FormFacetText
+                        id="idTCountryField"
+                        label="{i18n>Student.Country}"
+                        text="{this>/BStudent/Country}"/>
+                    <facet:FormFacetText
+                        id="idCityField"
+                        label="{i18n>Student.City}"
+                        text="{this>/BStudent/City}"/>
+                    <facet:FormFacetText
+                        id="idAddressLineField"
+                        label="{i18n>Student.AddressLine}"
+                        text="{this>/BStudent/AddressLine}"/>
+                    <facet:FormFacetText
+                        id="idZipCodeField"
+                        label="{i18n>Student.ZipCode}"
+                        text="{this>/BStudent/ZipCode}"/>
+                </facet:FormFacet>
+            </HBox>
         </uxap:headerContent>
         <uxap:sections>
             <uxap:ObjectPageSection

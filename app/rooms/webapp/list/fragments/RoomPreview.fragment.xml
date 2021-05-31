@@ -29,34 +29,34 @@
                     text="{i18n>Room.RoomNumber}"/>
                 <Text
                     id="idTextRoomPreviewRoomNumber"
-                    text="{this>Room/RoomNumber}"/>
+                    text="{_create>Room/RoomNumber}"/>
 
                 <Label
                     id="idLabelRoomPreviewCapacity"
                     text="{i18n>Room.Capacity}"/>
                 <Text
                     id="idRoomPreviewCapacity"
-                    text="{this>Room/Capacity}"/>
+                    text="{_create>Room/Capacity}"/>
                 <Label
                     id="idLabelRoomPreviewEmptyPlaces"
                     text="{i18n>Room.EmptyPlaces}"/>
                 <Text
                     id="idTextRoomPreviewEmptyPlaces"
-                    text="{this>Room/EmptyPlaces}"/>
+                    text="{_create>Room/EmptyPlaces}"/>
                 <core:Title text="{i18n>CreateRoom.AdditionalInfoTitle}"/>
                 <Label
                     id="idLabelRoomPreviewTables"
                     text="{i18n>Room.Tables}"/>
                 <Text
                     id="idTextRoomPreviewTables"
-                    text="{this>Room/Tables}"/>
+                    text="{_create>Room/Tables}"/>
 
                 <Label
                     id="idLabelRoomPreviewBeds"
                     text="{i18n>Room.Beds}"/>
                 <Text
                     id="idTextRoomPreviewBeds"
-                    text="{this>Room/Beds}"/>
+                    text="{_create>Room/Beds}"/>
 
             </form:content>
         </form:SimpleForm>
@@ -66,7 +66,7 @@
             selectionMode="Single"
             visibleRowCountMode="Auto"
             enableColumnFreeze="true"
-            rows="{this>SelectedStudents}">
+            rows="{_create>SelectedStudents}">
             <table:extension>
                 <OverflowToolbar
                     id="idCreateRoomStudentsToolbar"
@@ -88,9 +88,9 @@
                         <Text
                             id="idTextRoomPreviewStudentsFullName"
                             text="{parts:[
-                                        'this>FirstName',
-                                        'this>LastName',
-                                        'this>Patronymic'
+                                        '_create>FirstName',
+                                        '_create>LastName',
+                                        '_create>Patronymic'
                                         ],
                                     formatter: '.formatter.getStudentFullName'}"/>
                     </table:template>
@@ -104,7 +104,7 @@
                     <table:template>
                         <Text
                             id="idTextRoomPreviewStudentsCity"
-                            text="{this>City}"/>
+                            text="{_create>City}"/>
                     </table:template>
                 </table:Column>
 
@@ -116,7 +116,7 @@
                     <table:template>
                         <Text
                             id="idTextRoomPreviewStudentsCheckIn"
-                            text="{this>CheckIn}"/>
+                            text="{_create>CheckIn}"/>
                     </table:template>
                 </table:Column>
 
@@ -128,7 +128,7 @@
                     <table:template>
                         <Text
                             id="idTextRoomPreviewStudentsCheckOut"
-                            text="{this>CheckOut}"/>
+                            text="{_create>CheckOut}"/>
                     </table:template>
                 </table:Column>
 

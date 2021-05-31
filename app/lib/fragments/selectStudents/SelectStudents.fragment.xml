@@ -46,6 +46,7 @@
                         index="6"
                         key="Room_RoomNumber"
                         groupId="_BASIC"
+                        label="{i18n>Student.RoomNumber}"
                         visibleInAdvancedArea="true"/>
             </smartFilterBar:controlConfiguration>
         </smartFilterBar:SmartFilterBar>
@@ -205,7 +206,7 @@
                 rowActionCount="1"
                 visibleRowCountMode="Auto"
                 enableColumnFreeze="true"
-                rows="{this>SelectedStudents}">
+                rows="{_create>SelectedStudents}">
             <table:extension>
                 <OverflowToolbar
                         id="idSelectedStudentsToolbar"
@@ -226,7 +227,7 @@
                     <table:template>
                         <Text
                                 id="idTextSelectedStudentsFirstName"
-                                text="{this>FirstName}"/>
+                                text="{_create>FirstName}"/>
                     </table:template>
                 </table:Column>
 
@@ -238,7 +239,7 @@
                     <table:template>
                         <Text
                                 id="idTextSelectedStudentsLastName"
-                                text="{this>LastName}"/>
+                                text="{_create>LastName}"/>
                     </table:template>
                 </table:Column>
 
@@ -250,7 +251,7 @@
                     <table:template>
                         <Text
                                 id="idTextSelectedStudentsPatronymic"
-                                text="{this>Patronymic}"/>
+                                text="{_create>Patronymic}"/>
                     </table:template>
                 </table:Column>
 
@@ -262,7 +263,7 @@
                     <table:template>
                         <Text
                                 id="idTextSelectedStudentsEmail"
-                                text="{this>Email}"/>
+                                text="{_create>Email}"/>
                     </table:template>
                 </table:Column>
 
@@ -274,7 +275,7 @@
                     <table:template>
                         <Text
                                 id="idTextSelectedStudentsCity"
-                                text="{this>City}"/>
+                                text="{_create>City}"/>
                     </table:template>
                 </table:Column>
 
@@ -286,7 +287,7 @@
                     <table:template>
                         <Text
                                 id="idTextSelectedStudentsRoomNumber"
-                                text="{this>Room_RoomNumber}"/>
+                                text="{_create>Room_RoomNumber}"/>
                     </table:template>
                 </table:Column>
 

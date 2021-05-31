@@ -15,8 +15,6 @@ sap.ui.define([
         },
 
         _getCreateStudentPayload: function (oStudent) {
-            var oDateFormat = DateFormat.getDateInstance({pattern: "YYYY-MM-DD"});
-
             return {
                 FirstName: oStudent.FirstName,
                 LastName: oStudent.LastName,
@@ -26,9 +24,9 @@ sap.ui.define([
                 City: oStudent.City,
                 AddressLine: oStudent.AddressLine,
                 ZipCode: oStudent.ZipCode,
-                CheckIn: oDateFormat.parse(oStudent.CheckIn),
-                CheckOut: oDateFormat.parse(oStudent.CheckOut),
-                ActionIndicator: "CREATE"
+                CheckIn: oStudent.CheckIn,
+                CheckOut: oStudent.CheckOut,
+                ActionIndicator: ""
             };
         }
     }));

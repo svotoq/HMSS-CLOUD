@@ -10,7 +10,7 @@
             selectionMode="Single"
             visibleRowCountMode="Auto"
             enableColumnFreeze="true"
-            rows="{this>SelectedStudents}">
+            rows="{_create>SelectedStudents}">
             <table:columns>
                 <table:Column
                     id="idColumnRoomPreviewStudentsFullName">
@@ -21,9 +21,9 @@
                         <Text
                             id="idTextRoomPreviewStudentsFullName"
                             text="{parts:[
-                                        'this>FirstName',
-                                        'this>LastName',
-                                        'this>Patronymic'
+                                        '_create>FirstName',
+                                        '_create>LastName',
+                                        '_create>Patronymic'
                                         ],
                                     formatter: '.formatter.getStudentFullName'}"/>
                     </table:template>
@@ -37,7 +37,7 @@
                     <table:template>
                         <Text
                             id="idTextRoomPreviewStudentsCity"
-                            text="{this>City}"/>
+                            text="{_create>City}"/>
                     </table:template>
                 </table:Column>
 
@@ -49,7 +49,7 @@
                     <table:template>
                         <Text
                             id="idTextRoomPreviewStudentsCheckIn"
-                            text="{this>CheckIn}"/>
+                            text="{_create>CheckIn}"/>
                     </table:template>
                 </table:Column>
 
@@ -61,7 +61,7 @@
                     <table:template>
                         <Text
                             id="idTextRoomPreviewStudentsCheckOut"
-                            text="{this>CheckOut}"/>
+                            text="{_create>CheckOut}"/>
                     </table:template>
                 </table:Column>
 

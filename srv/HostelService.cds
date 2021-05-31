@@ -3,9 +3,7 @@ using {bstu.hmss as db} from '../db/schema';
 @path : '/hostel'
 @impl : './HostelService.js'
 service HostelService {
-@assert.integrity: false
   entity Rooms     as projection on db.Rooms;
-  @assert.integrity: false
   entity Students  as projection on db.Students;
 
   @readonly
@@ -123,6 +121,7 @@ annotate HostelService.Students with {
   Patronymic   @(Common : {Label : '{i18n>Student.Patronymic}'});
   Email   @(Common : {Label : '{i18n>Student.Email}'});
   City   @(Common : {Label : '{i18n>Student.City}'});
+  Country   @(Common : {Label : '{i18n>Student.Country}'});
   Room_RoomNumber   @(Common : {Label : '{i18n>Student.Room_RoomNumber}'});
   ActionIndicator       @(Common.Label : '{i18n>Student.ActionIndicator}');
   AddressLine       @(Common.Label : '{i18n>Student.AddressLine}');

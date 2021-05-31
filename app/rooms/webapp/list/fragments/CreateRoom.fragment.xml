@@ -11,7 +11,7 @@
             verticalScrolling="false"
             contentWidth="85%"
             contentHeight="80%"
-            binding="{this>/CreateRoomDialog}"
+            binding="{_create>/CreateRoomDialog}"
             beforeOpen="onBeforeOpenCreateRoomDialog"
             afterOpen="onAfterOpenCreateRoomDialog"
             afterClose="onAfterCloseCreateRoomDialog">
@@ -48,7 +48,7 @@
                                     </form:label>
                                     <form:fields>
                                         <Input id="idFormRoomNumberField"
-                                               value="{this>Room/RoomNumber}"
+                                               value="{_create>Room/RoomNumber}"
                                                liveChange="onLiveChangeRoomNumber"
                                                maxLength="{= parseInt(${/#Rooms/RoomNumber/@maxLength}) }"/>
                                     </form:fields>
@@ -61,7 +61,7 @@
                                     </form:label>
                                     <form:fields>
                                         <Input id="idFormCapacityField"
-                                               value="{this>Room/Capacity}"
+                                               value="{_create>Room/Capacity}"
                                                maxLength="{= parseInt(${/#Rooms/Capacity/@maxLength}) }"/>
                                     </form:fields>
                                 </form:FormElement>
@@ -73,7 +73,7 @@
                                     </form:label>
                                     <form:fields>
                                         <Input id="idFormBedsField"
-                                               value="{this>Room/Beds}"
+                                               value="{_create>Room/Beds}"
                                                maxLength="{= parseInt(${/#Rooms/Beds/@maxLength}) }"/>
                                     </form:fields>
                                 </form:FormElement>
@@ -85,7 +85,7 @@
                                     </form:label>
                                     <form:fields>
                                         <Input id="idFormTablesField"
-                                               value="{this>Room/Tables}"
+                                               value="{_create>Room/Tables}"
                                                maxLength="{= parseInt(${/#Rooms/Tables/@maxLength}) }"/>
                                     </form:fields>
                                 </form:FormElement>
@@ -131,29 +131,29 @@
                     <Button
                             text="{i18n>CreateRoom.CreateWithoutStudentsButton}"
                             type="Emphasized"
-                            visible="{this>CreateWithoutStudentsVisible}"
-                            enabled="{this>CreateWithoutStudentsEnabled}"
+                            visible="{_create>CreateWithoutStudentsVisible}"
+                            enabled="{_create>CreateWithoutStudentsEnabled}"
                             press="onPressCreateWithoutStudents"/>
                     <Button
                             text="{i18n>Button.Previous}"
-                            visible="{this>WizardBackVisible}"
+                            visible="{_create>WizardBackVisible}"
                             press="onPressCreateRoomBack"/>
                     <Button
                             text="{i18n>Button.NextStep}"
                             type="Emphasized"
-                            enabled="{this>WizardNextEnabled}"
-                            visible="{this>WizardNextVisible}"
+                            enabled="{_create>WizardNextEnabled}"
+                            visible="{_create>WizardNextVisible}"
                             press="onPressCreateRoomNextStep"/>
                     <Button
                             text="{i18n>Button.Review}"
                             type="Emphasized"
-                            visible="{this>WizardReviewVisible}"
-                            enabled="{this>WizardReviewEnabled}"
+                            visible="{_create>WizardReviewVisible}"
+                            enabled="{_create>WizardReviewEnabled}"
                             press="onPressCreateRoomNextStep"/>
                     <Button
                             text="{i18n>Button.Finish}"
                             type="Emphasized"
-                            visible="{this>WizardFinishVisible}"
+                            visible="{_create>WizardFinishVisible}"
                             press="onPressCreateRoomDialog"/>
                     <Button
                             text="{i18n>Button.Cancel}"

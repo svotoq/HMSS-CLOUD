@@ -134,41 +134,79 @@ sap.ui.define([
          * @public
          */
         save: function (oDependentsData) {
+            var aStudents = merge([], oDependentsData.Students)
+                .map(function (oStudent) {
+                    return Utility.removeMetadata(oStudent);
+                });
 
-            var oRoomPayload = this._getCreateRoomPayload(oDependentsData);
-          
-            return Utility.odataUpdate(this.getODataModel(), "Rooms('" + oRoomPayload.RoomNumber + "')", oRoomPayload);
+            var aStudentsToDeleteFromRoom = merge([], aStudents
+                .filter(function (oStudent) {
+                    return oStudent.ActionIndicator === "DELETE";
+                }));
+
+            var aDeletePromises = aStudentsToDeleteFromRoom.reduce(function (aAcc, oStudent) {
+                oStudent.Room_RoomNumber = null;
+                oStudent.ActionIndicator = "";
+                var pResult = Utility.odataUpdate(this.getODataModel(), "Students/" + oStudent.ID, oStudent);
+                aAcc.push(pResult);
+                return aAcc;
+            }.bind(this), []);
+
+            var oRoom = oDependentsData.RoomInfo,
+                aNotes = oDependentsData.Notes;
+            var oRoomPayload = this._getCreateRoomPayload(oRoom, aStudents, aNotes)
+            return Promise.all(aDeletePromises)
+                .then(function () {
+                    var aLiveStudents = merge([], aStudents
+                        .filter(function (oStudent) {
+                            return oStudent.ActionIndicator !== "DELETE";
+                        }));
+
+                    oRoomPayload.EmptyPlaces = oRoomPayload.Capacity - aLiveStudents.length;
+                    return Utility.odataUpdate(this.getODataModel(), "Rooms/" + oRoomPayload.RoomNumber, oRoomPayload)
+                        .then(function (oResponse) {
+                            var aStudentsToInsertInRoom = merge([], aStudents
+                                .filter(function (oStudent) {
+                                    return oStudent.ActionIndicator === "UPDATE";
+                                }));
+
+                            aStudentsToInsertInRoom.forEach(function (oStudent) {
+                                oStudent.Room_RoomNumber = oResponse.RoomNumber;
+                                oStudent.ActionIndicator = "";
+                                Utility.odataUpdate(this.getODataModel(), "Students/" + oStudent.ID, oStudent);
+                            }.bind(this));
+
+                            return oResponse;
+                        }.bind(this));
+                }.bind(this))
         },
 
 
-        _getCreateRoomPayload: function (oData) {
-            var aStudents = merge([], oData.Students);
-            var oRoom = Utility.removeMetadata(oData.RoomInfo);
-            oRoom.Notes = oData.Notes;
-            aStudents = this._formatStudentsDate(aStudents);
+        _getCreateRoomPayload: function (oRoom, aStudents, aNotes) {
+            var aRoomPayloadStudents = this._formatStudentsDate(aStudents);
             return {
                 RoomNumber: oRoom.RoomNumber,
-                Capacity: oRoom.Capacity || 0,
-                Rating: oRoom.Rating || 0,
-                Tables: oRoom.Tables || 0,
-                Beds: oRoom.Beds || 0,
-                ActionIndicator: Constants.ODATA_ACTIONS.UPDATE,
-                EmptyPlaces: oRoom.EmptyPlaces || 0,
-                Students: aStudents || [],
-                Notes: oRoom.Notes || []
+                Capacity: Number(oRoom.Capacity) || 0,
+                Rating: Number(oRoom.Rating) || 0,
+                Tables: Number(oRoom.Tables) || 0,
+                Beds: Number(oRoom.Beds) || 0,
+                ActionIndicator: "",
+                EmptyPlaces: Number(oRoom.EmptyPlaces) || 0,
+                Students: aRoomPayloadStudents || [],
+                Notes: aNotes || []
             };
         },
 
         _formatStudentsDate: function (aStudents) {
-            var oDateFormat = DateFormat.getDateInstance({pattern: "YYYY-MM-DD"});
-            return aStudents.map(function (oStudent) {
-                oStudent = Utility.removeMetadata(oStudent);
-                if (oStudent.ActionIndicator) {
-                    oStudent.CheckIn = oDateFormat.parse(oStudent.CheckIn);
-                    oStudent.CheckOut = oDateFormat.parse(oStudent.CheckOut);
-                }
-                return oStudent;
-            });
+            return merge([], aStudents
+                .filter(function (oStudent) {
+                    return oStudent.ActionIndicator === "" ||
+                        oStudent.ActionIndicator === "CREATE";
+                }))
+                .map(function (oStudent) {
+                    oStudent.ActionIndicator = "";
+                    return oStudent;
+                });
         },
 
         /**

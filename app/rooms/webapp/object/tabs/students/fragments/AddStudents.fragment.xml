@@ -9,7 +9,7 @@
         verticalScrolling="false"
         contentWidth="85%"
         contentHeight="80%"
-        binding="{this>/AddStudentsDialog}"
+        binding="{_create>/AddStudentsDialog}"
         beforeOpen="onBeforeOpenAddStudentsDialog"
         afterOpen="onAfterOpenAddStudentsDialog"
         afterClose="onAfterCloseAddStudentsDialog">
@@ -62,24 +62,24 @@
                     <ToolbarSpacer/>
                     <Button
                         text="{i18n>Button.Previous}"
-                        visible="{this>WizardBackVisible}"
+                        visible="{_create>WizardBackVisible}"
                         press="onPressAddStudentsBack"/>
                     <Button
                         text="{i18n>Button.NextStep}"
                         type="Emphasized"
-                        enabled="{this>WizardNextEnabled}"
-                        visible="{this>WizardNextVisible}"
+                        enabled="{_create>WizardNextEnabled}"
+                        visible="{_create>WizardNextVisible}"
                         press="onPressAddStudentsNextStep"/>
                     <Button
                         text="{i18n>Button.Review}"
                         type="Emphasized"
-                        visible="{this>WizardReviewVisible}"
-                        enabled="{this>WizardReviewEnabled}"
+                        visible="{_create>WizardReviewVisible}"
+                        enabled="{_create>WizardReviewEnabled}"
                         press="onPressAddStudentsNextStep"/>
                     <Button
                         text="{i18n>Button.Add}"
                         type="Emphasized"
-                        visible="{this>WizardFinishVisible}"
+                        visible="{_create>WizardFinishVisible}"
                         press="onPressSaveStudentsDialog"/>
                     <Button
                         text="{i18n>Button.Cancel}"

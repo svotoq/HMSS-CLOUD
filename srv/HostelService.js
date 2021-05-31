@@ -3,10 +3,8 @@ const {Rooms, Students} = cds.entities;
 
 /** Service implementation for Hostel Service */
 module.exports = cds.service.impl((srv) => {
-    srv.on(["CREATE", "UPDATE"], "Rooms", _updateRoomLogic)
-    srv.on("UPDATE", "Students", _updateStudentsLogic)
-    // srv.before(["CREATE", "UPDATE"], "Students", _hasEmptyPlaces)
-    // srv.after(["CREATE", "UPDATE"], "Students", _reduceTakenPlaces)
+    // srv.on("UPDATE", "Rooms", _updateRoomLogic)
+    // srv.on("UPDATE", "Students", _updateStudentsLogic)
 })
 
 async function _updateStudentsLogic(req) {

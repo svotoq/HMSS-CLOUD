@@ -69,6 +69,7 @@ sap.ui.define([
              * @private
              */
             navigateToRoomDetails: function (sRoomNumber) {
+                this.setAppBusy(true);
                 this.getRouter().navTo("roomdetail", {
                     RoomNumber: sRoomNumber
                 });
@@ -78,7 +79,10 @@ sap.ui.define([
              * Show create room dialog
              */
             onCreateRoomPress: function () {
-                this.openCreateRoomDialog();
+                this.setAppBusy(true);
+                this.loadMetaModelDeferred().then(function () {
+                    this.openCreateRoomDialog();
+                }.bind(this));
             },
 
             /**

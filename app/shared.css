@@ -1,0 +1,47 @@
+.sapIdpOmssLibFormFacet {
+    vertical-align: top;
+    margin-right: 2rem;
+    margin-bottom: 1rem;
+    line-height: 1.320rem;
+}
+.sapIdpOmssLibFormFacet .sapIdpOmssLibFormFacetTitle {
+    margin-bottom: 1rem;
+    line-height: 1rem;
+}
+.sapIdpOmssLibFormFacet .sapIdpOmssLibFormFacetField .sapMLabel {
+    margin-right: 0.5rem;
+    line-height: 1.320rem;
+}
+.sapIdpOmssLibFormFacet .sapIdpOmssLibFormFacetField .sapMLabel:after {
+    content: ":";
+}
+.sapIdpOmssLibFormFacet .sapIdpOmssLibFormFacetField .sapMLnk {
+    line-height: 1.320rem;
+}
+.sapIdpOmssLibFormFacet .sapIdpOmssLibFormFacetField .sapMCb {
+    line-height: 1.320rem;
+    height: auto;
+}
+.sapIdpOmssLibFormFacet .sapIdpOmssLibFormFacetField .sapMCbBg {
+    position: relative;
+    left: 0;
+    top: 0;
+}
+.sapIdpOmssLibFormFacet .sapIdpOmssLibFormFacetField .sapMCb.sapMCbDisplayOnly {
+    padding-left: 0;
+}
+.sapIdpOmssLibNumberFacet, .sapIdpOmssLibStatusFacet, .sapIdpOmssLibAddressFacet {
+    margin-right: 2rem;
+    margin-bottom: 1rem;
+    line-height: 1.320rem;
+}
+.sapIdpOmssLibNumberFacet .sapMLabel, .sapIdpOmssLibStatusFacet .sapMLabel, .sapIdpOmssLibAddressFacet .sapMLabel {
+    line-height: 1.320rem;
+}
+.sapIdpOmssLibNumberFacet .sapMLabel:after, .sapIdpOmssLibStatusFacet .sapMLabel:after, .sapIdpOmssLibAddressFacet .sapMLabel:after {
+    content: ":";
+}
+.sapIdpOmssLibAddressFacet .sapMText {
+    line-height: 1.320rem;
+}
+ 

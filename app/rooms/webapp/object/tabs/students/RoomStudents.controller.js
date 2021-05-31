@@ -133,7 +133,7 @@ sap.ui.define([
                 } else {
                     aSectionData[iIndex].ActionIndicator = Constants.ODATA_ACTIONS.DELETE;
                 }
-
+                
                 this.setSectionData(sSectionID, aSectionData);
             },
             /**

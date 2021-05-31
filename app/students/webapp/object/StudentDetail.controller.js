@@ -355,11 +355,13 @@ sap.ui.define([
 
             this._resetSectionInitialLoadFlag();
             this._removeDependentsData();
-            this.loadTabData(Constants.VIEW_MODES.DISPLAY)
+            return this.loadTabData(Constants.VIEW_MODES.DISPLAY)
                 .then(function (oResponse) {
-                    var aDependentSections = this._getSelectedTabDependentSections();
-                    var oBStudentHeader = this.getBO().getBStudentHeader(oResponse, aDependentSections);
-                    this._bindViewToBStudent(oBStudentHeader);
+                    this._bindViewToBRoom(oResponse);
+                    this.setAppBusy(false)
+                }.bind(this))
+                .fail(function (oError) {
+                    this.setAppBusy(false);
                 }.bind(this));
         },
 

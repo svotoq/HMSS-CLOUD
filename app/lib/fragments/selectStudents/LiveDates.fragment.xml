@@ -10,7 +10,7 @@
                 selectionMode="Single"
                 visibleRowCountMode="Auto"
                 enableColumnFreeze="true"
-                rows="{this>SelectedStudents}">
+                rows="{_create>SelectedStudents}">
             <table:columns>
                 <table:Column
                         id="idColumnStudentsLiveDatesFullName">
@@ -21,9 +21,9 @@
                         <Text
                                 id="idTextStudentsLiveDatesFullName"
                                 text="{parts:[
-                                        'this>FirstName',
-                                        'this>LastName',
-                                        'this>Patronymic'
+                                        '_create>FirstName',
+                                        '_create>LastName',
+                                        '_create>Patronymic'
                                         ],
                                     formatter: '.formatter.getStudentFullName'}"/>
                     </table:template>
@@ -37,7 +37,7 @@
                     <table:template>
                         <Text
                                 id="idTextStudentsLiveDatesCity"
-                                text="{this>City}"/>
+                                text="{_create>City}"/>
                     </table:template>
                 </table:Column>
 
@@ -51,7 +51,7 @@
                                 id="idDatePickerStudentsLiveDatesCheckIn"
                                 displayFormat="short"
                                 change="onChangeCheckInLiveDate"
-                                value="{this>CheckIn}"/>
+                                value="{_create>CheckIn}"/>
                     </table:template>
                 </table:Column>
 
@@ -78,7 +78,7 @@
                                 id="idDatePickerStudentsLiveDatesCheckOut"
                                 displayFormat="short"
                                 change="onChangeCheckOutLiveDate"
-                                value="{this>CheckOut}"/>
+                                value="{_create>CheckOut}"/>
                     </table:template>
                 </table:Column>
 

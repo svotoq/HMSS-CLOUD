@@ -9,33 +9,40 @@ sap.ui.define([
     return BaseBO.extend("bstu.hmss.managerooms.list.RoomListBO", merge({
 
         createRoom: function (oRoom) {
-            var oRoomPayload = this._getCreateRoomPayload(oRoom);
-
+            var oRoomPayload = this._getCreateRoomPayload(oRoom),
+                aRoomStudents = [];
             if (oRoom.Students) {
-                oRoomPayload.Students = this._formatStudentsDate(oRoom.Students);
+                aRoomStudents = this._getStudentsPayload(oRoom.Students);
+                oRoomPayload.EmptyPlaces = oRoomPayload.Capacity - oRoom.Students.length;
             }
-            return Utility.odataUpdate(this.getODataModel(), "Rooms('" + oRoomPayload.RoomNumber + "')", oRoomPayload);
+            return Utility.odataCreate(this.getODataModel(), "Rooms", oRoomPayload)
+                .then(function (oResponse) {
+                    aRoomStudents.forEach(function (oStudent) {
+                        oStudent.Room_RoomNumber = oResponse.RoomNumber;
+                        oStudent.ActionIndicator = "";
+                        Utility.odataUpdate(this.getODataModel(), "Students/" + oStudent.ID, oStudent);
+                    }.bind(this));
+
+                    return oResponse;
+                }.bind(this));
         },
 
         _getCreateRoomPayload: function (oRoom) {
             return {
                 RoomNumber: oRoom.RoomNumber,
-                Capacity: oRoom.Capacity || 0,
-                Rating: oRoom.Rating || 0,
-                Tables: oRoom.Tables || 0,
-                Beds: oRoom.Beds || 0,
-                ActionIndicator: Constants.ODATA_ACTIONS.CREATE,
-                EmptyPlaces: oRoom.EmptyPlaces || 0,
-                Students: oRoom.Students || [],
+                Capacity: Number(oRoom.Capacity) || 0,
+                Rating: Number(oRoom.Rating) || 0,
+                Tables: Number(oRoom.Tables) || 0,
+                Beds: Number(oRoom.Beds) || 0,
+                ActionIndicator: "",
+                EmptyPlaces: Number(oRoom.Capacity) || 0,
+                Students: [],
                 Notes: oRoom.Notes || []
             };
         },
 
-        _formatStudentsDate: function (aStudents) {
-            var oDateFormat = DateFormat.getDateInstance({pattern: "YYYY-MM-DD"});
+        _getStudentsPayload: function (aStudents) {
             return aStudents.map(function (oStudent) {
-                oStudent.CheckIn = oDateFormat.parse(oStudent.CheckIn);
-                oStudent.CheckOut = oDateFormat.parse(oStudent.CheckOut);
                 return Utility.removeMetadata(oStudent);
             });
         }

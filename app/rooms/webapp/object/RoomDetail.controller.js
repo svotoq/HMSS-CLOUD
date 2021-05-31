@@ -349,11 +349,13 @@ sap.ui.define([
 
             this._resetSectionInitialLoadFlag();
             this._removeDependentsData();
-            this.loadTabData(Constants.VIEW_MODES.DISPLAY)
+            return this.loadTabData(Constants.VIEW_MODES.DISPLAY)
                 .then(function (oResponse) {
-                    var aDependentSections = this._getSelectedTabDependentSections();
-                    var oBRoomHeader = this.getBO().getBRoomHeader(oResponse, aDependentSections);
-                    this._bindViewToBRoom(oBRoomHeader);
+                    this._bindViewToBRoom(oResponse);
+                    this.setAppBusy(false)
+                }.bind(this))
+                .fail(function (oError) {
+                    this.setAppBusy(false);
                 }.bind(this));
         },
 
@@ -766,11 +768,20 @@ sap.ui.define([
 
             this.getBO().save(oDependentsData)
                 .then(function (oUpdatedRoom) {
-                    MessageToast.show(this.i18n("MessageBox.SaveActionSuccess"));
-                    this.setAppBusy(false);
-                    this.cancelEditingRoom();
+                    this._resetSectionInitialLoadFlag();
+                    this.getOwnerComponent().removeAllMessages();
+
+                    return this.loadTabData(Constants.VIEW_MODES.DISPLAY)
+                        .then(function (oResponse) {
+                            this._bindViewToBRoom(oResponse);
+                            this.setAppBusy(false)
+                            MessageToast.show(this.i18n("MessageBox.SaveActionSuccess"));
+                        }.bind(this))
+                        .fail(function (oError) {
+                            this.setAppBusy(false);
+                        }.bind(this));
                 }.bind(this))
-                .fail(function (oError) {
+                .catch(function (oError) {
                     this.setAppBusy(false);
                     this.handleError(oError);
                 }.bind(this));
@@ -793,7 +804,7 @@ sap.ui.define([
                     return {RoomInfo: oController.getDataForSave("RoomInfo")};
                 } else if (oController.getView().data("TabId") === "ROOMSTUDENTS") {
                     return {Students: oController.getDataForSave("Students")};
-                }  else if (oController.getView().data("TabId") === "NOTES") {
+                } else if (oController.getView().data("TabId") === "NOTES") {
                     return {Notes: oController.getDataForSave("RoomNotes")};
                 }
             }.bind(this));

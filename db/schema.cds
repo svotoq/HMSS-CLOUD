@@ -7,25 +7,25 @@ using {
     sap.common.CodeList as CodeList
 } from '@sap/cds/common';
 
-entity Rooms : managed {
+entity Rooms {
     key RoomNumber  : String(10);
         Capacity    : Integer default 0;
         Rating      : Integer default 0;
         Tables      : Integer default 0;
         Beds        : Integer default 0;
         ActionIndicator : ActionType default '';
-        Students    : Association to many Students
+        Students    : Composition of many Students
                           on Students.Room = $self;
         EmptyPlaces : Integer default 0;
         Notes       : array of Notes;
 }
 
-entity Students : cuid, managed {
+entity Students : cuid {
     FirstName       : String(40) not null;
     LastName        : String(40) not null;
     Patronymic      : String(40);
     Email           : String(241) not null;
-    Country         : Country;
+    Country         : String;
     City            : String(40) not null;
     AddressLine     : String(60) not null;
     ZipCode         : String(10) not null;

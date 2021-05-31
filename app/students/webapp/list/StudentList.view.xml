@@ -72,6 +72,7 @@
                                 index="6"
                                 key="Room_RoomNumber"
                                 groupId="_BASIC"
+                                label="{i18n>Student.RoomNumber}"
                                 visibleInAdvancedArea="true"/>
                         </smartFilterBar:controlConfiguration>
                     </smartFilterBar:SmartFilterBar>
@@ -133,7 +134,7 @@
                             </table:customData>
                             <table:template>
                                 <Text
-                                    id="idTextStudent"
+                                    id="idTextStudentFirstName"
                                     text="{FirstName}"/>
                             </table:template>
                         </table:Column>
@@ -220,6 +221,40 @@
                                 <Text
                                     id="idTextStudentRoomNumber"
                                     text="{Room_RoomNumber}"/>
+                            </table:template>
+                        </table:Column>
+
+                        <table:Column
+                            id="idColumnStudentCheckIn"
+                            sortProperty="CheckIn">
+                            <Label
+                                id="idLabelStudentCheckIn"
+                                text="{i18n>Student.CheckIn}"/>
+                            <table:customData>
+                                <core:CustomData key="p13nData"
+                                                 value='\{"columnKey": "CheckIn", "columnIndex":"6", "leadingProperty": "CheckIn"}'/>
+                            </table:customData>
+                            <table:template>
+                                <Text
+                                    id="idTextStudentCheckIn"
+                                    text="{CheckIn}"/>
+                            </table:template>
+                        </table:Column>
+
+                        <table:Column
+                            id="idColumnStudentCheckOut"
+                            sortProperty="CheckOut">
+                            <Label
+                                id="idLabelStudentCheckOut"
+                                text="{i18n>Student.CheckOut}"/>
+                            <table:customData>
+                                <core:CustomData key="p13nData"
+                                                 value='\{"columnKey": "CheckOut", "columnIndex":"7", "leadingProperty": "CheckOut"}'/>
+                            </table:customData>
+                            <table:template>
+                                <Text
+                                    id="idTextStudentCheckOut"
+                                    text="{CheckOut}"/>
                             </table:template>
                         </table:Column>
 
