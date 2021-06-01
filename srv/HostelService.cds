@@ -129,9 +129,3 @@ annotate HostelService.Students with {
   CheckOut       @(Common.Label : '{i18n>Student.CheckOut}');
   ZipCode       @(Common.Label : '{i18n>Student.ZipCode}');
 };
-
-// annotate CatalogService.Suppliers with {
-//   identifier @( Common : { Label: '{i18n>Cat.SuppliersIdentifier}', Text: name,  TextArrangement: #TextFirst } );
-//   postCode @( Common : { Label: '{i18n>Cat.SuppliersPostCode}', Text: city, TextArrangement: #TextFirst } );
-//   phone @Common.Label: '{i18n>Cat.SuppliersPhone}';
-// };
