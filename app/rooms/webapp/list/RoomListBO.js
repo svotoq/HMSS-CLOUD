@@ -31,7 +31,6 @@ sap.ui.define([
             return {
                 RoomNumber: oRoom.RoomNumber,
                 Capacity: Number(oRoom.Capacity) || 0,
-                Rating: Number(oRoom.Rating) || 0,
                 Tables: Number(oRoom.Tables) || 0,
                 Beds: Number(oRoom.Beds) || 0,
                 ActionIndicator: "",

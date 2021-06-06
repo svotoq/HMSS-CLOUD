@@ -10,7 +10,7 @@
 }
 .sapIdpOmssLibFormFacet .sapIdpOmssLibFormFacetField .sapMLabel {
     margin-right: 0.5rem;
-    line-height: 1.320rem;
+    line-height: 1.320rem
 }
 .sapIdpOmssLibFormFacet .sapIdpOmssLibFormFacetField .sapMLabel:after {
     content: ":";

@@ -145,6 +145,7 @@ sap.ui.define([
             var oStudent = oData.Profile;
             oStudent.ActionIndicator = "";
             oStudent.Notes = oData.Notes;
+            delete oStudent.HeaderPhone;
             return Utility.removeMetadata(oStudent);
         },
 

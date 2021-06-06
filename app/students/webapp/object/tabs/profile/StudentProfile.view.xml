@@ -7,7 +7,8 @@
     xmlns:layout="sap.ui.layout"
     xmlns:f="sap.ui.layout.form"
     xmlns:core="sap.ui.core"
-    xmlns:table="sap.ui.table">
+    xmlns:table="sap.ui.table"
+    xmlns:data="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
     <layout:VerticalLayout
         id="idVerticalLayout"
         width="100%">
@@ -34,11 +35,17 @@
                     text="{i18n>StudentDetail.StudentInfoSectionTitle}"/>
             </f:title>
             <f:FormContainer id="idStudentInfoFirstFormContainer">
-                <f:FormElement
-                    label="{i18n>Student.FirstName}">
+                <f:FormElement>
+                    <f:label>
+                        <Label id="idLabelStudentInfoFirstName"
+                               text="{i18n>Student.FirstName}"
+                               required="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/EDIT} ? true : false }"
+                               labelFor="idInputStudentInfoFirstName"/>
+                    </f:label>
                     <f:fields>
                         <VBox>
                             <Input
+                                id="idInputStudentInfoFirstName"
                                 value="{this>FirstName}"
                                 visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/EDIT} }"
                                 maxLength="{= parseInt(${/#Students/FirstName/@maxLength}) }"/>
@@ -48,11 +55,17 @@
                         </VBox>
                     </f:fields>
                 </f:FormElement>
-                <f:FormElement
-                    label="{i18n>Student.LastName}">
+                <f:FormElement>
+                    <f:label>
+                        <Label id="idLabelStudentInfoLastName"
+                               text="{i18n>Student.LastName}"
+                               required="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/EDIT} ? true : false }"
+                               labelFor="idInputStudentInfoLastName"/>
+                    </f:label>
                     <f:fields>
                         <VBox>
                             <Input
+                                id="idInputStudentInfoLastName"
                                 value="{this>LastName}"
                                 visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/EDIT} }"
                                 maxLength="{= parseInt(${/#Students/LastName/@maxLength}) }"/>
@@ -62,11 +75,17 @@
                         </VBox>
                     </f:fields>
                 </f:FormElement>
-                <f:FormElement
-                    label="{i18n>Student.Patronymic}">
+                <f:FormElement>
+                    <f:label>
+                        <Label id="idLabelStudentInfoPatronymic"
+                               text="{i18n>Student.Patronymic}"
+                               required="false"
+                               labelFor="idInputStudentInfoPatronymic"/>
+                    </f:label>
                     <f:fields>
                         <VBox>
                             <Input
+                                id="idInputStudentInfoPatronymic"
                                 value="{this>Patronymic}"
                                 visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/EDIT} }"
                                 maxLength="{= parseInt(${/#Students/Patronymic/@maxLength}) }"/>
@@ -78,13 +97,20 @@
                 </f:FormElement>
             </f:FormContainer>
             <f:FormContainer id="idStudentInfoSecondFormContainer">
-                <f:FormElement
-                    label="{i18n>Student.Email}">
+                <f:FormElement>
+                    <f:label>
+                        <Label id="idLabelStudentInfoEmail"
+                               text="{i18n>Student.Email}"
+                               required="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/EDIT} ? true : false }"
+                               labelFor="idInputStudentInfoEmail"/>
+                    </f:label>
                     <f:fields>
                         <VBox>
                             <Input
+                                id="idInputStudentInfoEmail"
                                 value="{this>Email}"
                                 visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/EDIT} }"
+                                change="onChangeStudentEmail"
                                 maxLength="{= parseInt(${/#Students/Email/@maxLength}) }"/>
                             <Text
                                 text="{this>Email}"
@@ -117,25 +143,46 @@
                     text="{i18n>StudentDetail.StudentAddressSectionTitle}"/>
             </f:title>
             <f:FormContainer id="idStudentAddressFirstFormContainer">
-                <f:FormElement
-                    label="{i18n>Student.Country}">
+                <f:FormElement>
+                    <f:label>
+                        <Label id="idLabelAddressInfoCountry"
+                               text="{i18n>Student.Country}"
+                               required="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/EDIT} ? true : false }"
+                               labelFor="idAddressInfoFormCountryField"/>
+                    </f:label>
                     <f:fields>
                         <VBox>
-                            <Input
-                                value="{this>CountryText}"
-                                visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/EDIT} }"
-                                maxLength="{= parseInt(${/#Students/Country/@maxLength}) }"/>
+                            <ComboBox id="idAddressInfoFormCountryField"
+                                      selectedKey="{this>CountryText}"
+                                      items="{/Countries}"
+                                      busyIndicatorDelay="0"
+                                      visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/EDIT} }"
+                                      selectionChange="onSelectionChangeCountry">
+                                <items>
+                                    <core:Item id="idFormCountryItem"
+                                               key="{name}"
+                                               text="{ parts:[{path:'code'},{path:'name'}],
+                                                            formatter: '.formatter.getFormattedDescriptionIdText' }"
+                                               data:countryCode="{code}"/>
+                                </items>
+                            </ComboBox>
                             <Text
                                 text="{this>CountryText}"
                                 visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/DISPLAY} }"/>
                         </VBox>
                     </f:fields>
                 </f:FormElement>
-                <f:FormElement
-                    label="{i18n>Student.City}">
+                <f:FormElement>
+                    <f:label>
+                        <Label id="idLabelAddressInfoCity"
+                               text="{i18n>Student.City}"
+                               required="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/EDIT} ? true : false }"
+                               labelFor="idAddressInfoFormCityField"/>
+                    </f:label>
                     <f:fields>
                         <VBox>
                             <Input
+                                id="idAddressInfoFormCityField"
                                 value="{this>City}"
                                 visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/EDIT} }"
                                 maxLength="{= parseInt(${/#Students/City/@maxLength}) }"/>
@@ -147,11 +194,17 @@
                 </f:FormElement>
             </f:FormContainer>
             <f:FormContainer id="idStudentAddressSecondFormContainer">
-                <f:FormElement
-                    label="{i18n>Student.AddressLine}">
+                <f:FormElement>
+                    <f:label>
+                        <Label id="idLabelAddressInfoAddressLine"
+                               text="{i18n>Student.AddressLine}"
+                               required="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/EDIT} ? true : false }"
+                               labelFor="idAddressInfoFormAddressLineField"/>
+                    </f:label>
                     <f:fields>
                         <VBox>
                             <Input
+                                id="idAddressInfoFormAddressLineField"
                                 value="{this>AddressLine}"
                                 visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/EDIT} }"
                                 maxLength="{= parseInt(${/#Students/AddressLine/@maxLength}) }"/>
@@ -161,11 +214,17 @@
                         </VBox>
                     </f:fields>
                 </f:FormElement>
-                <f:FormElement
-                    label="{i18n>Student.ZipCode}">
+                <f:FormElement>
+                    <f:label>
+                        <Label id="idLabelAddressInfoZipCode"
+                               text="{i18n>Student.ZipCode}"
+                               required="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/EDIT} ? true : false }"
+                               labelFor="idAddressInfoFormZipCodeField"/>
+                    </f:label>
                     <f:fields>
                         <VBox>
                             <Input
+                                id="idAddressInfoFormZipCodeField"
                                 value="{this>ZipCode}"
                                 visible="{= ${this>/CurrViewMode} === ${constant>/VIEW_MODES/EDIT} }"
                                 maxLength="{= parseInt(${/#Students/ZipCode/@maxLength}) }"/>
@@ -255,12 +314,9 @@
                                 visible="{= ${this>ActionIndicator} !== ${constant>/ODATA_ACTIONS/CREATE} }"/>
                             <Input
                                 id="idAddStudentMobilePhoneInput"
-                                value="{path: 'this>PhoneNumber',
-                                                        type:'sap.ui.model.type.String',
-                                                        constraints: {
-                                                            search: '^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\\s\\.\\0-9]*$'
-                                                         } }"
+                                value="{this>PhoneNumber}"
                                 maxLength="30"
+                                change="onChangePhoneNumber"
                                 visible="{= ${this>ActionIndicator} === ${constant>/ODATA_ACTIONS/CREATE} }"/>
                         </VBox>
                     </table:template>

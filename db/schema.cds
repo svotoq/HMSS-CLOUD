@@ -10,7 +10,6 @@ using {
 entity Rooms {
     key RoomNumber  : String(10);
         Capacity    : Integer default 0;
-        Rating      : Integer default 0;
         Tables      : Integer default 0;
         Beds        : Integer default 0;
         ActionIndicator : ActionType default '';
@@ -25,7 +24,8 @@ entity Students : cuid {
     LastName        : String(40) not null;
     Patronymic      : String(40);
     Email           : String(241) not null;
-    Country         : String;
+    Country         : Country not null;
+    CountryText     : String(40);
     City            : String(40) not null;
     AddressLine     : String(60) not null;
     ZipCode         : String(10) not null;

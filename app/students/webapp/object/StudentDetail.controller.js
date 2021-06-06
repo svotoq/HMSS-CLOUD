@@ -357,7 +357,7 @@ sap.ui.define([
             this._removeDependentsData();
             return this.loadTabData(Constants.VIEW_MODES.DISPLAY)
                 .then(function (oResponse) {
-                    this._bindViewToBRoom(oResponse);
+                    this._bindViewToBStudent(oResponse);
                     this.setAppBusy(false)
                 }.bind(this))
                 .fail(function (oError) {
@@ -558,6 +558,20 @@ sap.ui.define([
          */
         _bindViewToBStudent: function (oBStudent) {
             var oViewModel = this.getViewModel();
+            oBStudent.HeaderPhone = oBStudent.Phones.find(function (oPhone) {
+                return oPhone.PhoneType === "MOBILE";
+            });
+
+            if (!oBStudent.HeaderPhone) {
+                oBStudent.HeaderPhone = oBStudent.Phones.find(function (oPhone) {
+                    return oPhone.PhoneType === "HOME";
+                });
+            }
+            if (!oBStudent.HeaderPhone) {
+                oBStudent.HeaderPhone = oBStudent.Phones.find(function (oPhone) {
+                    return oPhone.PhoneType === "PARENT";
+                });
+            }
             oViewModel.setProperty("/BStudent", oBStudent);
 
             if (!oBStudent.ID) {

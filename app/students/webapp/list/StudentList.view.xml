@@ -41,40 +41,8 @@
                         filterContainerWidth="21rem"
                         search="onSearch"
                         clear="onClearStudentListFilters"
+                        useProvidedNavigationProperties="true"
                         class="sapUiNoContentPadding">
-                        <smartFilterBar:controlConfiguration>
-                            <smartFilterBar:ControlConfiguration
-                                id="idFirstNameFilterConfiguration"
-                                index="1"
-                                key="FirstName"
-                                groupId="_BASIC"
-                                visibleInAdvancedArea="true"/>
-                            <smartFilterBar:ControlConfiguration
-                                id="idLastNameFilterConfiguration"
-                                index="2"
-                                key="LastName"
-                                groupId="_BASIC"
-                                visibleInAdvancedArea="true"/>
-                            <smartFilterBar:ControlConfiguration
-                                id="idEmailFilterConfiguration"
-                                index="4"
-                                key="Email"
-                                groupId="_BASIC"
-                                visibleInAdvancedArea="true"/>
-                            <smartFilterBar:ControlConfiguration
-                                id="idCityFilterConfiguration"
-                                index="5"
-                                key="City"
-                                groupId="_BASIC"
-                                visibleInAdvancedArea="true"/>
-                            <smartFilterBar:ControlConfiguration
-                                id="idRoomNumberFilterConfiguration"
-                                index="6"
-                                key="Room_RoomNumber"
-                                groupId="_BASIC"
-                                label="{i18n>Student.RoomNumber}"
-                                visibleInAdvancedArea="true"/>
-                        </smartFilterBar:controlConfiguration>
                     </smartFilterBar:SmartFilterBar>
                 </f:content>
             </f:DynamicPageHeader>
@@ -95,6 +63,8 @@
                 smartVariant="idStudentListPageVariant"
                 enableAutoBinding="false"
                 requestAtLeastFields="ID"
+                ignoredFields="Country_code,ID,ActionIndicator"
+                ignoreFromPersonalisation="ActionIndicator"
                 beforeRebindTable="onBeforeRebindTable">
                 <smartTable:customToolbar>
                     <OverflowToolbar
@@ -124,7 +94,8 @@
                     <table:columns>
                         <table:Column
                             id="idColumnStudentFirstName"
-                            sortProperty="FirstName">
+                            sortProperty="FirstName"
+                            minWidth="150">
                             <Label
                                 id="idLabelStudentFirstName"
                                 text="{i18n>Student.FirstName}"/>
@@ -141,7 +112,8 @@
 
                         <table:Column
                             id="idColumnStudentLastName"
-                            sortProperty="LastName">
+                            sortProperty="LastName"
+                            minWidth="150">
                             <Label
                                 id="idLabelStudentLastName"
                                 text="{i18n>Student.LastName}"/>
@@ -158,7 +130,8 @@
 
                         <table:Column
                             id="idColumnStudentPatronymic"
-                            sortProperty="Patronymic">
+                            sortProperty="Patronymic"
+                            minWidth="150">
                             <Label
                                 id="idLabelStudentPatronymic"
                                 text="{i18n>Student.Patronymic}"/>
@@ -175,7 +148,8 @@
 
                         <table:Column
                             id="idColumnStudentEmail"
-                            sortProperty="Email">
+                            sortProperty="Email"
+                            minWidth="250">
                             <Label
                                 id="idLabelStudentEmail"
                                 text="{i18n>Student.Email}"/>
@@ -192,7 +166,8 @@
 
                         <table:Column
                             id="idColumnStudentCity"
-                            sortProperty="City">
+                            sortProperty="City"
+                            minWidth="150">
                             <Label
                                 id="idLabelStudentCity"
                                 text="{i18n>Student.City}"/>
@@ -208,14 +183,33 @@
                         </table:Column>
 
                         <table:Column
+                            id="idColumnStudentCountry"
+                            sortProperty="CountryText"
+                            minWidth="150">
+                            <Label
+                                id="idLabelStudentCountry"
+                                text="{i18n>Student.Country}"/>
+                            <table:customData>
+                                <core:CustomData key="p13nData"
+                                                 value='\{"columnKey": "CountryText", "columnIndex":"5", "leadingProperty": "CountryText"}'/>
+                            </table:customData>
+                            <table:template>
+                                <Text
+                                    id="idTextStudentCountry"
+                                    text="{CountryText}"/>
+                            </table:template>
+                        </table:Column>
+
+                        <table:Column
                             id="idColumnStudentRoomNumber"
-                            sortProperty="Room_RoomNumber">
+                            sortProperty="Room_RoomNumber"
+                            minWidth="150">
                             <Label
                                 id="idLabelStudentRoomNumber"
                                 text="{i18n>Student.RoomNumber}"/>
                             <table:customData>
                                 <core:CustomData key="p13nData"
-                                                 value='\{"columnKey": "Room_RoomNumber", "columnIndex":"5", "leadingProperty": "Room_RoomNumber"}'/>
+                                                 value='\{"columnKey": "Room_RoomNumber", "columnIndex":"6", "leadingProperty": "Room_RoomNumber"}'/>
                             </table:customData>
                             <table:template>
                                 <Text
@@ -226,13 +220,14 @@
 
                         <table:Column
                             id="idColumnStudentCheckIn"
-                            sortProperty="CheckIn">
+                            sortProperty="CheckIn"
+                            minWidth="150">
                             <Label
                                 id="idLabelStudentCheckIn"
                                 text="{i18n>Student.CheckIn}"/>
                             <table:customData>
                                 <core:CustomData key="p13nData"
-                                                 value='\{"columnKey": "CheckIn", "columnIndex":"6", "leadingProperty": "CheckIn"}'/>
+                                                 value='\{"columnKey": "CheckIn", "columnIndex":"7", "leadingProperty": "CheckIn"}'/>
                             </table:customData>
                             <table:template>
                                 <Text
@@ -243,13 +238,14 @@
 
                         <table:Column
                             id="idColumnStudentCheckOut"
-                            sortProperty="CheckOut">
+                            sortProperty="CheckOut"
+                            minWidth="150">
                             <Label
                                 id="idLabelStudentCheckOut"
                                 text="{i18n>Student.CheckOut}"/>
                             <table:customData>
                                 <core:CustomData key="p13nData"
-                                                 value='\{"columnKey": "CheckOut", "columnIndex":"7", "leadingProperty": "CheckOut"}'/>
+                                                 value='\{"columnKey": "CheckOut", "columnIndex":"8", "leadingProperty": "CheckOut"}'/>
                             </table:customData>
                             <table:template>
                                 <Text

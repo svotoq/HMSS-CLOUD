@@ -61,7 +61,7 @@ sap.ui.define([
              * @public
              * @param {sap.ui.base.Event} oEvent - application event
              */
-            onPressOpenRoom: function () {
+            Country: function () {
                 var sRoomNumber = this.getViewModel().getProperty("/SelectedStudentRoomNumber");
 
                 var oOutbound = this.getOwnerComponent().getManifestEntry("/sap.app/crossNavigation/outbounds/displayRoom");

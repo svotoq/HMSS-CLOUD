@@ -151,23 +151,6 @@
                             </table:template>
                         </table:Column>
 
-                        <table:Column
-                            id="idColumnRoomRating"
-                            sortProperty="Rating">
-                            <Label
-                                id="idLabelRoomRating"
-                                text="{i18n>Room.Rating}"/>
-                            <table:customData>
-                                <core:CustomData key="p13nData"
-                                                 value='\{"columnKey": "Rating", "columnIndex":"4", "leadingProperty": "Rating"}'/>
-                            </table:customData>
-                            <table:template>
-                                <Text
-                                    id="idTextRoomRating"
-                                    text="{Rating}"/>
-                            </table:template>
-                        </table:Column>
-
                     </table:columns>
                     <table:rowActionTemplate>
                         <table:RowAction id="idRowAction">

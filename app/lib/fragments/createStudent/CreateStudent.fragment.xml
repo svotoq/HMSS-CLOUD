@@ -1,14 +1,16 @@
 <core:FragmentDefinition
     xmlns="sap.m"
     xmlns:core="sap.ui.core"
-    xmlns:form="sap.ui.layout.form">
+    xmlns:form="sap.ui.layout.form"
+    xmlns:data="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
     <Dialog id="idCreateStudentDialog"
             title="{i18n>CreateStudent.Title}"
             busyIndicatorDelay="0"
-            contentWidth="60%"
-            contentHeight="60%"
-            binding="{this>/CreateStudentDialog/NewStudent}"
+            contentWidth="80%"
+            contentHeight="80%"
+            binding="{_createStudent>/NewStudent}"
             afterClose="_onAfterCloseCreateStudentDialog"
+            beforeOpen="onBeforeOpenCreateStudentDialog"
             afterOpen="_onAfterOpenCreateStudentDialog">
         <form:Form id="idCreateStudentForm"
                    editable="true">
@@ -24,12 +26,12 @@
                     <form:label>
                         <Label id="idLabelCreateStudentFirstName"
                                text="{i18n>Student.FirstName}"
-                               required="{= !${/#Students/FirstName/@Nullable} }"
+                               required="true"
                                labelFor="idInputCreateStudentFirstName"/>
                     </form:label>
                     <form:fields>
                         <Input id="idInputCreateStudentFirstName"
-                               value="{this>FirstName}"
+                               value="{_createStudent>FirstName}"
                                maxLength="{= parseInt(${/#Students/FirstName/@maxLength}) }"/>
                     </form:fields>
                 </form:FormElement>
@@ -37,12 +39,12 @@
                     <form:label>
                         <Label id="idLabelCreateStudentLastName"
                                text="{i18n>Student.LastName}"
-                               required="{= !${/#Students/LastName/@Nullable} }"
+                               required="true"
                                labelFor="idInputCreateStudentLastName"/>
                     </form:label>
                     <form:fields>
                         <Input id="idInputCreateStudentLastName"
-                               value="{this>LastName}"
+                               value="{_createStudent>LastName}"
                                maxLength="{= parseInt(${/#Students/LastName/@maxLength}) }"/>
                     </form:fields>
                 </form:FormElement>
@@ -50,12 +52,12 @@
                     <form:label>
                         <Label id="idLabelCreateStudentPatronymic"
                                text="{i18n>Student.Patronymic}"
-                               required="{= !${/#Students/Patronymic/@Nullable} }"
+                               required="false"
                                labelFor="idInputCreateStudentPatronymic"/>
                     </form:label>
                     <form:fields>
                         <Input id="idInputCreateStudentPatronymic"
-                               value="{this>Patronymic}"
+                               value="{_createStudent>Patronymic}"
                                maxLength="{= parseInt(${/#Students/Patronymic/@maxLength}) }"/>
                     </form:fields>
                 </form:FormElement>
@@ -63,18 +65,19 @@
                     <form:label>
                         <Label id="idLabelCreateStudentEmail"
                                text="{i18n>Student.Email}"
-                               required="{= !${/#Students/Email/@Nullable} }"
+                               required="true"
                                labelFor="idInputCreateStudentEmail"/>
                     </form:label>
                     <form:fields>
                         <Input id="idInputCreateStudentEmail"
-                               value="{this>Email}"
-                               maxLength="{= parseInt(${/#Students/Email/@maxLength}) }"/>
+                               value="{_createStudent>Email}"
+                               change="onChangeStudentEmail"
+                               maxLength="250"/>
                     </form:fields>
                 </form:FormElement>
                 <form:FormElement
                     id="idElementCreateStudentRoomNumber"
-                    visible="{= ${this>/CreateStudentDialog/ViewMode} === 'STUDENT' }">
+                    visible="{= ${_createStudent>/ViewMode} === 'STUDENT' }">
                     <form:label>
                         <Label id="idLabelCreateStudentRoomNumber"
                                text="{i18n>Student.RoomNumber}"
@@ -82,7 +85,10 @@
                     </form:label>
                     <form:fields>
                         <Input id="idInputCreateStudentRoomNumber"
-                               value="{this>Room_RoomNumber}"/>
+                               value="{_createStudent>Room_RoomNumber}"
+                               showValueHelp="true"
+                               valueHelpOnly="true"
+                               valueHelpRequest="onPressShowSelectRoomDialog"/>
                     </form:fields>
                 </form:FormElement>
             </form:FormContainer>
@@ -97,20 +103,31 @@
                                labelFor="idInputCreateStudentCountry"/>
                     </form:label>
                     <form:fields>
-                        <Input id="idInputCreateStudentCountry"
-                               value="{this>Country}"/>
+                        <ComboBox id="idFormCountryField"
+                                  selectedKey="{_createStudent>CountryText}"
+                                  items="{/Countries}"
+                                  busyIndicatorDelay="0"
+                                  selectionChange="onSelectionChangeCountry">
+                            <items>
+                                <core:Item id="idFormCountryItem"
+                                           key="{name}"
+                                           text="{ parts:[{path:'code'},{path:'name'}],
+                                                            formatter: '.formatter.getFormattedDescriptionIdText' }"
+                                           data:countryCode="{code}"/>
+                            </items>
+                        </ComboBox>
                     </form:fields>
                 </form:FormElement>
                 <form:FormElement id="idElementCreateStudentCity">
                     <form:label>
                         <Label id="idLabelCreateStudentCity"
                                text="{i18n>Student.City}"
-                               required="{= !${/#Students/City/@Nullable} }"
+                               required="true"
                                labelFor="idInputCreateStudentCity"/>
                     </form:label>
                     <form:fields>
                         <Input id="idInputCreateStudentCity"
-                               value="{this>City}"
+                               value="{_createStudent>City}"
                                maxLength="{= parseInt(${/#Students/City/@maxLength}) }"/>
                     </form:fields>
                 </form:FormElement>
@@ -118,12 +135,12 @@
                     <form:label>
                         <Label id="idLabelCreateStudentAddressLine"
                                text="{i18n>Student.AddressLine}"
-                               required="{= !${/#Students/AddressLine/@Nullable} }"
+                               required="true"
                                labelFor="idInputCreateStudentAddressLine"/>
                     </form:label>
                     <form:fields>
                         <Input id="idInputCreateStudentAddressLine"
-                               value="{this>AddressLine}"
+                               value="{_createStudent>AddressLine}"
                                maxLength="{= parseInt(${/#Students/AddressLine/@maxLength}) }"/>
                     </form:fields>
                 </form:FormElement>
@@ -131,13 +148,60 @@
                     <form:label>
                         <Label id="idLabelCreateStudentZipCode"
                                text="{i18n>Student.ZipCode}"
-                               required="{= !${/#Students/ZipCode/@Nullable} }"
+                               required="true"
                                labelFor="idInputCreateStudentZipCode"/>
                     </form:label>
                     <form:fields>
                         <Input id="idInputCreateStudentZipCode"
-                               value="{this>ZipCode}"
+                               value="{_createStudent>ZipCode}"
                                maxLength="{= parseInt(${/#Students/ZipCode/@maxLength}) }"/>
+                    </form:fields>
+                </form:FormElement>
+            </form:FormContainer>
+
+            <form:FormContainer
+                id="idFormContainerCreateStudentPhone"
+                title="{i18n>CreateStudent.PhoneFormContainerTitle}">
+                <form:FormElement id="idElementCreateStudentMobilePhone">
+                    <form:label>
+                        <Label id="idLabelCreateStudentMobilePhone"
+                               text="{i18n>Student.PhoneTypeMobile}"
+                               labelFor="idInputCreateStudentMobilePhone"/>
+                    </form:label>
+                    <form:fields>
+                        <Input id="idInputCreateStudentMobilePhone"
+                               value="{_createStudent>MobilePhone/PhoneNumber}"
+                               change="onChangeStudentPhone"
+                               fieldGroupIds="idCreateStudentValidationGroupPhones"
+                               maxLength="30"/>
+                    </form:fields>
+                </form:FormElement>
+                <form:FormElement id="idElementCreateStudentHomePhone">
+                    <form:label>
+                        <Label id="idLabelCreateStudentHomePhone"
+                               text="{i18n>Student.PhoneTypeHome}"
+                               labelFor="idInputCreateStudentHomePhone"/>
+                    </form:label>
+                    <form:fields>
+                        <Input id="idInputCreateStudentHomePhone"
+                               value="{_createStudent>HomePhone/PhoneNumber}"
+                               change="onChangeStudentPhone"
+                               fieldGroupIds="idCreateStudentValidationGroupPhones"
+                               maxLength="30"/>
+                    </form:fields>
+                </form:FormElement>
+                <form:FormElement id="idElementCreateStudentParentPhone">
+                    <form:label>
+                        <Label id="idLabelCreateStudentParentPhone"
+                               text="{i18n>Student.PhoneTypeParent}"
+                               labelFor="idInputCreateStudentParentPhone"/>
+                    </form:label>
+                    <form:fields>
+                        <Input id="idInputCreateStudentParentPhone"
+                               value="{_createStudent>ParentPhone/PhoneNumber}"
+                               change="onChangeStudentPhone"
+                               fieldGroupIds="idCreateStudentValidationGroupPhones"
+                               maxLength="30"/>
                     </form:fields>
                 </form:FormElement>
             </form:FormContainer>
@@ -149,7 +213,7 @@
                     <form:label>
                         <Label id="idLabelCreateStudentCheckIn"
                                text="{i18n>Student.CheckIn}"
-                               required="{= !!${this>Room_RoomNumber} }"
+                               required="{= !!${_createStudent>Room_RoomNumber} }"
                                labelFor="idDatePickerCreateStudentCheckIn"/>
                     </form:label>
                     <form:fields>
@@ -157,27 +221,30 @@
                             id="idDatePickerCreateStudentCheckIn"
                             displayFormat="short"
                             change="onChangeLiveDates"
-                            enabled="{= !!${this>Room_RoomNumber} }"
-                            value="{this>CheckIn}"/>
+                            placeholder="dd.MM.yyyy"
+                            enabled="{= !!${_createStudent>Room_RoomNumber} }"
+                            value="{_createStudent>CheckIn}"/>
                     </form:fields>
                 </form:FormElement>
                 <form:FormElement id="idElementCreateStudentCheckOut">
                     <form:label>
                         <Label id="idLabelCreateStudentCheckOut"
                                text="{i18n>Student.CheckOut}"
-                               required="{= !!${this>Room_RoomNumber} }"
+                               required="{= !!${_createStudent>Room_RoomNumber} }"
                                labelFor="idDatePickerCreateStudentCheckOut"/>
                     </form:label>
                     <form:fields>
                         <DatePicker
                             id="idDatePickerCreateStudentCheckOut"
                             displayFormat="short"
+                            placeholder="dd.MM.yyyy"
                             change="onChangeLiveDates"
-                            enabled="{= !!${this>Room_RoomNumber} }"
-                            value="{this>CheckOut}"/>
+                            enabled="{= !!${_createStudent>Room_RoomNumber} }"
+                            value="{_createStudent>CheckOut}"/>
                     </form:fields>
                 </form:FormElement>
             </form:FormContainer>
+          
         </form:Form>
         <buttons>
             <Button id="idCreateStudentDialogMessagePopover"
@@ -189,8 +256,7 @@
             <Button id="idCreateStudentDialogSubmitButton"
                     text="{i18n>Button.Create}"
                     type="Emphasized"
-                    press="_onPressSubmitCreateStudentDialog"
-                    enabled="{= !${this>IsVHDataLoading} }"/>
+                    press="_onPressSubmitCreateStudentDialog"/>
             <Button id="idCreateStudentDialogCancelButton"
                     text="{i18n>Button.Cancel}"
                     press="_onPressCancelCreateStudentDialog"/>

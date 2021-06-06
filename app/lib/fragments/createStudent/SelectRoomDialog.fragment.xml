@@ -1,0 +1,151 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:smartFilterBar="sap.ui.comp.smartfilterbar"
+    xmlns:smartTable="sap.ui.comp.smarttable"
+    xmlns:table="sap.ui.table">
+    <Dialog
+        id="idSelectRoomDialogDialog"
+        title="{i18n>SelectRoom.Title}"
+        resizable="false"
+        contentWidth="80%"
+        contentHeight="80%"
+        beforeOpen="onBeforeOpenSelectRoomDialogDialog"
+        afterOpen="onAfterOpenSelectRoomDialogDialog"
+        afterClose="onAfterCloseSelectRoomDialogDialog">
+        <content>
+            <Page showFooter="false" showHeader="false" title="{i18n>Additional.BlankTitle}"
+                  id="idSelectRoomDialogPage">
+                <smartFilterBar:SmartFilterBar
+                    id="idSelectRoomFilterBar"
+                    entitySet="Rooms"
+                    showClearOnFB="true"
+                    showClearButton="true"
+                    search="onSearch"
+                    enableBasicSearch="false"
+                    useToolbar="false"
+                    assignedFiltersChanged="onSelectRoomAssignedFiltersChanged">
+                </smartFilterBar:SmartFilterBar>
+                <smartTable:SmartTable
+                    id="idSelectRoomSmartTable"
+                    entitySet="Rooms"
+                    smartFilterId="idSelectRoomFilterBar"
+                    useExportToExcel="false"
+                    useVariantManagement="false"
+                    useTablePersonalisation="true"
+                    placeToolbarInTable="true"
+                    header="{i18n>Room.TypeNamePlural}"
+                    showRowCount="true"
+                    enableAutoBinding="false"
+                    beforeRebindTable="onBeforeRebindSelectRoomTable">
+                    <table:Table
+                        id="idSelectRoomTable"
+                        selectionMode="Single"
+                        visibleRowCountMode="Auto"
+                        enableColumnFreeze="true"
+                        rowActionCount="1"
+                        rowSelectionChange="onRowSelectionChangeRoom">
+                        <table:columns>
+                            <table:Column
+                                id="idSelectRoomColumnRoomRoomNumber"
+                                sortProperty="RoomNumber">
+                                <Label
+                                    id="idSelectRoomLabelRoomRoomNumber"
+                                    text="{i18n>Room.RoomNumber}"/>
+                                <table:customData>
+                                    <core:CustomData key="p13nData"
+                                                     value='\{"columnKey": "RoomNumber", "columnIndex":"0", "leadingProperty": "RoomNumber"}'/>
+                                </table:customData>
+                                <table:template>
+                                    <Text
+                                        id="idSelectRoomTextRoomNumber"
+                                        text="{RoomNumber}"/>
+                                </table:template>
+                            </table:Column>
+
+                            <table:Column
+                                id="idSelectRoomColumnRoomCapacity"
+                                sortProperty="Capacity">
+                                <Label
+                                    id="idSelectRoomLabelRoomCapacity"
+                                    text="{i18n>Room.Capacity}"/>
+                                <table:customData>
+                                    <core:CustomData key="p13nData"
+                                                     value='\{"columnKey": "Capacity", "columnIndex":"1", "leadingProperty": "Capacity"}'/>
+                                </table:customData>
+                                <table:template>
+                                    <Text
+                                        id="idSelectRoomTextRoomCapacity"
+                                        text="{Capacity}"/>
+                                </table:template>
+                            </table:Column>
+
+                            <table:Column
+                                id="idSelectRoomColumnRoomEmptyPlaces"
+                                sortProperty="EmptyPlaces">
+                                <Label
+                                    id="idSelectRoomLabelRoomEmptyPlaces"
+                                    text="{i18n>Room.EmptyPlaces}"/>
+                                <table:customData>
+                                    <core:CustomData key="p13nData"
+                                                     value='\{"columnKey": "EmptyPlaces", "columnIndex":"2", "leadingProperty": "EmptyPlaces"}'/>
+                                </table:customData>
+                                <table:template>
+                                    <Text
+                                        id="idSelectRoomTextRoomEmptyPlaces"
+                                        text="{EmptyPlaces}"/>
+                                </table:template>
+                            </table:Column>
+
+                            <table:Column
+                                id="idSelectRoomColumnRoomBeds"
+                                sortProperty="Beds">
+                                <Label
+                                    id="idSelectRoomLabelRoomBeds"
+                                    text="{i18n>Room.Beds}"/>
+                                <table:customData>
+                                    <core:CustomData key="p13nData"
+                                                     value='\{"columnKey": "Beds", "columnIndex":"3", "leadingProperty": "Beds"}'/>
+                                </table:customData>
+                                <table:template>
+                                    <Text
+                                        id="idSelectRoomTextRoomBeds"
+                                        text="{Beds}"/>
+                                </table:template>
+                            </table:Column>
+
+                        </table:columns>
+                        <table:rowActionTemplate>
+                            <table:RowAction id="idSelectRoomRowAction">
+                                <table:items>
+                                    <table:RowActionItem
+                                        id="idSelectRoomRoomDetailAction"
+                                        type="Navigation"
+                                        text="{i18n>SelectRoom.RowActionToolTip}"
+                                        press="onSelectRoomDialogSelect">
+                                    </table:RowActionItem>
+                                </table:items>
+                            </table:RowAction>
+                        </table:rowActionTemplate>
+                    </table:Table>
+                </smartTable:SmartTable>
+            </Page>
+        </content>
+        <buttons>
+            <Button id="idSelectRoomDialogMessagePopover"
+                    icon="sap-icon://message-popup"
+                    type="Emphasized"
+                    press="onPressShowSelectRoomMessagePopover"
+                    text="{= ${message>/}.length}"
+                    visible="{= !!${message>/}.length}"
+                    class="sapUiLargeMarginEnd"/>
+            <Button text="{i18n>Button.ProceedWithoutRoom}"
+                    press="onSelectRoomProceedWithoutRoom"
+                    type="Emphasized"
+                    id="idSelectRoomDialogProceedWithoutRoomButton"/>
+            <Button text="{i18n>Button.Cancel}"
+                    press="onSelectRoomDialogCancel"
+                    id="idSelectRoomDialogCancelButton"/>
+        </buttons>
+    </Dialog>
+</core:FragmentDefinition>

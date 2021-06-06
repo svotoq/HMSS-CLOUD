@@ -59,7 +59,7 @@
                     <facet:FormFacetText
                         id="idPhoneNumberField"
                         label="{i18n>Student.PhoneNumber}"
-                        text="{this>/BStudent/Phones/0/PhoneNumber}"/>
+                        text="{this>/BStudent/HeaderPhone/PhoneNumber}"/>
                     <facet:FormFacetText
                         id="idRoomEmailField"
                         label="{i18n>Student.Email}"
@@ -77,7 +77,7 @@
                     <facet:FormFacetText
                         id="idTCountryField"
                         label="{i18n>Student.Country}"
-                        text="{this>/BStudent/Country}"/>
+                        text="{this>/BStudent/CountryText}"/>
                     <facet:FormFacetText
                         id="idCityField"
                         label="{i18n>Student.City}"

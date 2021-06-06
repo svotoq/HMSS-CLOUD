@@ -9,9 +9,11 @@ sap.ui.define([
     "bstu/hmss/lib/util/Utility",
     "sap/m/MessageBox",
     "bstu/hmss/lib/message/Message",
-    "sap/ui/core/MessageType"
+    "sap/ui/core/MessageType",
+    "bstu/hmss/lib/base/FieldValidations",
+    "./StudentProfileValidator"
 ], function (BaseController, JSONModel, StudentProfileBO, Constants, formatter, merge, Utility,
-             MessageBox, Message, MessageType) {
+             MessageBox, Message, MessageType, FieldValidations, StudentProfileValidator) {
     /* eslint-enable max-params */
     "use strict";
 
@@ -33,6 +35,61 @@ sap.ui.define([
             this.attachAppEvent("BStudentHeaderChange", this._handleBStudentHeaderChange, this);
             this.attachAppEvent("viewModeChange", this._handleViewModeChange, this);
             this.attachAppEvent("displayStudent", this._handleDisplayStudent, this);
+        },
+
+        /**
+         * Event handler for 'selectionChange' of country combobox
+         * @param {sap.ui.base.Event} oEvent - "selectionChange" application Event
+         * @private
+         */
+        onSelectionChangeCountry: function (oEvent) {
+            var oSelectedItem = oEvent.getParameter("selectedItem");
+            var sText = "";
+
+            if (oSelectedItem) {
+                sText = oSelectedItem.data("countryCode");
+            }
+
+            var oStudent = this.getSectionData(this.PROFILE_SECTION_ID);
+            oStudent.Country_code = sText;
+            this.setSectionData(this.PROFILE_SECTION_ID, oStudent);
+        },
+
+        onChangeStudentEmail: function (oEvent) {
+            var sEmail = oEvent.getParameter("value"),
+                bValid = true;
+
+            if (sEmail) {
+                var sSearch = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                bValid = !!~sEmail.search(sSearch);
+            }
+            if (!bValid) {
+                var oField = oEvent.getSource();
+                FieldValidations.setFieldValid(oField, false, {
+                    element: oField,
+                    message: this.i18n("Validation.EnterCorrectEmail")
+                }, false);
+            }
+        },
+
+        onChangePhoneNumber: function (oEvent) {
+            var sPhoneNumber = oEvent.getParameter("value"),
+                bValid = true;
+
+            if (sPhoneNumber) {
+                bValid = this.validatePhoneNumber(sPhoneNumber);
+            }
+            if (!bValid) {
+                var oField = oEvent.getSource();
+                FieldValidations.setFieldValid(oField, false, {
+                    element: oField,
+                    message: this.i18n("Validation.EnterValidPhoneNumber")
+                }, false);
+            }
+        },
+
+        validatePhoneNumber: function (sPhoneNumber) {
+            return !!~sPhoneNumber.search(/^([+]?\d{1,2}[-\s]?|)\d{3}[-\s]?\d{3}[-\s]?\d{4}$/);
         },
 
         /**
@@ -108,7 +165,8 @@ sap.ui.define([
                 var oSectionData = this.getSectionData(this.PROFILE_SECTION_ID);
                 oSectionData.Phones.splice(iIndex, 1);
                 this.setSectionData(this.PROFILE_SECTION_ID, oSectionData);
-            } 
+                this._validateStudentPhones();
+            }
         },
 
         /**
@@ -170,6 +228,26 @@ sap.ui.define([
         },
 
         /**
+         * Get StudentProfileValidator instance
+         * @returns {bstu.hmss.managestudents.object.tabs.profile.StudentProfileValidator} Validator instance
+         * @public
+         */
+        getValidator: function () {
+            var oStudentProfileValidator = new StudentProfileValidator({
+                viewModel: this.getViewModel(),
+                constantModel: this.getModel("constant"),
+                i18nModel: this.getModel("i18n"),
+                odataModel: this.getModel()
+            });
+
+            this.getValidator = function () {
+                return oStudentProfileValidator;
+            };
+
+            return oStudentProfileValidator;
+        },
+        
+        /**
          * Check whether client-side data and server-side data is the same
          * @returns {Boolean} True if data is the same
          * @public
@@ -184,6 +262,65 @@ sap.ui.define([
             return aSectionsToCheck.every(function (sSectionToCheck) {
                 return BaseController.prototype.compareServerClientData.call(this, sSectionToCheck);
             }.bind(this));
+        },
+
+        validate: function () {
+            this.getOwnerComponent().removeAllMessages();
+            var bValidPhones = this._validateStudentPhones(),
+                bValidRequiredProfileFormFields = this._validateRequiredFormFields("idStudentInfoForm"),
+                bValidRequiredAddressFormFields = this._validateRequiredFormFields("idStudentAddressForm");
+
+            return bValidPhones && bValidRequiredProfileFormFields && bValidRequiredAddressFormFields;
+        },
+
+        _validateStudentPhones: function () {
+            var oStudent = this.getSectionData(this.PROFILE_SECTION_ID);
+            var bValid = oStudent.Phones.reduce(function (bValid, oPhone) {
+                if (!oPhone.PhoneNumber || !this.validatePhoneNumber(oPhone.PhoneNumber) || !oPhone.PhoneType) {
+                    bValid = false;
+                }
+                return bValid;
+            }.bind(this), true);
+            if (!bValid) {
+                this.getValidator().addValidationErrorMessage(this.i18n("Validation.EnterValidPhoneNumber"), "idStudentPhonesTable");
+            } else {
+                this.getValidator().removeMessageByContextPath("idStudentPhonesTable");
+            }
+            return bValid;
+        },
+
+        /**
+         * Validates required form fields
+         * @returns {boolean} validation result
+         */
+        _validateRequiredFormFields: function (sFormId) {
+            var aFormElements = Utility.getFormElements(this.byId(sFormId));
+            var aInvalidFields = aFormElements
+                .filter(function (oFE) {
+                    var oLabel = oFE.getLabel();
+                    return oLabel.getRequired ? oFE.getVisible() && oLabel.getRequired() : false;
+                })
+                .map(function (oFE) {
+                    return oFE.getFields()[0].getItems()[0];
+                })
+                .flat()
+                .filter(function (oField) {
+                    return !FieldValidations.isRequiredValueFieldValid(oField);
+                }, this);
+
+            aInvalidFields
+                .forEach(function (oField) {
+                    var oFormElement = oField.getParent().getParent();
+                    var sFieldLabel = oFormElement.getLabel().getText();
+
+                    FieldValidations.setFieldValid(oField, false, {
+                        property: "required",
+                        element: oFormElement,
+                        message: this.i18n("Validation.RequiredFieldValidationError", sFieldLabel)
+                    }, true);
+                }, this);
+
+            return !aInvalidFields.length;
         },
 
         /**
