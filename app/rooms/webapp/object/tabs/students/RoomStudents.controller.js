@@ -31,7 +31,7 @@ sap.ui.define([
                 BaseController.prototype.onInit.apply(this, arguments);
 
                 this.setModel(new JSONModel({}), "this");
-                
+
                 if (sap.ushell && sap.ushell.Container && sap.ushell.Container.getService) {
                     this.oCrossAppNavigator = sap.ushell.Container.getService("CrossApplicationNavigation");
                 }
@@ -86,12 +86,39 @@ sap.ui.define([
             saveNewStudent: function (oNewStudent) {
                 var oViewModel = this.getViewModel(),
                     aRoomStudents = oViewModel.getProperty("/Students/data");
+                var oDateFormat = sap.ui.core.format.DateFormat.getInstance({pattern: "yyyy-MM-dd"});
 
-                aRoomStudents.push(oNewStudent);
+                var oStudent = {
+                    FirstName: oNewStudent.FirstName,
+                    LastName: oNewStudent.LastName,
+                    Patronymic: oNewStudent.Patronymic,
+                    Email: oNewStudent.Email,
+                    Room_RoomNumber: oNewStudent.Room_RoomNumber,
+                    CountryText: oNewStudent.CountryText,
+                    Country_code: oNewStudent.Country_code,
+                    City: oNewStudent.City,
+                    AddressLine: oNewStudent.AddressLine,
+                    ZipCode: oNewStudent.ZipCode,
+                    CheckIn: oDateFormat.format(oDateFormat.parse(oNewStudent.CheckIn)),
+                    CheckOut: oDateFormat.format(oDateFormat.parse(oNewStudent.CheckOut)),
+                    ActionIndicator: oNewStudent.ActionIndicator,
+                    Phones: this.getStudentPhones(oNewStudent)
+                };
+
+                aRoomStudents.push(oStudent);
 
                 oViewModel.setProperty("/Students/data", aRoomStudents);
             },
+            getStudentPhones: function (oStudent) {
+                var aPhoneTypes = ["MobilePhone", "HomePhone", "ParentPhone"];
 
+                return aPhoneTypes.reduce(function (aAcc, sType) {
+                    if (oStudent[sType].PhoneNumber) {
+                        aAcc.push(oStudent[sType]);
+                    }
+                    return aAcc;
+                }, []);
+            },
             onPressDeleteStudent: function () {
                 var iIndex = this.getViewModel().getProperty("/SelectedRoomStudentIndex"),
                     oAddressTable = this.getRoomStudentsTable();
@@ -133,7 +160,7 @@ sap.ui.define([
                 } else {
                     aSectionData[iIndex].ActionIndicator = Constants.ODATA_ACTIONS.DELETE;
                 }
-                
+
                 this.setSectionData(sSectionID, aSectionData);
             },
             /**

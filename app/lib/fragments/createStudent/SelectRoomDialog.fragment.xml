@@ -114,6 +114,23 @@
                                 </table:template>
                             </table:Column>
 
+                            <table:Column
+                                id="idSelectRoomColumnRoomTables"
+                                sortProperty="Tables">
+                                <Label
+                                    id="idSelectRoomLabelRoomTables"
+                                    text="{i18n>Room.Tables}"/>
+                                <table:customData>
+                                    <core:CustomData key="p13nData"
+                                                     value='\{"columnKey": "Tables", "columnIndex":"4", "leadingProperty": "Tables"}'/>
+                                </table:customData>
+                                <table:template>
+                                    <Text
+                                        id="idSelectRoomTextRoomTables"
+                                        text="{Tables}"/>
+                                </table:template>
+                            </table:Column>
+
                         </table:columns>
                         <table:rowActionTemplate>
                             <table:RowAction id="idSelectRoomRowAction">

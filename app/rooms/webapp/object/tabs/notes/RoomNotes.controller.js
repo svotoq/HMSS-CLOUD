@@ -38,7 +38,7 @@ sap.ui.define([
                 CreatedBy: this.getCurrentUserName()
             };
 
-            aRoomNotes.push(oNote);
+            aRoomNotes.unshift(oNote);
 
             this.setSectionData(this.NOTE_SECTION_ID, aRoomNotes);
         },

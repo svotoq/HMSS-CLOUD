@@ -172,6 +172,8 @@ sap.ui.define([
                     oNewStudent.CheckOut = "";
                     oDialogModel.setProperty("/NewStudent", oNewStudent);
                 }
+                this.getOwnerComponent().removeAllMessages();
+
                 if (oDialogData.ViewMode === "STUDENT") {
                     this.getCreateStudentDialog().setBusy(true);
                     this.saveNewStudent(oNewStudent)

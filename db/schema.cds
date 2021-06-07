@@ -36,8 +36,8 @@ entity Students : cuid {
         PhoneNote   : String(80);
     } not null;
     Notes           : array of Notes;
-    CheckIn         : String;
-    CheckOut        : String;
+    CheckIn         : Date;
+    CheckOut        : Date;
     ActionIndicator : ActionType default '';
 // Faculty: Faculty;
 // Course: Integer not null;

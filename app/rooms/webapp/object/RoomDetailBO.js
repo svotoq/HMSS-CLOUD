@@ -181,7 +181,6 @@ sap.ui.define([
                 }.bind(this))
         },
 
-
         _getCreateRoomPayload: function (oRoom, aStudents, aNotes) {
             var aRoomPayloadStudents = this._formatStudentsDate(aStudents);
             return {
