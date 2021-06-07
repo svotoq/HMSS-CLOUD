@@ -13,7 +13,8 @@
             rows="{_create>SelectedStudents}">
             <table:columns>
                 <table:Column
-                    id="idColumnRoomPreviewStudentsFullName">
+                    id="idColumnRoomPreviewStudentsFullName"
+                   >
                     <Label
                         id="idLabelRoomPreviewStudentsFullName"
                         text="{i18n>Student.FullName}"/>
@@ -42,7 +43,8 @@
                 </table:Column>
 
                 <table:Column
-                    id="idColumnRoomPreviewStudentsCheckIn">
+                    id="idColumnRoomPreviewStudentsCheckIn"
+                    >
                     <Label
                         id="idLabelRoomPreviewStudentsCheckIn"
                         text="{i18n>Student.CheckIn}"/>
@@ -54,7 +56,8 @@
                 </table:Column>
 
                 <table:Column
-                    id="idColumnRoomPreviewStudentsCheckOut">
+                    id="idColumnRoomPreviewStudentsCheckOut"
+                    >
                     <Label
                         id="idLabelRoomPreviewStudentsCheckOut"
                         text="{i18n>Student.CheckOut}"/>

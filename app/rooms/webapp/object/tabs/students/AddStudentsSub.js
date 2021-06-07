@@ -39,7 +39,7 @@ sap.ui.define([
             });
         },
 
-        getDialogModel: function () {
+        getAddStudentDialogModel: function () {
             return this.getModel("_create");
         },
 
@@ -50,7 +50,7 @@ sap.ui.define([
             this.getOwnerComponent().removeAllMessages();
             var oModel = new JSONModel({});
             this.setModel(oModel, "_create");
-            this.getDialogModel().setProperty("/AddStudentsDialog", this._getAddStudentsInitialData());
+            this.getAddStudentDialogModel().setProperty("/AddStudentsDialog", this._getAddStudentsInitialData());
         },
 
         /**
@@ -82,7 +82,7 @@ sap.ui.define([
         },
 
         handleButtonsVisibility: function () {
-            var oViewModel = this.getDialogModel(),
+            var oViewModel = this.getAddStudentDialogModel(),
                 oDialogData = oViewModel.getProperty("/AddStudentsDialog");
             switch (this._oWizard.getProgress()) {
                 case 1: {
@@ -129,13 +129,9 @@ sap.ui.define([
         /**
          * Event handler for 'submit' of add students dialog
          */
-        onPressSaveStudentsDialog: function () {
+        onPressSaveAddStudentsDialog: function () {
             this.getOwnerComponent().removeErrorMessages(false, true, true, true);
-            if (this._validateDialog()) {
-                this._addStudents();
-            } else {
-                this._showAddStudentsMessagePopover();
-            }
+            this._addStudents();
         },
 
         /**
@@ -143,7 +139,7 @@ sap.ui.define([
          * @private
          */
         _addStudents: function () {
-            var aSelectedStudents = this.getDialogModel().getProperty("/AddStudentsDialog/SelectedStudents"),
+            var aSelectedStudents = this.getAddStudentDialogModel().getProperty("/AddStudentsDialog/SelectedStudents"),
                 aRoomStudents = this.getViewModel().getProperty("/Students/data");
             aSelectedStudents = aSelectedStudents.map(function (oStudent) {
                 oStudent.ActionIndicator = Constants.ODATA_ACTIONS.UPDATE;
@@ -220,7 +216,7 @@ sap.ui.define([
             var sRoomNumber = this.getViewModel().getProperty("/BRoom/RoomNumber");
             var oFilter = new Filter("Room_RoomNumber", FilterOperator.NE, sRoomNumber);
             oBindingParams.filters.push(oFilter);
-            
+
             oBindingParams.events = {
                 dataReceived: this.onStudentsDataTableRecieved.bind(this)
             };
@@ -239,7 +235,7 @@ sap.ui.define([
         onPressSelectStudent: function (oEvent) {
             var oContext = oEvent.getParameter("row").getBindingContext(),
                 oSelectedStudent = oContext.getObject(),
-                oViewModel = this.getDialogModel(),
+                oViewModel = this.getAddStudentDialogModel(),
                 oDialogData = oViewModel.getProperty("/AddStudentsDialog");
 
             if (oDialogData.SelectedStudents.length === Number(oDialogData.Room.EmptyPlaces)) {
@@ -263,7 +259,7 @@ sap.ui.define([
         onPressRemoveSelectedStudent: function (oEvent) {
             var oContext = oEvent.getParameter("row").getBindingContext("_create"),
                 oSelectedStudent = oContext.getObject(),
-                oViewModel = this.getDialogModel(),
+                oViewModel = this.getAddStudentDialogModel(),
                 oDialogData = oViewModel.getProperty("/AddStudentsDialog");
 
             oDialogData.SelectedStudents = oDialogData.SelectedStudents.filter(function (oStudent) {
@@ -292,7 +288,7 @@ sap.ui.define([
                 return;
             }
 
-            var oViewModel = this.getDialogModel(),
+            var oViewModel = this.getAddStudentDialogModel(),
                 oDialogData = oViewModel.getProperty("/AddStudentsDialog");
 
             oDialogData.SelectedStudents = oDialogData.SelectedStudents.map(function (oStudent) {
@@ -312,7 +308,7 @@ sap.ui.define([
                 return;
             }
 
-            var oViewModel = this.getDialogModel(),
+            var oViewModel = this.getAddStudentDialogModel(),
                 oDialogData = oViewModel.getProperty("/AddStudentsDialog");
 
             oDialogData.SelectedStudents = oDialogData.SelectedStudents.map(function (oStudent) {
@@ -333,7 +329,7 @@ sap.ui.define([
         },
 
         _validateLiveDatesStep: function () {
-            var oViewModel = this.getDialogModel(),
+            var oViewModel = this.getAddStudentDialogModel(),
                 oDialogData = oViewModel.getProperty("/AddStudentsDialog");
 
             var oStudentWithoutDates = oDialogData.SelectedStudents.find(function (oStudent) {

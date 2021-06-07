@@ -25,7 +25,8 @@ annotate HostelService.Rooms with @(UI : {
     RoomNumber,
     Capacity,
     EmptyPlaces,
-    Beds
+    Beds,
+    Tables
   ],
   LineItem               : [
     {
@@ -43,6 +44,10 @@ annotate HostelService.Rooms with @(UI : {
     {
       $Type : 'UI.DataField',
       Value : Beds
+    },
+    {
+      $Type : 'UI.DataField',
+      Value : Tables
     }
   ],
   HeaderFacets           : [{

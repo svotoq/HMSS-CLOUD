@@ -1,42 +1,42 @@
 <core:FragmentDefinition
-        xmlns="sap.m"
-        xmlns:core="sap.ui.core"
-        xmlns:f="sap.f"
-        xmlns:form="sap.ui.layout.form"
-        xmlns:u="sap.ui.unified">
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.f"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:u="sap.ui.unified">
     <Dialog
-            id="idCreateRoomDialog"
-            title="{i18n>CreateRoom.Title}"
-            busyIndicatorDelay="0"
-            verticalScrolling="false"
-            contentWidth="85%"
-            contentHeight="80%"
-            binding="{_create>/CreateRoomDialog}"
-            beforeOpen="onBeforeOpenCreateRoomDialog"
-            afterOpen="onAfterOpenCreateRoomDialog"
-            afterClose="onAfterCloseCreateRoomDialog">
+        id="idCreateRoomDialog"
+        title="{i18n>CreateRoom.Title}"
+        busyIndicatorDelay="0"
+        verticalScrolling="false"
+        contentWidth="85%"
+        contentHeight="80%"
+        binding="{_create>/CreateRoomDialog}"
+        beforeOpen="onBeforeOpenCreateRoomDialog"
+        afterOpen="onAfterOpenCreateRoomDialog"
+        afterClose="onAfterCloseCreateRoomDialog">
         <f:DynamicPage
-                stickySubheaderProvider="idCreateRoomWizard"
-                toggleHeaderOnTitleClick="false"
-                class="sapUiNoContentPadding"
-                showFooter="true">
+            stickySubheaderProvider="idCreateRoomWizard"
+            toggleHeaderOnTitleClick="false"
+            class="sapUiNoContentPadding"
+            showFooter="true">
             <f:content>
                 <Wizard
-                        id="idCreateRoomWizard"
-                        class="sapUiResponsivePadding--header sapUiResponsivePadding--content"
-                        showNextButton="false"
-                        renderMode="Page">
+                    id="idCreateRoomWizard"
+                    class="sapUiResponsivePadding--header sapUiResponsivePadding--content"
+                    showNextButton="false"
+                    renderMode="Page">
                     <WizardStep
-                            id="idRoomInfoStep"
-                            title="{i18n>CreateRoom.RoomInfoStepTitle}"
-                            validated="true">
+                        id="idRoomInfoStep"
+                        title="{i18n>CreateRoom.RoomInfoStepTitle}"
+                        validated="true">
                         <form:Form id="idCreateRoomForm"
-                                editable="true">
+                                   editable="true">
                             <form:layout>
                                 <form:ColumnLayout id="idFormColumnLayout"
-                                                columnsXL="3"
-                                                columnsL="3"
-                                                columnsM="2"/>
+                                                   columnsXL="3"
+                                                   columnsL="3"
+                                                   columnsM="2"/>
                             </form:layout>
                             <form:FormContainer id="idRoomProfileFormContainer">
                                 <form:FormElement id="idFormRoomNumberFormElement">
@@ -61,7 +61,11 @@
                                     </form:label>
                                     <form:fields>
                                         <Input id="idFormCapacityField"
-                                               value="{_create>Room/Capacity}"
+                                               value="{path: '_create>Room/Capacity',
+                                                        type:'sap.ui.model.type.String',
+                                                        constraints: {
+                                                            search: '^\\d*$'
+                                                         } }"
                                                maxLength="{= parseInt(${/#Rooms/Capacity/@maxLength}) }"/>
                                     </form:fields>
                                 </form:FormElement>
@@ -73,7 +77,11 @@
                                     </form:label>
                                     <form:fields>
                                         <Input id="idFormBedsField"
-                                               value="{_create>Room/Beds}"
+                                               value="{path: '_create>Room/Beds',
+                                                        type:'sap.ui.model.type.String',
+                                                        constraints: {
+                                                            search: '^\\d*$'
+                                                         } }"
                                                maxLength="{= parseInt(${/#Rooms/Beds/@maxLength}) }"/>
                                     </form:fields>
                                 </form:FormElement>
@@ -85,7 +93,11 @@
                                     </form:label>
                                     <form:fields>
                                         <Input id="idFormTablesField"
-                                               value="{_create>Room/Tables}"
+                                               value="{path: '_create>Room/Tables',
+                                                        type:'sap.ui.model.type.String',
+                                                        constraints: {
+                                                            search: '^\\d*$'
+                                                         } }"
                                                maxLength="{= parseInt(${/#Rooms/Tables/@maxLength}) }"/>
                                     </form:fields>
                                 </form:FormElement>
@@ -93,26 +105,25 @@
                         </form:Form>
                     </WizardStep>
                     <WizardStep
-                            id="idAddStudentsStep"
-                            validated="true"
-                            title="{i18n>CreateRoom.AddStudentsStep}"
-                            activate="onActivateStudentsLiveDates">
-                      <core:Fragment
+                        id="idAddStudentsStep"
+                        validated="true"
+                        title="{i18n>CreateRoom.AddStudentsStep}">
+                        <core:Fragment
                             fragmentName="bstu.hmss.lib.fragments.selectStudents.SelectStudents"
                             type="XML"/>
                     </WizardStep>
                     <WizardStep id="idSetStudentsLiveDates"
                                 validated="true"
                                 title="{i18n>CreateRoom.SetLiveDatesTitle}">
-                         <core:Fragment
+                        <core:Fragment
                             fragmentName="bstu.hmss.lib.fragments.selectStudents.LiveDates"
                             type="XML"/>
                     </WizardStep>
                     <WizardStep
-                            id="idCreateRoomReviewStep"
-                            validated="true"
-                            title="{i18n>CreateRoom.ReviewStep}">
-                         <core:Fragment
+                        id="idCreateRoomReviewStep"
+                        validated="true"
+                        title="{i18n>CreateRoom.ReviewStep}">
+                        <core:Fragment
                             fragmentName="bstu.hmss.managerooms.list.fragments.RoomPreview"
                             type="XML"/>
                     </WizardStep>
@@ -121,44 +132,44 @@
             <f:footer>
                 <OverflowToolbar>
                     <Button
-                            id="idCreateRoomMessagePopover"
-                            icon="sap-icon://message-popup"
-                            type="Emphasized"
-                            press="onPressShowCreateRoomMessagePopover"
-                            text="{= ${message>/}.length}"
-                            visible="{= !!${message>/}.length}"/>
+                        id="idCreateRoomMessagePopover"
+                        icon="sap-icon://message-popup"
+                        type="Emphasized"
+                        press="onPressShowCreateRoomMessagePopover"
+                        text="{= ${message>/}.length}"
+                        visible="{= !!${message>/}.length}"/>
                     <ToolbarSpacer/>
                     <Button
-                            text="{i18n>CreateRoom.CreateWithoutStudentsButton}"
-                            type="Emphasized"
-                            visible="{_create>CreateWithoutStudentsVisible}"
-                            enabled="{_create>CreateWithoutStudentsEnabled}"
-                            press="onPressCreateWithoutStudents"/>
+                        text="{i18n>CreateRoom.CreateWithoutStudentsButton}"
+                        type="Emphasized"
+                        visible="{_create>CreateWithoutStudentsVisible}"
+                        enabled="{_create>CreateWithoutStudentsEnabled}"
+                        press="onPressCreateWithoutStudents"/>
                     <Button
-                            text="{i18n>Button.Previous}"
-                            visible="{_create>WizardBackVisible}"
-                            press="onPressCreateRoomBack"/>
+                        text="{i18n>Button.Previous}"
+                        visible="{_create>WizardBackVisible}"
+                        press="onPressCreateRoomBack"/>
                     <Button
-                            text="{i18n>Button.NextStep}"
-                            type="Emphasized"
-                            enabled="{_create>WizardNextEnabled}"
-                            visible="{_create>WizardNextVisible}"
-                            press="onPressCreateRoomNextStep"/>
+                        text="{i18n>Button.NextStep}"
+                        type="Emphasized"
+                        enabled="{_create>WizardNextEnabled}"
+                        visible="{_create>WizardNextVisible}"
+                        press="onPressCreateRoomNextStep"/>
                     <Button
-                            text="{i18n>Button.Review}"
-                            type="Emphasized"
-                            visible="{_create>WizardReviewVisible}"
-                            enabled="{_create>WizardReviewEnabled}"
-                            press="onPressCreateRoomNextStep"/>
+                        text="{i18n>Button.Review}"
+                        type="Emphasized"
+                        visible="{_create>WizardReviewVisible}"
+                        enabled="{_create>WizardReviewEnabled}"
+                        press="onPressCreateRoomNextStep"/>
                     <Button
-                            text="{i18n>Button.Finish}"
-                            type="Emphasized"
-                            visible="{_create>WizardFinishVisible}"
-                            press="onPressCreateRoomDialog"/>
+                        text="{i18n>Button.Finish}"
+                        type="Emphasized"
+                        visible="{_create>WizardFinishVisible}"
+                        press="onPressCreateRoomDialog"/>
                     <Button
-                            text="{i18n>Button.Cancel}"
-                            type="Transparent"
-                            press="onPressCancelRoomDialog"/>
+                        text="{i18n>Button.Cancel}"
+                        type="Transparent"
+                        press="onPressCancelRoomDialog"/>
                 </OverflowToolbar>
             </f:footer>
         </f:DynamicPage>

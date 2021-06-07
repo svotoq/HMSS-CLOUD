@@ -23,7 +23,7 @@
             columnsL="2"
             columnsM="2">
             <form:content>
-                <core:Title text="{i18n>Additional.BlankTitle}"/>
+                <core:Title text="{i18n>CreateRoom.MainInfoTitle}"/>
                 <Label
                     id="idLabelRoomPreviewRoomNumber"
                     text="{i18n>Room.RoomNumber}"/>

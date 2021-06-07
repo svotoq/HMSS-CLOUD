@@ -1,15 +1,17 @@
 sap.ui.define([
-    "sap/base/Log",
     "sap/ui/core/Fragment",
     "bstu/hmss/lib/base/FieldValidations",
+    "sap/ui/core/ValueState",
     "sap/ui/core/syncStyleClass",
     "bstu/hmss/lib/util/Utility",
     "bstu/hmss/lib/util/Constants",
-    "sap/ui/core/ValueState",
     "sap/base/util/merge",
     "sap/m/MessageBox",
-    "sap/ui/model/json/JSONModel"
-], function (Log, Fragment, FieldValidations, syncStyleClass, Utility, Constants, ValueState, merge, MessageBox, JSONModel) {
+    "sap/ui/model/json/JSONModel",
+    "bstu/hmss/lib/model/messageBundle",
+    "bstu/hmss/lib/model/resourceModel"
+], function (Fragment, FieldValidations, ValueState, syncStyleClass, Utility, Constants, merge,
+             MessageBox, JSONModel, messageBundle, resourceModel) {
     "use strict";
 
     return {
@@ -102,6 +104,9 @@ sap.ui.define([
                     break;
                 }
                 case 4: {
+                    oDialogData.Room.EmptyPlaces = Number(oDialogData.Room.Capacity) - oDialogData.SelectedStudents.length;
+                    this.getDialogModel().setProperty("/CreateRoomDialog/Room", oDialogData.Room);
+                    
                     oDialogData.WizardBackVisible = true;
                     oDialogData.WizardReviewVisible = false;
                     oDialogData.WizardFinishVisible = true;
@@ -144,16 +149,11 @@ sap.ui.define([
          */
         onPressCreateRoomDialog: function () {
             this.getOwnerComponent().removeErrorMessages(false, true, true, true);
-            if (this._validateDialog()) {
+            var oDialogData = this.getDialogModel().getProperty("/CreateRoomDialog"),
+                oNewRoom = oDialogData.Room;
+            oNewRoom.Students = oDialogData.SelectedStudents;
 
-                var oDialogData = this.getDialogModel().getProperty("/CreateRoomDialog"),
-                    oNewRoom = oDialogData.Room;
-                oNewRoom.Students = oDialogData.SelectedStudents;
-
-                this._createRoom(oNewRoom);
-            } else {
-                this._showCreateRoomMessagePopover();
-            }
+            this._createRoom(oNewRoom);
         },
 
         onPressCreateWithoutStudents: function () {
@@ -250,39 +250,74 @@ sap.ui.define([
          * @private
          */
         _validateDialog: function () {
-            return this.validateCreateRoomDataConsistency();
+            return this._validateRequiredFormFields();
         },
-
         /**
-         * Validates create customer form fields
+         * Validates required form fields
          * @returns {boolean} validation result
          */
-        validateCreateRoomDataConsistency: function () {
+        _validateRequiredFormFields: function () {
             var aFormElements = Utility.getFormElements(this.byId("idCreateRoomForm"));
-            var aRequiredFormElements = aFormElements.filter(function (oFE) {
-                return oFE.getLabel().getRequired();
-            });
-            var aGroupedFormFields = aRequiredFormElements.map(function (oFE) {
-                return oFE.getFields();
-            });
-            var aRequiredFields = [].concat.apply([], aGroupedFormFields);
+            var aInvalidFields = aFormElements
+                .filter(function (oFE) {
+                    var oLabel = oFE.getLabel();
+                    return oLabel.getRequired ? oFE.getVisible() && oLabel.getRequired() : false;
+                })
+                .map(function (oFE) {
+                    return oFE.getFields();
+                })
+                .flat()
+                .filter(function (oField) {
+                    return !FieldValidations.isRequiredValueFieldValid(oField);
+                }, this);
 
-            var aInvalidFields = aRequiredFields.filter(function (oField) {
-                return !FieldValidations.isRequiredValueFieldValid(oField);
-            }, this);
+            aInvalidFields
+                .forEach(function (oField) {
+                    var oFormElement = oField.getParent();
+                    var sFieldLabel = oFormElement.getLabel().getText();
 
-            aInvalidFields.forEach(function (oField) {
-                var oFormElement = oField.getParent();
-                var sFieldLabel = oFormElement.getLabel().getText();
-
-                FieldValidations.setFieldValid(oField, false, {
-                    property: "required",
-                    element: oFormElement,
-                    message: this.i18n("requiredFieldValidationError", sFieldLabel)
-                }, false);
-            }, this);
+                    FieldValidations.setFieldValid(oField, false, {
+                        property: "required",
+                        element: oFormElement,
+                        message: messageBundle.getText("Validation.RequiredFieldValidationError", sFieldLabel)
+                    }, true);
+                }, this);
 
             return !aInvalidFields.length;
+        },
+
+        validateLiveDates: function () {
+            var oNewStudent = this.getCreateStudentDialogModel().getProperty("/NewStudent");
+            var bValid = true,
+                sErrorMessage = "";
+            if (oNewStudent.Room_RoomNumber) {
+                var oDateFormat = sap.ui.core.format.DateFormat.getInstance();
+                var oCheckInDatePicker = this.byId("idDatePickerCreateStudentCheckIn"),
+                    oCheckOutDatePicker = this.byId("idDatePickerCreateStudentCheckOut");
+
+                if (oDateFormat.parse(oNewStudent.CheckIn) && oDateFormat.parse(oNewStudent.CheckOut)) {
+                    bValid = oDateFormat.parse(oNewStudent.CheckOut) > oDateFormat.parse(oNewStudent.CheckIn);
+                    sErrorMessage = messageBundle.getText("Validation.CheckInGreaterCheckOut");
+                } else {
+                    bValid = false;
+                    sErrorMessage = messageBundle.getText("Validation.CheckInAndCheckOutIsRequired");
+                }
+
+                oCheckInDatePicker.setValueState(bValid ? ValueState.None : ValueState.Error);
+                oCheckInDatePicker.setValueStateText(bValid ? "" : sErrorMessage);
+
+                oCheckOutDatePicker.setValueState(bValid ? ValueState.None : ValueState.Error);
+                oCheckOutDatePicker.setValueStateText(bValid ? "" : sErrorMessage);
+            }
+            return bValid;
+        },
+
+        validateStudentsNumber: function () {
+            var oDialogData = this.getDialogModel().getProperty("/CreateRoomDialog");
+            if (oDialogData.SelectedStudents.length > Number(oDialogData.Room.Capacity)) {
+                MessageBox.error(this.i18n("MessageBox.RemoveStudentsOrExtendCapacity"));
+                return;
+            }
         },
 
         /**
@@ -324,7 +359,7 @@ sap.ui.define([
                 oViewModel = this.getDialogModel(),
                 oDialogData = oViewModel.getProperty("/CreateRoomDialog");
 
-            if (oDialogData.SelectedStudents.length === Number(oDialogData.Room.Capacity)) {
+            if (oDialogData.SelectedStudents.length >= Number(oDialogData.Room.Capacity)) {
                 MessageBox.error(this.i18n("MessageBox.RoomIsFull"));
                 return;
             }

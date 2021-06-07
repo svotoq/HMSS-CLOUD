@@ -13,7 +13,8 @@
                 rows="{_create>SelectedStudents}">
             <table:columns>
                 <table:Column
-                        id="idColumnStudentsLiveDatesFullName">
+                        id="idColumnStudentsLiveDatesFullName"
+                        minWidth="250">
                     <Label
                             id="idLabelStudentsLiveDatesFullName"
                             text="{i18n>Student.FullName}"/>
@@ -30,7 +31,8 @@
                 </table:Column>
 
                 <table:Column
-                        id="idColumnStudentsLiveDatesCity">
+                        id="idColumnStudentsLiveDatesCity"
+                        width="120px">
                     <Label
                             id="idLabelStudentsLiveDatesCity"
                             text="{i18n>Student.City}"/>
@@ -42,7 +44,8 @@
                 </table:Column>
 
                 <table:Column
-                        id="idColumnStudentsLiveDatesCheckIn">
+                        id="idColumnStudentsLiveDatesCheckIn"
+                        width="150px">
                     <Label
                             id="idLabelStudentsLiveDatesCheckIn"
                             text="{i18n>Student.CheckIn}"/>
@@ -69,7 +72,8 @@
                 </table:Column>
 
                 <table:Column
-                        id="idColumnStudentsLiveDatesCheckOut">
+                        id="idColumnStudentsLiveDatesCheckOut"
+                        width="150px">
                     <Label
                             id="idLabelStudentsLiveDatesCheckOut"
                             text="{i18n>Student.CheckOut}"/>

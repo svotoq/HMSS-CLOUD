@@ -80,7 +80,7 @@
                         text="{i18n>Button.Add}"
                         type="Emphasized"
                         visible="{_create>WizardFinishVisible}"
-                        press="onPressSaveStudentsDialog"/>
+                        press="onPressSaveAddStudentsDialog"/>
                     <Button
                         text="{i18n>Button.Cancel}"
                         type="Transparent"
