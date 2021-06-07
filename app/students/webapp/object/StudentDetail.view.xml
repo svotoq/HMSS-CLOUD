@@ -67,11 +67,15 @@
                     <facet:FormFacetText
                         id="idCheckInField"
                         label="{i18n>Student.CheckIn}"
-                        text="{this>/BStudent/CheckIn}"/>
+                        text="{path:'this>/BStudent/CheckIn',
+                            type:'sap.ui.model.type.Date',
+                            formatOptions:{style:'medium', UTC: true}}"/>
                     <facet:FormFacetText
                         id="idCheckOutField"
                         label="{i18n>Student.CheckOut}"
-                        text="{this>/BStudent/CheckOut}"/>
+                        text="{path:'this>/BStudent/CheckOut',
+                            type:'sap.ui.model.type.Date',
+                            formatOptions:{style:'medium', UTC: true}}"/>
                 </facet:FormFacet>
                 <facet:FormFacet id="idSecondColumnFormFacet">
                     <facet:FormFacetText
