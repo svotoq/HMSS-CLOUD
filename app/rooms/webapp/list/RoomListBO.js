@@ -42,6 +42,9 @@ sap.ui.define([
 
         _getStudentsPayload: function (aStudents) {
             return aStudents.map(function (oStudent) {
+                var oDateFormat = sap.ui.core.format.DateFormat.getInstance({pattern: "yyyy-MM-dd"});
+                oStudent.CheckIn = oDateFormat.format(oDateFormat.parse(oStudent.CheckIn));
+                oStudent.CheckOut = oDateFormat.format(oDateFormat.parse(oStudent.CheckOut));
                 return Utility.removeMetadata(oStudent);
             });
         }

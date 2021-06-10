@@ -65,7 +65,8 @@
                 requestAtLeastFields="ID"
                 ignoredFields="Country_code,ID,ActionIndicator"
                 ignoreFromPersonalisation="ActionIndicator"
-                beforeRebindTable="onBeforeRebindTable">
+                beforeRebindTable="onBeforeRebindTable"
+                beforeExport="onBeforeExport">
                 <smartTable:customToolbar>
                     <OverflowToolbar
                         id="idSmartTableToolbar"
@@ -227,7 +228,7 @@
                                 text="{i18n>Student.CheckIn}"/>
                             <table:customData>
                                 <core:CustomData key="p13nData"
-                                                 value='\{"columnKey": "CheckIn", "columnIndex":"7", "leadingProperty": "CheckIn"}'/>
+                                                 value='\{"columnKey": "CheckIn", "columnIndex":"7", "leadingProperty": "CheckIn", "type":"date"}'/>
                             </table:customData>
                             <table:template>
                                 <Text
@@ -248,7 +249,7 @@
                                 text="{i18n>Student.CheckOut}"/>
                             <table:customData>
                                 <core:CustomData key="p13nData"
-                                                 value='\{"columnKey": "CheckOut", "columnIndex":"8", "leadingProperty": "CheckOut"}'/>
+                                                 value='\{"columnKey": "CheckOut", "columnIndex":"8", "leadingProperty": "CheckOut", "type":"date"}'/>
                             </table:customData>
                             <table:template>
                                 <Text

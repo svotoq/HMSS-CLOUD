@@ -150,6 +150,8 @@ sap.ui.define([
             var aDeletePromises = aStudentsToDeleteFromRoom.reduce(function (aAcc, oStudent) {
                 oStudent.Room_RoomNumber = null;
                 oStudent.ActionIndicator = "";
+                oStudent.CheckIn = null;
+                oStudent.CheckOut = null;
                 var pResult = Utility.odataUpdate(this.getODataModel(), "Students/" + oStudent.ID, oStudent);
                 aAcc.push(pResult);
                 return aAcc;

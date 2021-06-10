@@ -104,7 +104,8 @@ sap.ui.define([
          * @public
          */
         setTabData: function (oTabData) {
-            var aNotes = oTabData.Notes.map(function (oNote) {
+            var aNotes = merge([], oTabData.Notes);
+            aNotes = aNotes.map(function (oNote) {
                 var oDateFormat = sap.ui.core.format.DateFormat.getInstance({pattern: "yyyy-MM-dd"});
                 oNote.CreatedAt = oDateFormat.parse(oNote.CreatedAt);
                 return oNote;
