@@ -134,8 +134,11 @@ sap.ui.define([
          * @public
          */
         save: function (oDependentsData) {
+            var oDateFormat = sap.ui.core.format.DateFormat.getInstance({pattern: "yyyy-MM-dd"});
             var aStudents = merge([], oDependentsData.Students)
                 .map(function (oStudent) {
+                    oStudent.CheckIn = oDateFormat.format(oStudent.CheckIn);
+                    oStudent.CheckOut = oDateFormat.format(oStudent.CheckOut);
                     return Utility.removeMetadata(oStudent);
                 });
 
@@ -153,7 +156,10 @@ sap.ui.define([
             }.bind(this), []);
 
             var oRoom = oDependentsData.RoomInfo,
-                aNotes = oDependentsData.Notes;
+                aNotes = oDependentsData.Notes.map(function (oNote) {
+                    oNote.CreatedAt = oDateFormat.format(oNote.CreatedAt);
+                    return oNote;
+                });
             var oRoomPayload = this._getCreateRoomPayload(oRoom, aStudents, aNotes)
             return Promise.all(aDeletePromises)
                 .then(function () {

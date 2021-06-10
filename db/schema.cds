@@ -53,7 +53,7 @@ entity Faculties : CodeList {
 
 type Notes {
     Text  : String;
-    CreatedAt: String;
+    CreatedAt: Date;
     CreatedBy: String;
 }
 

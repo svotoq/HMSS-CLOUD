@@ -18,16 +18,10 @@
             senderActive="false"
             showIcon="false"
             sender="{this>CreatedBy}"
-            timestamp="{
-				path: 'this>CreatedAt',
-				type: 'sap.ui.model.type.Date',
-				formatOptions: {
-					style: 'full',
-					source: {
-						pattern: 'YYYY-MM-DD'
-					}
-				}
-			}"
+            timestamp="
+				{path:'this>CreatedAt',
+                            type:'sap.ui.model.type.Date',
+                            formatOptions:{style:'medium', UTC: true}}"
             text="{this>Text}"/>
     </List>
 </mvc:View>

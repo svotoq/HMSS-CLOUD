@@ -41,8 +41,8 @@ sap.ui.define([
                 City: oStudent.City,
                 AddressLine: oStudent.AddressLine,
                 ZipCode: oStudent.ZipCode,
-                CheckIn: oDateFormat.format(oDateFormat.parse(oStudent.CheckIn)),
-                CheckOut: oDateFormat.format(oDateFormat.parse(oStudent.CheckOut)),
+                CheckIn: oDateFormat.format(oDateFormat.parse(oStudent.CheckIn)) || null,
+                CheckOut: oDateFormat.format(oDateFormat.parse(oStudent.CheckOut)) || null,
                 ActionIndicator: "",
                 Phones: this.getStudentPhones(oStudent)
             };

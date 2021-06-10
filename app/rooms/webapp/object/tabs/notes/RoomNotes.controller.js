@@ -31,10 +31,11 @@ sap.ui.define([
         onPostFeedInput: function (oEvent) {
             var aRoomNotes = this.getSectionData(this.NOTE_SECTION_ID);
             // create new entry
+            var oDateFormat = sap.ui.core.format.DateFormat.getInstance({pattern: "yyyy-MM-dd"});
             var sValue = oEvent.getParameter("value");
             var oNote = {
                 Text: sValue,
-                CreatedAt: new Date().toISOString().substring(0,10),
+                CreatedAt: oDateFormat.parse(new Date().toISOString().substring(0, 10)),
                 CreatedBy: this.getCurrentUserName()
             };
 
@@ -103,7 +104,12 @@ sap.ui.define([
          * @public
          */
         setTabData: function (oTabData) {
-            this._setSectionData(this.NOTE_SECTION_ID, oTabData.Notes);
+            var aNotes = oTabData.Notes.map(function (oNote) {
+                var oDateFormat = sap.ui.core.format.DateFormat.getInstance({pattern: "yyyy-MM-dd"});
+                oNote.CreatedAt = oDateFormat.parse(oNote.CreatedAt);
+                return oNote;
+            });
+            this._setSectionData(this.NOTE_SECTION_ID, aNotes);
         },
 
         /**

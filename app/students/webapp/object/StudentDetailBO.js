@@ -144,7 +144,11 @@ sap.ui.define([
         _getCreateStudentPayload: function (oData) {
             var oStudent = oData.Profile;
             oStudent.ActionIndicator = "";
-            oStudent.Notes = oData.Notes;
+            var oDateFormat = sap.ui.core.format.DateFormat.getInstance({pattern: "yyyy-MM-dd"});
+            oStudent.Notes = oData.Notes.map(function (oNote) {
+                oNote.CreatedAt = oDateFormat.format(oNote.CreatedAt);
+                return oNote;
+            });
             delete oStudent.HeaderPhone;
             return Utility.removeMetadata(oStudent);
         },

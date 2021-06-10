@@ -87,7 +87,8 @@
                 </table:Column>
 
                 <table:Column
-                    id="idColumnSRoomStudentsEmail">
+                    id="idColumnSRoomStudentsEmail"
+                    minWidth="250">
                     <Label
                         id="idLabelRoomStudentsEmail"
                         text="{i18n>Student.Email}"/>
@@ -134,7 +135,7 @@
                         <Text
                             id="idTextRoomStudentsCheckOut"
                             text="{path:'this>CheckOut',
-                            type:'sap.ui.model.type.Date',
+                                type:'sap.ui.model.type.Date',
                             formatOptions:{style:'medium', UTC: true}}"
                         />
                     </table:template>

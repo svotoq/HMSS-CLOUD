@@ -145,6 +145,11 @@ sap.ui.define([
                 oStudent.ActionIndicator = Constants.ODATA_ACTIONS.UPDATE;
                 return oStudent;
             });
+            aSelectedStudents.forEach(function(oStudent){
+                var oDateFormat = sap.ui.core.format.DateFormat.getInstance({pattern: "yyyy-MM-dd"});
+                oStudent.CheckIn = oDateFormat.parse(oStudent.CheckIn);
+                oStudent.CheckOut = oDateFormat.parse(oStudent.CheckOut);
+            });
             aRoomStudents = aRoomStudents.concat(aSelectedStudents);
             this.getViewModel().setProperty("/Students/data", aRoomStudents);
 
